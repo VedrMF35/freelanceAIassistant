@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreelanceAI — ИИ-помощник фрилансера</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --border: #2a2a35;
+    --accent: #7c5cfc;
+    --accent2: #fc5c7d;
+    --accent3: #5cfcb8;
+    --text: #f0f0f5;
+    --muted: #7a7a8c;
+    --gold: #f0a500;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 10%, rgba(124,92,252,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 80% 80%, rgba(252,92,125,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 30% at 60% 30%, rgba(92,252,184,0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  header { padding: 36px 0 20px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-icon { width: 34px; height: 34px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .logo-text { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -0.5px; }
+  .logo-text span { color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 10px; }
+  .badge-free { font-size: 10px; font-weight: 600; color: var(--accent3); background: rgba(92,252,184,0.1); border: 1px solid rgba(92,252,184,0.25); padding: 3px 10px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .badge-pro { font-size: 10px; font-weight: 600; color: var(--gold); background: rgba(240,165,0,0.1); border: 1px solid rgba(240,165,0,0.3); padding: 3px 10px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  .hero { padding: 40px 0 32px; text-align: center; }
+  .hero-tag { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; opacity: 0; animation: fadeUp 0.6s 0.1s forwards; }
+  .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(28px, 5vw, 46px); font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 14px; opacity: 0; animation: fadeUp 0.6s 0.2s forwards; }
+  .hero h1 em { font-style: normal; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero p { color: var(--muted); font-size: 14px; line-height: 1.7; max-width: 460px; margin: 0 auto 24px; opacity: 0; animation: fadeUp 0.6s 0.3s forwards; }
+
+  .tools-nav { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 28px; opacity: 0; animation: fadeUp 0.6s 0.4s forwards; }
+  .tool-tab { padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+  .tool-tab:hover { border-color: var(--accent); color: var(--text); }
+  .tool-tab.active { background: linear-gradient(135deg, rgba(124,92,252,0.2), rgba(252,92,125,0.1)); border-color: var(--accent); color: var(--text); }
+  .tool-tab.locked { opacity: 0.55; }
+  .tool-tab.locked:hover { border-color: var(--gold); color: var(--gold); opacity: 1; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; margin-bottom: 20px; opacity: 0; animation: fadeUp 0.7s 0.5s forwards; }
+  .card-header { padding: 18px 22px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
+  .tool-emoji { width: 36px; height: 36px; background: var(--surface2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+  .card-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
+  .card-desc { color: var(--muted); font-size: 11px; margin-top: 2px; }
+  .card-body { padding: 22px; }
+
+  .free-counter { display: flex; align-items: center; gap: 8px; background: rgba(92,252,184,0.07); border: 1px solid rgba(92,252,184,0.2); border-radius: 8px; padding: 8px 14px; margin-bottom: 16px; font-size: 12px; }
+  .free-counter .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent3); animation: pulse 2s infinite; flex-shrink: 0; }
+  .free-counter span { color: var(--accent3); font-weight: 500; }
+  .free-counter .remaining { color: var(--muted); }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .form-grid.cols-1 { grid-template-columns: 1fr; }
+  .form-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  label { display: block; font-size: 10px; font-weight: 500; letter-spacing: 0.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
+  input, select, textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 13px; padding: 9px 13px; outline: none; transition: border-color 0.2s; appearance: none; }
+  input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 75px; line-height: 1.6; }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7a8c' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; cursor: pointer; }
+
+  .btn-generate { width: 100%; padding: 13px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border: none; border-radius: 12px; color: #fff; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s; margin-top: 6px; }
+  .btn-generate:hover { opacity: 0.92; transform: translateY(-1px); }
+  .btn-generate:active { transform: translateY(0); }
+  .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .btn-inner { display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+  .result-box { margin-top: 18px; background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; display: none; }
+  .result-box.visible { display: block; animation: fadeUp 0.4s forwards; }
+  .result-header { padding: 9px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .result-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--accent3); }
+  .copy-btn { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s; }
+  .copy-btn:hover { color: var(--text); border-color: var(--accent); }
+  .result-content { padding: 16px; font-size: 13px; line-height: 1.75; color: var(--text); white-space: pre-wrap; word-break: break-word; min-height: 60px; }
+
+  .loading-dots { display: inline-flex; gap: 4px; align-items: center; }
+  .loading-dots span { width: 5px; height: 5px; background: white; border-radius: 50%; animation: dot 1.2s infinite; }
+  .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes dot { 0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1); } }
+
+  /* PAYWALL CARD */
+  .paywall-card { background: var(--surface); border: 1px solid rgba(240,165,0,0.25); border-radius: 20px; overflow: hidden; margin-bottom: 20px; opacity: 0; animation: fadeUp 0.7s 0.5s forwards; }
+  .paywall-card-header { padding: 18px 22px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .paywall-card-left { display: flex; align-items: center; gap: 12px; }
+  .pro-tag { font-size: 10px; font-weight: 700; color: var(--gold); background: rgba(240,165,0,0.12); border: 1px solid rgba(240,165,0,0.3); padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .paywall-body { padding: 22px; }
+  .paywall-preview { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+  .preview-item { background: var(--surface2); border-radius: 10px; padding: 12px 14px; border: 1px solid var(--border); }
+  .preview-item-icon { font-size: 16px; margin-bottom: 4px; }
+  .preview-item-title { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 2px; font-family: 'Syne', sans-serif; }
+  .preview-item-desc { font-size: 11px; color: var(--muted); line-height: 1.4; }
+  .btn-unlock { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--gold), #fc5c7d); border: none; border-radius: 12px; color: #fff; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 14px; cursor: pointer; transition: all 0.2s; }
+  .btn-unlock:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(240,165,0,0.25); }
+  .unlock-sub { text-align: center; margin-top: 10px; font-size: 11px; color: var(--muted); }
+  .unlock-sub strong { color: var(--gold); }
+
+  /* LIMIT MODAL */
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; display: none; align-items: center; justify-content: center; backdrop-filter: blur(6px); }
+  .modal-backdrop.show { display: flex; animation: fadeIn 0.2s forwards; }
+  .modal { background: var(--surface); border: 1px solid rgba(240,165,0,0.3); border-radius: 24px; padding: 36px 32px; max-width: 400px; width: 90%; text-align: center; animation: scaleUp 0.25s forwards; }
+  .modal-emoji { font-size: 44px; margin-bottom: 14px; }
+  .modal-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; color: var(--gold); margin-bottom: 8px; }
+  .modal-desc { color: var(--muted); font-size: 13px; line-height: 1.6; margin-bottom: 22px; }
+  .modal-list { background: var(--surface2); border-radius: 14px; padding: 18px 20px; margin-bottom: 22px; text-align: left; display: flex; flex-direction: column; gap: 10px; }
+  .modal-item { font-size: 12px; color: var(--text); display: flex; align-items: center; gap: 10px; }
+  .modal-item::before { content: '✦'; color: var(--gold); font-size: 10px; flex-shrink: 0; }
+  .modal-price { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+  .modal-price strong { color: var(--gold); font-size: 22px; font-family: 'Syne', sans-serif; }
+  .modal-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--gold), #fc5c7d); border: none; border-radius: 14px; color: #fff; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; cursor: pointer; transition: all 0.2s; }
+  .modal-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+  .modal-close { margin-top: 14px; color: var(--muted); font-size: 12px; cursor: pointer; background: none; border: none; font-family: 'Inter', sans-serif; text-decoration: underline; }
+
+  @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 28px; opacity: 0; animation: fadeUp 0.7s 0.6s forwards; }
+  .feature-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+  .feature-icon { font-size: 18px; margin-bottom: 8px; }
+  .feature-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 12px; margin-bottom: 3px; }
+  .feature-desc { color: var(--muted); font-size: 10px; line-height: 1.5; }
+
+  .tool-panel { display: none; }
+  .tool-panel.active { display: block; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+  footer { text-align: center; padding: 28px 0 40px; color: var(--muted); font-size: 11px; opacity: 0; animation: fadeUp 0.6s 0.8s forwards; }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .form-grid, .paywall-preview { grid-template-columns: 1fr; }
+    .form-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+    .features { grid-template-columns: 1fr; }
+    .tools-nav { gap: 4px; }
+    .tool-tab { font-size: 11px; padding: 6px 11px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LIMIT MODAL -->
+<div class="modal-backdrop" id="limitModal">
+  <div class="modal">
+    <div class="modal-emoji">🚀</div>
+    <div class="modal-title">Бесплатные генерации закончились</div>
+    <div class="modal-desc">Получи полный доступ — разблокируй все инструменты и генерируй без ограничений.</div>
+    <div class="modal-list">
+      <div class="modal-item">Письма клиентам — напоминание, конфликт, сдача работы</div>
+      <div class="modal-item">Скрипт повышения цены без потери клиента</div>
+      <div class="modal-item">Генератор контракта под твой проект</div>
+      <div class="modal-item">Защита от scope creep — доп. работы за доп. деньги</div>
+      <div class="modal-item">Серия писем чтобы выбить долг</div>
+      <div class="modal-item">Анализ клиента — красные флаги и риски</div>
+      <div class="modal-item">КП и Оценка проектов — безлимитно</div>
+    </div>
+    <div class="modal-price">Разовый доступ — <strong>490 ₽</strong></div>
+    <button class="modal-btn" onclick="goToPay()">✦ Получить полный доступ</button>
+    <button class="modal-close" onclick="closeModal()">Нет, останусь на бесплатной версии</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <header>
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      <div class="logo-text">Freelance<span>AI</span></div>
+    </div>
+    <div class="header-right">
+      <span id="planBadge" class="badge-free">Бесплатно</span>
+      <span id="usageCounter" style="font-size:11px;color:var(--muted)"></span>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-tag">ИИ-помощник фрилансера</div>
+    <h1>Рутина — за секунды.<br><em>Деньги — за работу.</em></h1>
+    <p>КП, оценка проектов, письма и переговоры — за 10 секунд. Попробуй бесплатно, без регистрации.</p>
+  </section>
+
+  <div class="tools-nav">
+    <button class="tool-tab active"  onclick="switchTool('kp',this)">📄 КП</button>
+    <button class="tool-tab"         onclick="switchTool('estimate',this)">🧮 Оценка проекта</button>
+    <button class="tool-tab locked"  onclick="switchTool('pro',this)">✉️ Письмо клиенту 🔒</button>
+    <button class="tool-tab locked"  onclick="switchTool('pro',this)">💰 Поднять цену 🔒</button>
+    <button class="tool-tab locked"  onclick="switchTool('pro',this)">📝 Контракт 🔒</button>
+    <button class="tool-tab locked"  onclick="switchTool('pro',this)">🛡 Scope creep 🔒</button>
+    <button class="tool-tab locked"  onclick="switchTool('pro',this)">💸 Выбить долг 🔒</button>
+    <button class="tool-tab locked"  onclick="switchTool('pro',this)">🔍 Анализ клиента 🔒</button>
+  </div>
+
+  <!-- ── КП (FREE) ── -->
+  <div class="card tool-panel active" id="panel-kp">
+    <div class="card-header">
+      <div class="tool-emoji">📄</div>
+      <div>
+        <div class="card-title">Коммерческое предложение</div>
+        <div class="card-desc">Профессиональное КП под конкретного клиента за 10 секунд</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="free-counter">
+        <div class="dot"></div>
+        <span>Бесплатный инструмент</span>
+        <span class="remaining" id="counter-display"></span>
+      </div>
+      <div class="form-grid">
+        <div>
+          <label>Твоя специализация</label>
+          <select id="kp-spec">
+            <option>Веб-разработчик</option><option>Дизайнер</option>
+            <option>Мобильный разработчик</option><option>Копирайтер</option>
+            <option>SMM-специалист</option><option>Маркетолог</option>
+            <option>Аналитик данных</option><option>Fullstack-разработчик</option>
+          </select>
+        </div>
+        <div>
+          <label>Тип клиента</label>
+          <select id="kp-client">
+            <option>Малый бизнес</option><option>Стартап</option>
+            <option>Крупная компания</option><option>Частное лицо</option><option>Агентство</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid cols-1">
+        <div><label>Что нужно сделать</label>
+        <textarea id="kp-task" placeholder="Например: разработать лендинг для онлайн-курса с формой записи и оплатой"></textarea></div>
+      </div>
+      <div class="form-grid cols-3">
+        <div><label>Бюджет (₽)</label><input id="kp-price" placeholder="50 000"></div>
+        <div><label>Срок</label><input id="kp-deadline" placeholder="7–10 дней"></div>
+        <div><label>Тон</label>
+          <select id="kp-tone">
+            <option value="профессиональный, но живой">Профессиональный</option>
+            <option value="дружелюбный">Дружелюбный</option>
+            <option value="строгий деловой">Деловой</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-generate" onclick="generate('kp')">
+        <div class="btn-inner" id="btn-kp"><span>✦</span><span>Сгенерировать КП</span></div>
+      </button>
+      <div class="result-box" id="result-kp">
+        <div class="result-header"><span class="result-label">Готовое КП</span><button class="copy-btn" onclick="copyResult('result-kp')">Скопировать</button></div>
+        <div class="result-content" id="content-kp"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ОЦЕНКА (FREE) ── -->
+  <div class="card tool-panel" id="panel-estimate">
+    <div class="card-header">
+      <div class="tool-emoji">🧮</div>
+      <div>
+        <div class="card-title">Оценка проекта</div>
+        <div class="card-desc">Трудозатраты, риски и справедливая цена за 10 секунд</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="free-counter">
+        <div class="dot"></div>
+        <span>Бесплатный инструмент</span>
+        <span class="remaining" id="counter-display2"></span>
+      </div>
+      <div class="form-grid cols-1">
+        <div><label>Описание задачи от клиента</label>
+        <textarea id="est-task" placeholder="Вставь текст задачи как есть — ИИ разберётся..."></textarea></div>
+      </div>
+      <div class="form-grid">
+        <div><label>Твоя ставка (₽/час)</label><input id="est-rate" placeholder="2 000"></div>
+        <div><label>Уровень</label>
+          <select id="est-level"><option>Джуниор</option><option selected>Мидл</option><option>Сеньор</option></select>
+        </div>
+      </div>
+      <button class="btn-generate" onclick="generate('estimate')">
+        <div class="btn-inner" id="btn-estimate"><span>✦</span><span>Оценить проект</span></div>
+      </button>
+      <div class="result-box" id="result-estimate">
+        <div class="result-header"><span class="result-label">Оценка проекта</span><button class="copy-btn" onclick="copyResult('result-estimate')">Скопировать</button></div>
+        <div class="result-content" id="content-estimate"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PRO PAYWALL ── -->
+  <div class="paywall-card tool-panel" id="panel-pro">
+    <div class="paywall-card-header">
+      <div class="paywall-card-left">
+        <div class="tool-emoji">🔐</div>
+        <div>
+          <div class="card-title">PRO-инструменты</div>
+          <div class="card-desc">6 дополнительных инструментов для настоящих профессионалов</div>
+        </div>
+      </div>
+      <span class="pro-tag">PRO</span>
+    </div>
+    <div class="paywall-body">
+      <div class="paywall-preview">
+        <div class="preview-item"><div class="preview-item-icon">✉️</div><div class="preview-item-title">Письмо клиенту</div><div class="preview-item-desc">Напоминание об оплате, конфликт, сдача работы — любая ситуация</div></div>
+        <div class="preview-item"><div class="preview-item-icon">💰</div><div class="preview-item-title">Поднять цену</div><div class="preview-item-desc">Скрипт повышения ставки с ответами на возражения</div></div>
+        <div class="preview-item"><div class="preview-item-icon">📝</div><div class="preview-item-title">Генератор контракта</div><div class="preview-item-desc">Простой договор под твой проект — сроки, оплата, правки</div></div>
+        <div class="preview-item"><div class="preview-item-icon">🛡</div><div class="preview-item-title">Защита от scope creep</div><div class="preview-item-desc">Доп. работы — за доп. деньги. Скрипт разговора с клиентом</div></div>
+        <div class="preview-item"><div class="preview-item-icon">💸</div><div class="preview-item-title">Выбить долг</div><div class="preview-item-desc">3 письма с нарастающим давлением — от мягкого до жёсткого</div></div>
+        <div class="preview-item"><div class="preview-item-icon">🔍</div><div class="preview-item-title">Анализ клиента</div><div class="preview-item-desc">Красные флаги по тексту проекта. Брать или не брать?</div></div>
+      </div>
+      <button class="btn-unlock" onclick="goToPay()">🔓 Разблокировать всё за 490 ₽</button>
+      <div class="unlock-sub">Разовая оплата · Без подписки · Доступ навсегда · <strong>КП и Оценка — безлимитно</strong></div>
+    </div>
+  </div>
+
+  <div class="features">
+    <div class="feature-card"><div class="feature-icon">⚡</div><div class="feature-title">10 секунд</div><div class="feature-desc">Вместо часа на написание КП вручную</div></div>
+    <div class="feature-card"><div class="feature-icon">🎯</div><div class="feature-title">Под тебя</div><div class="feature-desc">Учитывает специализацию и контекст задачи</div></div>
+    <div class="feature-card"><div class="feature-icon">🔒</div><div class="feature-title">8 инструментов</div><div class="feature-desc">2 бесплатно + 6 в PRO-версии</div></div>
+  </div>
+
+  <footer>Сделано с помощью <a href="#">Claude AI</a> · FreelanceAI · <a href="#" onclick="goToPay()">Получить PRO →</a></footer>
+</div>
+
+<script>
+const FREE_LIMIT = 5;
+const PAY_LINK = 'https://t.me/tribute'; // ← ЗАМЕНИ на свою ссылку
+
+let usedCount = parseInt(localStorage.getItem('fai_used') || '0');
+
+function updateCounter() {
+  const left = Math.max(0, FREE_LIMIT - usedCount);
+  const txt = `· осталось ${left} из ${FREE_LIMIT}`;
+  const el1 = document.getElementById('counter-display');
+  const el2 = document.getElementById('counter-display2');
+  if (el1) el1.textContent = txt;
+  if (el2) el2.textContent = txt;
+  const counter = document.getElementById('usageCounter');
+  if (counter) counter.textContent = `Генераций: ${left}/${FREE_LIMIT}`;
+}
+updateCounter();
+
+function canGenerate() { return usedCount < FREE_LIMIT; }
+
+function trackUsage() {
+  usedCount++;
+  localStorage.setItem('fai_used', usedCount);
+  updateCounter();
+  if (usedCount >= FREE_LIMIT) setTimeout(() => showModal(), 1800);
+}
+
+const PROMPTS = {
+  kp: (d) => `Ты опытный ${d.spec} на фрилансе. Напиши профессиональное коммерческое предложение для клиента (${d.client}).
+
+Задача: ${d.task}
+Стоимость: ${d.price} ₽
+Срок: ${d.deadline}
+Тон: ${d.tone}
+
+Структура:
+1. Приветствие и понимание задачи (2-3 предложения)
+2. Твоё решение (3-4 конкретных пункта)
+3. Почему ты (1-2 аргумента без хвастовства)
+4. Условия: стоимость, срок, что входит
+5. Следующий шаг (призыв к действию)
+
+Пиши живо, без штампов. Максимум 1 страница А4.`,
+
+  estimate: (d) => `Ты опытный фрилансер уровня ${d.level}. Ставка: ${d.rate} ₽/час.
+
+Клиент написал: "${d.task}"
+
+Сделай профессиональную оценку:
+1. Разбивка задач — все подзадачи и часы на каждую
+2. Итого часов — минимум и максимум
+3. Итого стоимость — в рублях + добавь 20% на непредвиденное
+4. Риски — что может увеличить объём работы (2-3 пункта)
+5. Что уточнить — вопросы без ответов на которые нет точной оценки
+6. Рекомендация — стоит ли браться
+
+Используй конкретные цифры.`,
+};
+
+function getFormData(tool) {
+  if (tool === 'kp') return {
+    spec: document.getElementById('kp-spec').value,
+    client: document.getElementById('kp-client').value,
+    task: document.getElementById('kp-task').value || 'разработка сайта',
+    price: document.getElementById('kp-price').value || '50 000',
+    deadline: document.getElementById('kp-deadline').value || '7–10 дней',
+    tone: document.getElementById('kp-tone').value,
+  };
+  if (tool === 'estimate') return {
+    task: document.getElementById('est-task').value || 'разработка лендинга',
+    rate: document.getElementById('est-rate').value || '2000',
+    level: document.getElementById('est-level').value,
+  };
+}
+
+async function generate(tool) {
+  if (!canGenerate()) { showModal(); return; }
+
+  const btn = document.getElementById(`btn-${tool}`);
+  const resultBox = document.getElementById(`result-${tool}`);
+  const contentEl = document.getElementById(`content-${tool}`);
+  const prompt = PROMPTS[tool](getFormData(tool));
+
+  btn.innerHTML = `<span class="loading-dots"><span></span><span></span><span></span></span>`;
+  btn.closest('button').disabled = true;
+  resultBox.classList.add('visible');
+  contentEl.textContent = '';
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const json = await res.json();
+    if (json.content?.[0]?.text) {
+      contentEl.textContent = json.content[0].text;
+      trackUsage();
+    } else {
+      contentEl.textContent = 'Не удалось получить ответ. Попробуй ещё раз.';
+    }
+  } catch {
+    contentEl.textContent = 'Ошибка соединения. Проверь интернет и попробуй ещё раз.';
+  }
+
+  btn.innerHTML = `<span>✦</span><span>Сгенерировать снова</span>`;
+  btn.closest('button').disabled = false;
+}
+
+function switchTool(tool, el) {
+  document.querySelectorAll('.tool-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
+  const panel = document.getElementById(`panel-${tool}`);
+  if (panel) panel.classList.add('active');
+  el.classList.add('active');
+}
+
+function showModal() { document.getElementById('limitModal').classList.add('show'); }
+function closeModal() { document.getElementById('limitModal').classList.remove('show'); }
+function goToPay() { window.open(PAY_LINK, '_blank'); closeModal(); }
+
+function copyResult(id) {
+  const text = document.getElementById(id).querySelector('.result-content').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById(id).querySelector('.copy-btn');
+    btn.textContent = 'Скопировано ✓';
+    setTimeout(() => btn.textContent = 'Скопировать', 2000);
+  });
+}
+</script>
+</body>
+</html>
