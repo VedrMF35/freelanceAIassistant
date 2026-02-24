@@ -143,6 +143,20 @@
   @keyframes scaleUp { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+  .key-section { margin-top: 16px; }
+  .key-divider { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .key-divider::before, .key-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .key-divider span { font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .key-input-row { display: flex; gap: 8px; }
+  .key-input-row input { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'Courier New', monospace; font-size: 14px; padding: 10px 14px; outline: none; transition: border-color 0.2s; letter-spacing: 2px; text-transform: uppercase; }
+  .key-input-row input:focus { border-color: var(--accent); }
+  .key-btn { padding: 10px 18px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 12px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .key-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .key-error { font-size: 11px; color: var(--accent2); margin-top: 6px; min-height: 16px; }
+  .pro-banner { background: linear-gradient(135deg, rgba(240,165,0,0.12), rgba(252,92,125,0.08)); border: 1px solid rgba(240,165,0,0.3); border-radius: 10px; padding: 10px 16px; margin-bottom: 20px; display: none; align-items: center; gap: 10px; font-size: 12px; color: var(--gold); font-weight: 500; }
+  .pro-banner.show { display: flex; animation: fadeUp 0.4s forwards; }
+  .pro-banner .pro-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
   .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 28px; opacity: 0; animation: fadeUp 0.7s 0.6s forwards; }
   .feature-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
   .feature-icon { font-size: 18px; margin-bottom: 8px; }
@@ -185,11 +199,24 @@
     </div>
     <div class="modal-price">Разовый доступ — <strong>490 ₽</strong></div>
     <button class="modal-btn" onclick="goToPay()">✦ Получить полный доступ</button>
+    <div class="key-section">
+      <div class="key-divider"><span>или введи ключ активации</span></div>
+      <div class="key-input-row">
+        <input type="text" id="keyInput" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" oninput="formatKey(this)" autocomplete="off" spellcheck="false">
+        <button class="key-btn" onclick="activateKey()">Активировать</button>
+      </div>
+      <div id="keyError" class="key-error"></div>
+    </div>
     <button class="modal-close" onclick="closeModal()">Нет, останусь на бесплатной версии</button>
   </div>
 </div>
 
 <div class="container">
+
+  <div class="pro-banner" id="proBanner">
+    <div class="pro-dot"></div>
+    <span>✦ PRO активирован — все инструменты разблокированы, генерации безлимитные</span>
+  </div>
 
   <header>
     <div class="logo">
@@ -466,6 +493,74 @@ function switchTool(tool, el) {
   const panel = document.getElementById(`panel-${tool}`);
   if (panel) panel.classList.add('active');
   el.classList.add('active');
+}
+
+// ── KEY SYSTEM ──
+// Ключи генерируются один раз и хранятся в этом списке.
+// Использованные ключи помечаются как сгоревшие через localStorage.
+const VALID_KEYS = [
+  // Сюда вставляй свои ключи — один ключ на одну строку:
+  // 'ABCD-1234-EFGH-5678',
+];
+
+function formatKey(input) {
+  let val = input.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+  let formatted = val.match(/.{1,4}/g)?.join('-') || val;
+  input.value = formatted.slice(0, 19);
+}
+
+function activateKey() {
+  const input = document.getElementById('keyInput');
+  const errorEl = document.getElementById('keyError');
+  const key = input.value.trim().toUpperCase();
+
+  if (key.length < 4) { errorEl.textContent = 'Введи ключ активации'; return; }
+
+  // Check if already used
+  const usedKeys = JSON.parse(localStorage.getItem('fai_used_keys') || '[]');
+  if (usedKeys.includes(key)) {
+    errorEl.textContent = 'Этот ключ уже был использован';
+    return;
+  }
+
+  // Check if valid
+  if (!VALID_KEYS.includes(key)) {
+    errorEl.textContent = 'Неверный ключ. Проверь и попробуй ещё раз';
+    return;
+  }
+
+  // Activate!
+  usedKeys.push(key);
+  localStorage.setItem('fai_used_keys', JSON.stringify(usedKeys));
+  localStorage.setItem('fai_pro', '1');
+  activatePro();
+  closeModal();
+  errorEl.textContent = '';
+}
+
+function activatePro() {
+  localStorage.setItem('fai_pro', '1');
+  // Update badge
+  document.getElementById('planBadge').textContent = 'PRO ✦';
+  document.getElementById('planBadge').className = 'badge-pro';
+  document.getElementById('usageCounter').textContent = '';
+  // Show banner
+  document.getElementById('proBanner').classList.add('show');
+  // Update counters
+  ['counter-display','counter-display2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '· безлимитно';
+  });
+}
+
+function checkProStatus() {
+  if (localStorage.getItem('fai_pro') === '1') activatePro();
+}
+checkProStatus();
+
+function canGenerate() {
+  if (localStorage.getItem('fai_pro') === '1') return true;
+  return usedCount < FREE_LIMIT;
 }
 
 function showModal() { document.getElementById('limitModal').classList.add('show'); }
