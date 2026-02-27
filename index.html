@@ -238,6 +238,7 @@ footer a { color: var(--accent); text-decoration: none; }
   <div class="tools-nav" id="tabsNav">
     <button class="tool-tab active" onclick="sw('kp',this)">📄 КП</button>
     <button class="tool-tab" onclick="sw('est',this)">🧮 Оценка проекта</button>
+    <button class="tool-tab" onclick="sw('brief',this)">🎨 Бриф дизайнера</button>
     <button class="tool-tab locked" onclick="sw('pro',this)">✉️ Письмо клиенту 🔒</button>
     <button class="tool-tab locked" onclick="sw('pro',this)">💰 Поднять цену 🔒</button>
     <button class="tool-tab locked" onclick="sw('pro',this)">📝 Контракт 🔒</button>
@@ -362,6 +363,71 @@ footer a { color: var(--accent); text-decoration: none; }
     </div>
   </div>
 
+  <!-- BRIEF DESIGNER -->
+  <div class="card panel" id="panel-brief">
+    <div class="card-header">
+      <div class="tool-emoji">🎨</div>
+      <div>
+        <div class="card-title" id="brief-title">Бриф для дизайнера</div>
+        <div class="card-desc" id="brief-desc">Задаёшь параметры проекта — получаешь готовый список вопросов для клиента</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="access-bar" id="ab3">
+        <div class="access-bar-top">
+          <div class="access-dot"></div>
+          <span class="access-label" id="ab3-lbl">Бесплатный инструмент</span>
+          <span class="access-count" id="ab3-cnt"></span>
+          <div class="access-actions">
+            <button class="btn-enter-key" id="ab3-toggle" onclick="toggleKey(3)">🔑 Ввести ключ</button>
+            <button class="btn-buy-pro" id="ab3-buy" onclick="goToPay()">✦ Купить PRO</button>
+          </div>
+        </div>
+        <div class="key-expand" id="kexp3">
+          <input class="key-field" id="kinput3" type="text" maxlength="19" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false" oninput="fmtKey(this)">
+          <button class="btn-activate" id="kconf3" onclick="doActivate('kinput3','kerr3')">Активировать</button>
+          <div class="key-err" id="kerr3"></div>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div>
+          <label id="l-btype">Тип проекта</label>
+          <select id="brief-type"></select>
+        </div>
+        <div>
+          <label id="l-bclient">Тип клиента</label>
+          <select id="brief-client"></select>
+        </div>
+      </div>
+      <div class="form-grid c1">
+        <div>
+          <label id="l-bdesc">Что известно о проекте</label>
+          <textarea id="brief-desc-input" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div>
+          <label id="l-bstyle">Стиль / референсы</label>
+          <select id="brief-style"></select>
+        </div>
+        <div>
+          <label id="l-bdetail">Уровень детализации</label>
+          <select id="brief-detail"></select>
+        </div>
+      </div>
+      <button class="btn-gen" onclick="gen('brief')">
+        <div class="btn-inner" id="btn-brief">✦ <span id="btn-brief-txt">Сгенерировать бриф</span></div>
+      </button>
+      <div class="result-box" id="res-brief">
+        <div class="result-hdr">
+          <span class="result-lbl" id="rl-brief">Готовый бриф</span>
+          <button class="copy-btn" onclick="cp('res-brief')">Скопировать</button>
+        </div>
+        <div class="result-body" id="rb-brief"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- PRO PAYWALL -->
   <div class="paywall-card panel" id="panel-pro">
     <div class="paywall-hdr">
@@ -393,8 +459,8 @@ footer a { color: var(--accent); text-decoration: none; }
 <script>
 // ── CONFIG ──
 const FREE_LIMIT = 5;
-const PAY_LINK = 'https://app.lava.top/products/72a9a0e0-4be2-41d8-a156-8016c18048d4'; // ← ЗАМЕНИ
-const OPENROUTER_KEY = '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'; // ← ЗАМЕНИ
+const PAY_LINK = 'https://t.me/tribute'; // ← ЗАМЕНИ
+const OPENROUTER_KEY = 'ВСТАВЬ_СЮДА_КЛЮЧ'; // ← ЗАМЕНИ
 const VALID_KEYS = [
   // 'ABCD-1234-EFGH-5678',
 ];
@@ -411,7 +477,7 @@ const L = {
     tag: 'ИИ-помощник фрилансера',
     h1: 'Рутина — за секунды.<br><em>Деньги — за работу.</em>',
     sub: 'КП, оценка проектов, письма и переговоры — за 10 секунд. Попробуй бесплатно, без регистрации.',
-    tabs: ['📄 КП','🧮 Оценка проекта','✉️ Письмо клиенту 🔒','💰 Поднять цену 🔒','📝 Контракт 🔒','🛡 Scope creep 🔒','💸 Выбить долг 🔒','🔍 Анализ клиента 🔒'],
+    tabs: ['📄 КП','🧮 Оценка проекта','🎨 Бриф дизайнера','✉️ Письмо клиенту 🔒','💰 Поднять цену 🔒','📝 Контракт 🔒','🛡 Scope creep 🔒','💸 Выбить долг 🔒','🔍 Анализ клиента 🔒'],
     badgeFree:'Бесплатно', badgePro:'PRO ✦',
     usageFree: function(n){return 'Генераций: '+n+'/'+FREE_LIMIT},
     abLbl:'Бесплатный инструмент',
@@ -458,12 +524,23 @@ const L = {
     mClose:'Нет, останусь на бесплатной версии',
     kErrEmpty:'Введи ключ активации', kErrUsed:'Этот ключ уже был использован', kErrInvalid:'Неверный ключ',
     proBanner:'✦ PRO активирован — все инструменты разблокированы, генерации безлимитные',
+    briefTitle:'Бриф для дизайнера',
+    briefDesc:'Задаёшь параметры проекта — получаешь готовый список вопросов для клиента',
+    lBtype:'Тип проекта', lBclient:'Тип клиента', lBdesc:'Что известно о проекте',
+    lBstyle:'Стиль / референсы', lBdetail:'Уровень детализации',
+    bdescPh:'Например: нужен логотип для кофейни, хотят что-то тёплое и уютное',
+    btypes:['Логотип и айдентика','Веб-сайт / лендинг','Мобильное приложение','Иллюстрация','Упаковка / полиграфия','Баннеры / реклама','Презентация','SMM-контент'],
+    bclients:['Малый бизнес','Стартап','Крупная компания','Частное лицо'],
+    bstyles:['Нет референсов','Есть примеры (опишу)','Минимализм','Яркий и смелый','Корпоративный строгий','Ретро / винтаж'],
+    bdetails:['Базовый (10–15 вопросов)','Детальный (20–25 вопросов)','Максимальный (30+ вопросов)'],
+    briefBtn:'Сгенерировать бриф', briefBtnAgain:'Сгенерировать снова',
+    rlBrief:'Готовый бриф',
   },
   en: {
     tag: 'AI Assistant for Freelancers',
     h1: 'Less admin.<br><em>More money.</em>',
     sub: 'Proposals, estimates, client emails — in 10 seconds. Try free, no signup.',
-    tabs: ['📄 Proposal','🧮 Estimate','✉️ Client Email 🔒','💰 Raise Rates 🔒','📝 Contract 🔒','🛡 Scope Creep 🔒','💸 Chase Invoice 🔒','🔍 Client Check 🔒'],
+    tabs: ['📄 Proposal','🧮 Estimate','🎨 Design Brief','✉️ Client Email 🔒','💰 Raise Rates 🔒','📝 Contract 🔒','🛡 Scope Creep 🔒','💸 Chase Invoice 🔒','🔍 Client Check 🔒'],
     badgeFree:'Free', badgePro:'PRO ✦',
     usageFree: function(n){return 'Generations: '+n+'/'+FREE_LIMIT},
     abLbl:'Free tool',
@@ -510,6 +587,17 @@ const L = {
     mClose:'No thanks, stay on free plan',
     kErrEmpty:'Enter your activation key', kErrUsed:'This key has already been used', kErrInvalid:'Invalid key',
     proBanner:'✦ PRO activated — all tools unlocked, unlimited generations',
+    briefTitle:'Design Brief Generator',
+    briefDesc:'Fill in project details — get a ready-made questionnaire to send your client',
+    lBtype:'Project type', lBclient:'Client type', lBdesc:'What you know about the project',
+    lBstyle:'Style / references', lBdetail:'Level of detail',
+    bdescPh:'E.g.: logo for a coffee shop, they want something warm and cozy',
+    btypes:['Logo & brand identity','Website / landing page','Mobile app','Illustration','Packaging / print','Banners / ads','Presentation','Social media content'],
+    bclients:['Small business','Startup','Enterprise','Individual'],
+    bstyles:['No references yet','Has examples (will describe)','Minimalist','Bold & colorful','Corporate / formal','Retro / vintage'],
+    bdetails:['Basic (10–15 questions)','Detailed (20–25 questions)','Maximum (30+ questions)'],
+    briefBtn:'Generate Brief', briefBtnAgain:'Generate Again',
+    rlBrief:'Ready Brief',
   }
 };
 
@@ -525,6 +613,55 @@ function getPrompt(tool) {
     const tone = document.getElementById('kp-tone').value;
     if (lang === 'ru') return 'Ты опытный '+spec+' на фрилансе. Напиши профессиональное коммерческое предложение для клиента ('+client+').\n\nЗадача: '+task+'\nСтоимость: '+price+' ₽\nСрок: '+deadline+'\nТон: '+tone+'\n\nСтруктура:\n1. Приветствие и понимание задачи (2-3 предложения)\n2. Твоё решение (3-4 конкретных пункта)\n3. Почему ты (1-2 аргумента)\n4. Условия: стоимость, срок, что входит\n5. Следующий шаг\n\nПиши живо, без штампов. Максимум 1 страница А4.';
     return 'You are an experienced '+spec+' freelancer. Write a professional project proposal for a '+client+' client.\n\nProject: '+task+'\nBudget: $'+price+'\nTimeline: '+deadline+'\nTone: '+tone+'\n\nStructure:\n1. Opening — show you understand the project\n2. Your solution (3-4 concrete points)\n3. Why you (1-2 arguments)\n4. Terms: price, timeline, what is included\n5. Clear next step / call to action\n\nWrite naturally, max 1 page.';
+  }
+  if (tool === 'brief') {
+    var btype = document.getElementById('brief-type').value;
+    var bclient = document.getElementById('brief-client').value;
+    var bdesc = document.getElementById('brief-desc-input').value || (lang==='ru'?'проект не описан':'project not described');
+    var bstyle = document.getElementById('brief-style').value;
+    var bdetail = document.getElementById('brief-detail').value;
+    if (lang === 'ru') {
+      return [
+        'Ты опытный арт-директор и дизайнер. Создай подробный бриф-опросник для клиента.',
+        '',
+        'Тип проекта: ' + btype,
+        'Тип клиента: ' + bclient,
+        'Что известно: ' + bdesc,
+        'Стиль/референсы: ' + bstyle,
+        'Уровень детализации: ' + bdetail,
+        '',
+        'Создай структурированный список вопросов для клиента который поможет дизайнеру понять задачу и избежать бесконечных правок.',
+        '',
+        'Структура:',
+        '1. О бизнесе и аудитории (3-5 вопросов)',
+        '2. О задаче и целях проекта (3-5 вопросов)',
+        '3. О стиле и визуальных предпочтениях (4-6 вопросов)',
+        '4. О технических требованиях (3-4 вопроса)',
+        '5. Об организации работы (сроки, правки, форматы) (2-3 вопроса)',
+        '',
+        'Пиши вопросы четко, конкретно, без лишних слов. После каждого вопроса — короткая подсказка почему он важен.'
+      ].join('\n');
+    }
+    return [
+      'You are an experienced art director and designer. Create a detailed client questionnaire.',
+      '',
+      'Project type: ' + btype,
+      'Client type: ' + bclient,
+      'What is known: ' + bdesc,
+      'Style/references: ' + bstyle,
+      'Level of detail: ' + bdetail,
+      '',
+      'Create a structured list of questions to help the designer understand the project and avoid endless revisions.',
+      '',
+      'Structure:',
+      '1. About the business and audience (3-5 questions)',
+      '2. About the project goals (3-5 questions)',
+      '3. About style and visual preferences (4-6 questions)',
+      '4. Technical requirements (3-4 questions)',
+      '5. Project organization: timeline, revisions, formats (2-3 questions)',
+      '',
+      'Write questions clearly. After each question add a short note on why it matters.'
+    ].join('\n');
   }
   if (tool === 'est') {
     const task = document.getElementById('est-task').value || (lang==='ru'?'разработка лендинга':'landing page development');
@@ -586,6 +723,31 @@ function applyLang() {
   document.getElementById('btn-est-txt').textContent = t.estBtn;
   document.getElementById('rl-est').textContent = t.rlEst;
 
+  // Brief
+  document.getElementById('brief-title').textContent = t.briefTitle;
+  document.getElementById('brief-desc').textContent = t.briefDesc;
+  document.getElementById('l-btype').textContent = t.lBtype;
+  document.getElementById('l-bclient').textContent = t.lBclient;
+  document.getElementById('l-bdesc').textContent = t.lBdesc;
+  document.getElementById('brief-desc-input').placeholder = t.bdescPh;
+  document.getElementById('l-bstyle').textContent = t.lBstyle;
+  document.getElementById('l-bdetail').textContent = t.lBdetail;
+  document.getElementById('brief-type').innerHTML = t.btypes.map(function(s){return '<option>'+s+'</option>';}).join('');
+  document.getElementById('brief-client').innerHTML = t.bclients.map(function(s){return '<option>'+s+'</option>';}).join('');
+  document.getElementById('brief-style').innerHTML = t.bstyles.map(function(s){return '<option>'+s+'</option>';}).join('');
+  document.getElementById('brief-detail').innerHTML = t.bdetails.map(function(s){return '<option>'+s+'</option>';}).join('');
+  document.getElementById('btn-brief-txt').textContent = t.briefBtn;
+  document.getElementById('rl-brief').textContent = t.rlBrief;
+  // Brief access bar
+  var ab3lbl = document.getElementById('ab3-lbl');
+  var ab3toggle = document.getElementById('ab3-toggle');
+  var ab3buy = document.getElementById('ab3-buy');
+  var kconf3 = document.getElementById('kconf3');
+  if(ab3lbl) ab3lbl.textContent = t.abLbl;
+  if(ab3toggle) ab3toggle.textContent = t.enterKey;
+  if(ab3buy) ab3buy.textContent = t.buyPro;
+  if(kconf3) kconf3.textContent = t.activate;
+
   // PRO panel
   document.getElementById('pro-title').textContent = t.proTitle;
   document.getElementById('pro-desc').textContent = t.proDesc;
@@ -630,10 +792,14 @@ function updateCounters() {
   document.getElementById('ab1-cnt').textContent = cnt;
   document.getElementById('ab2-cnt').textContent = cnt;
   document.getElementById('usageTxt').textContent = isPro ? '' : t.usageFree(left);
+  var ab3cnt = document.getElementById('ab3-cnt');
+  if(ab3cnt) ab3cnt.textContent = isPro ? t.abCntPro : t.abCntFree(left);
   // hide access bars if pro
   if (isPro) {
     document.getElementById('ab1').style.display = 'none';
     document.getElementById('ab2').style.display = 'none';
+    var ab3 = document.getElementById('ab3');
+    if(ab3) ab3.style.display = 'none';
   }
 }
 
@@ -742,7 +908,8 @@ async function gen(tool) {
   }
 
   var t = L[lang];
-  btnEl.innerHTML = '✦ <span>' + (tool==='kp' ? t.kpBtnAgain : t.estBtnAgain) + '</span>';
+  var againTxt = tool==='kp' ? t.kpBtnAgain : (tool==='brief' ? t.briefBtnAgain : t.estBtnAgain);
+  btnEl.innerHTML = '✦ <span>' + againTxt + '</span>';
   btnEl.closest('button').disabled = false;
 }
 
