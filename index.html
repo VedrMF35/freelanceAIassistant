@@ -733,10 +733,7 @@ footer a { color: var(--accent); text-decoration: none; }
 const CFG = {
   FREE_LIMIT: 7,
   get API_ENDPOINT() { return WORKER_URL + '/api/generate'; }, // ← ЗАМЕНИ
-  PAY_LINK: 'https://YOUR_PAYMENT_LINK',             // ← ЗАМЕНИ
-  VALID_KEYS: [
-    // 'DEMO-1234-TEST-5678',
-  ]
+  PAY_LINK: 'https://app.lava.top/products/72a9a0e0-4be2-41d8-a156-8016c18048d4',             // ← ЗАМЕНИ
 };
 
 let lang = localStorage.getItem('fai_lang') || 'ru';
@@ -1140,7 +1137,7 @@ const setOpts=(id,arr)=>{ const el=$(id); if(el) el.innerHTML=arr.map(s=>`<optio
 // ════════════════════════════════════════════════════════
 // ⚙️  НАСТРОЙКА: замени на URL своего Worker'а
 // ════════════════════════════════════════════════════════
-const WORKER_URL = 'YOUR_WORKER_URL_HERE'; // напр. https://freelanceai.you.workers.dev
+const WORKER_URL = 'https://wandering-king-6565.mihailtr35.workers.dev'; // напр. https://freelanceai.you.workers.dev
 
 // ── Auth state ────────────────────────────────────────────
 let authToken  = localStorage.getItem('fai_token')  || null;
