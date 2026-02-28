@@ -1023,15 +1023,8 @@ function fmtKey(inp) {
   inp.value=(parts?parts.join('-'):v).slice(0,19);
 }
 function doActivate(inpId,errId) {
-  const t=L[lang];
-  const key=$(inpId).value.trim().toUpperCase();
-  const errEl=$(errId);
-  if(key.length<4){errEl.textContent=t.kErrEmpty;return;}
-  const used=JSON.parse(localStorage.getItem('fai_used_keys')||'[]');
-  if(used.includes(key)){errEl.textContent=t.kErrUsed;return;}
-  if(!CFG.VALID_KEYS.includes(key)){errEl.textContent=t.kErrInvalid;return;}
-  used.push(key); localStorage.setItem('fai_used_keys',JSON.stringify(used));
-  activatePro(); closeModal(); if(errEl) errEl.textContent='';
+  // Старая система ключей отключена — теперь всё через Worker + D1
+  openAuthModal(1);
 }
 function activatePro() {
   isPro=true; localStorage.setItem('fai_pro','1');
@@ -1368,11 +1361,7 @@ function updateAuthHeader() {
 // (wraps the existing gen() function to inject Bearer header)
 const _origFetch = window.fetch;
 
-// Override doActivate for the old key-only flow → now requires email
-function doActivate(inpId, errId) {
-  // Old key-only flow is now replaced by auth modal
-  openAuthModal(1);
-}
+// doActivate is defined above
 
 function updateStep3Lang() {
   const t = L[lang];
