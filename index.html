@@ -1212,21 +1212,24 @@ async function activateWithEmailKey() {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Ошибка');
 
-    // Apply PRO status FIRST (до updateStep3Lang, чтобы title был правильный)
-    if (data.is_pro) applyProStatus(true);
-    // Save session
+    // Сохраняем сессию и применяем PRO
     saveSession(data.token, data.email, data.is_pro);
-    // Show success
-    $('as3-email-show').textContent = data.email;
-    authStep(3);
-    updateStep3Lang();
-    applyLang(); // обновить счётчики и интерфейс
+    applyProStatus(true);
+    applyLang();
+
+    // Закрываем все модалки — не показываем никакого шага авторизации
+    closeAuthModal();
+    closeModal();
+
+    // Показываем красивое уведомление об активации PRO
+    showProToast();
 
   } catch(e) {
     err.textContent = e.message;
   }
   btn.disabled = false;
-  updateAuthLang();
+  const t2 = L[lang];
+  if (btn) btn.textContent = t2.activate || 'Активировать';
 }
 
 // ── Verify magic token from URL (called on page load) ─────
@@ -1386,9 +1389,53 @@ function updateAuthHeader() {
 // (wraps the existing gen() function to inject Bearer header)
 const _origFetch = window.fetch;
 
-function doActivate(inpId, errId) {
-  // Old key-only flow is now replaced by auth modal
-  openAuthModal(1);
+async function doActivate(inpId, errId) {
+  const inp = $(inpId);
+  const errEl = errId ? $(errId) : null;
+  const key = (inp ? inp.value : '').trim().toUpperCase();
+
+  if (!key || key.length < 4) {
+    if (errEl) errEl.textContent = lang==='ru' ? 'Введи ключ активации' : 'Enter activation key';
+    return;
+  }
+  if (errEl) errEl.textContent = '';
+
+  // Нужен email — если не залогинен, открываем auth modal
+  if (!authEmail) {
+    // Запомним ключ и откроем auth
+    if (inp) inp.dataset.pendingKey = key;
+    openAuthModal(1);
+    // Вставим ключ в поле auth-modal
+    const authKeyInp = $('auth-key-inp');
+    if (authKeyInp) { authKeyInp.value = key; fmtKey(authKeyInp); }
+    return;
+  }
+
+  // Есть email — активируем сразу
+  if (inp) inp.disabled = true;
+  if (errEl) errEl.textContent = lang==='ru' ? 'Проверяем...' : 'Checking...';
+
+  try {
+    const res = await fetch(WORKER_URL + '/api/auth/activate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: authEmail, key })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || (lang==='ru' ? 'Неверный ключ' : 'Invalid key'));
+
+    saveSession(data.token, data.email, data.is_pro);
+    applyProStatus(true);
+    applyLang();
+    closeModal();
+    closeAuthModal();
+    if (errEl) errEl.textContent = '';
+    showProToast();
+
+  } catch(e) {
+    if (errEl) errEl.textContent = e.message;
+  }
+  if (inp) inp.disabled = false;
 }
 
 function updateStep3Lang() {
@@ -1689,6 +1736,49 @@ function esc(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+
+
+// ── PRO Activation Toast ─────────────────────────────────
+function showProToast() {
+  // Удалить предыдущий тост если есть
+  const old = $('pro-toast');
+  if (old) old.remove();
+
+  const toast = document.createElement('div');
+  toast.id = 'pro-toast';
+  toast.innerHTML = `
+    <div style="display:flex;align-items:center;gap:12px">
+      <span style="font-size:24px">🎉</span>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#f0a020">${lang==='ru' ? 'PRO активирован!' : 'PRO activated!'}</div>
+        <div style="font-size:12px;color:#6a6a82;margin-top:2px">${lang==='ru' ? 'Все инструменты разблокированы' : 'All tools unlocked'}</div>
+      </div>
+      <span style="font-size:18px;margin-left:auto">✦</span>
+    </div>
+  `;
+  toast.style.cssText = `
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+    background:#111118;border:1px solid rgba(240,160,32,0.4);border-radius:14px;
+    padding:14px 20px;z-index:9999;min-width:280px;max-width:360px;
+    box-shadow:0 8px 32px rgba(240,160,32,0.2);
+    transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),opacity 0.4s;
+    opacity:0;
+  `;
+  document.body.appendChild(toast);
+  // Animate in
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      toast.style.transform = 'translateX(-50%) translateY(0)';
+      toast.style.opacity = '1';
+    });
+  });
+  // Animate out after 3.5s
+  setTimeout(() => {
+    toast.style.transform = 'translateX(-50%) translateY(80px)';
+    toast.style.opacity = '0';
+    setTimeout(() => toast.remove(), 400);
+  }, 3500);
+}
 
 // ══ ONLINE COUNTER ═══════════════════════════════════════
 // Natural-looking online counter: random 200-700, changes ±0-10 on each reload
