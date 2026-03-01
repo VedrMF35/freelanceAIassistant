@@ -1217,7 +1217,7 @@ async function gen(tool) {
       method:'POST',
       headers,
       body:JSON.stringify({
-        model:'anthropic/claude-haiku-3-5-20241022',
+        model:'anthropic/claude-3-haiku',
         max_tokens:1400,
         messages:[{role:'user',content:prompt}]
       })
