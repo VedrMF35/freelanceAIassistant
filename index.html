@@ -1198,12 +1198,11 @@ function toggleKey(n) {
 
 // ══ GENERATE ═════════════════════════════════════
 async function gen(tool) {
+  // Незалогиненных — на авторизацию
+  if (!authToken) { openAuthModal(); return; }
+
   const used=getUsed();
-  // If not logged in and hit free limit, prompt login first
-  if(!isPro && used>=CFG.FREE_LIMIT){
-    if (!authToken) { openAuthModal(); return; }
-    showModal(); return;
-  }
+  if(!isPro && used>=CFG.FREE_LIMIT){ showModal(); return; }
   const btnEl=$('btn-'+tool), resBox=$('res-'+tool), rbEl=$('rb-'+tool);
   const btnWrap=btnEl.closest('button');
   const prompt=getPrompt(tool);
@@ -1218,7 +1217,7 @@ async function gen(tool) {
       method:'POST',
       headers,
       body:JSON.stringify({
-        model:'anthropic/claude-haiku-3-5',
+        model:'anthropic/claude-haiku-3-5-20241022',
         max_tokens:1400,
         messages:[{role:'user',content:prompt}]
       })
@@ -1230,19 +1229,23 @@ async function gen(tool) {
       throw new Error(errData.error || 'Forbidden');
     }
     if(!res.ok) {
-      const err=await res.json().catch(()=>({}));
-      throw new Error(err.error||`HTTP ${res.status}`);
+      const errData=await res.json().catch(()=>({}));
+      const errMsg = typeof errData.error === 'string' ? errData.error : (errData.error?.message || JSON.stringify(errData.error) || `HTTP ${res.status}`);
+      throw new Error(errMsg);
     }
     const json=await res.json();
     const txt=json.choices?.[0]?.message?.content;
     if(txt) {
       rbEl.textContent=txt;
-      if(!isPro && !authToken){ setUsed(used+1); updateCounters(); if((used+1)>=CFG.FREE_LIMIT) setTimeout(showModal,2400); }
+      if(!isPro){ setUsed(used+1); updateCounters(); if((used+1)>=CFG.FREE_LIMIT) setTimeout(showModal,2400); }
     } else {
-      rbEl.textContent='⚠️ Пустой ответ: '+JSON.stringify(json).slice(0,180);
+      // Показываем полный ответ для диагностики
+      const debugInfo = JSON.stringify(json).slice(0,300);
+      rbEl.textContent='⚠️ Неожиданный ответ: '+debugInfo;
     }
   } catch(e) {
-    rbEl.textContent=(lang==='ru'?'⚠️ Ошибка: ':'⚠️ Error: ')+e.message+(lang==='ru'?'\n\nПроверь что Worker задеплоен и URL правильный.':'\n\nCheck that your Worker is deployed and URL is correct.');
+    const msg = (e && typeof e.message === 'string') ? e.message : String(e);
+    rbEl.textContent=(lang==='ru'?'⚠️ Ошибка: ':'⚠️ Error: ')+msg;
   }
 
   const t=L[lang];
