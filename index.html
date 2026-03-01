@@ -1400,18 +1400,10 @@ async function doActivate(inpId, errId) {
   }
   if (errEl) errEl.textContent = '';
 
-  // Нужен email — если не залогинен, открываем auth modal
-  if (!authEmail) {
-    // Запомним ключ и откроем auth
-    if (inp) inp.dataset.pendingKey = key;
-    openAuthModal(1);
-    // Вставим ключ в поле auth-modal
-    const authKeyInp = $('auth-key-inp');
-    if (authKeyInp) { authKeyInp.value = key; fmtKey(authKeyInp); }
-    return;
-  }
+  // Если нет email — используем технический идентификатор на основе ключа
+  const emailToUse = authEmail || ('key.' + key.toLowerCase().replace(/-/g,'') + '@freelanceai.app');
 
-  // Есть email — активируем сразу
+  // Активируем
   if (inp) inp.disabled = true;
   if (errEl) errEl.textContent = lang==='ru' ? 'Проверяем...' : 'Checking...';
 
@@ -1419,7 +1411,7 @@ async function doActivate(inpId, errId) {
     const res = await fetch(WORKER_URL + '/api/auth/activate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: authEmail, key })
+      body: JSON.stringify({ email: emailToUse, key })
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || (lang==='ru' ? 'Неверный ключ' : 'Invalid key'));
