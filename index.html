@@ -306,7 +306,6 @@ select {
 .key-err2 { font-size: 11px; color: var(--accent2); margin-top: 6px; min-height: 16px; text-align: left; }
 .modal-close-link { margin-top: 12px; color: var(--muted); font-size: 11px; cursor: pointer; background: none; border: none; font-family: 'DM Sans', sans-serif; text-decoration: underline; display: block; text-align: center; }
 
-
 /* ─── AUTH MODAL ─── */
 .auth-modal-bg { position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px); }
 .auth-modal-bg.show { display:flex; }
@@ -472,8 +471,6 @@ footer a { color: var(--accent); text-decoration: none; }
 <div class="auth-modal-bg" id="authModal">
   <div class="auth-modal">
     <button class="auth-modal-x" onclick="closeAuthModal()">✕</button>
-
-    <!-- Step 1: Enter email -->
     <div class="auth-step active" id="auth-s1">
       <div class="auth-ico">⚡</div>
       <div class="auth-ttl" id="as1-ttl">Войти или создать аккаунт</div>
@@ -496,8 +493,6 @@ footer a { color: var(--accent); text-decoration: none; }
         <div class="auth-err" id="as1-key-err"></div>
       </div>
     </div>
-
-    <!-- Step 2: Check email -->
     <div class="auth-step" id="auth-s2">
       <div class="auth-ico">📬</div>
       <div class="auth-ttl" id="as2-ttl">Проверь почту</div>
@@ -508,8 +503,6 @@ footer a { color: var(--accent); text-decoration: none; }
       <button class="btn-auth-ghost" style="margin-top:12px" id="as2-back" onclick="authStep(1)">← Изменить email</button>
       <div class="auth-err" id="as2-err"></div>
     </div>
-
-    <!-- Step 3: Success -->
     <div class="auth-step" id="auth-s3">
       <div class="auth-ico">🎉</div>
       <div class="auth-ttl" id="as3-ttl">Добро пожаловать!</div>
@@ -561,9 +554,7 @@ footer a { color: var(--accent); text-decoration: none; }
     <div class="hdr-r">
       <span id="planBadge" class="badge badge-free">Бесплатно</span>
       <span id="usagePill" class="usage-pill"></span>
-      <!-- Logged out: show login button -->
       <button class="btn-login" id="hdr-login-btn" onclick="openAuthModal()" style="display:none"></button>
-      <!-- Logged in: show account pill -->
       <div class="account-pill" id="hdr-account-pill" onclick="openAuthModal()" style="display:none">
         <div class="account-av" id="hdr-av">?</div>
         <div class="account-email" id="hdr-email-pill">...</div>
@@ -637,7 +628,6 @@ footer a { color: var(--accent); text-decoration: none; }
       <div class="result-box" id="res-brief"><div class="result-hdr"><span class="result-lbl" id="rl-brief"></span><button class="copy-btn" id="cp-brief" onclick="cp('res-brief','cp-brief')"></button></div><div class="result-body" id="rb-brief"></div><div class="result-foot"><div class="like-row"><button class="like-btn">👍</button><button class="like-btn">👎</button></div><span class="result-cta" id="rh-brief"></span></div></div>
     </div>
   </div>
-
 
   <!-- ═══ PRO: ПИСЬМО КЛИЕНТУ ═══ -->
   <div class="card panel" id="panel-letter">
@@ -738,7 +728,6 @@ footer a { color: var(--accent); text-decoration: none; }
     </div>
   </div>
 
-
   <!-- ═══ REVIEWS SECTION ═══ -->
   <div class="reviews-section" id="reviews-section">
     <div class="reviews-header">
@@ -798,32 +787,25 @@ footer a { color: var(--accent); text-decoration: none; }
 </div>
 
 <script>
-// ══════════════════════════════════════════════════
-// ⚠️  НАСТРОЙ ЭТИ 3 ПАРАМЕТРА ПЕРЕД ЗАПУСКОМ:
-//
-// 1. API_ENDPOINT — URL твоего Cloudflare Worker
-//    (см. файл worker.js, задеплой его сначала)
-//    Пример: 'https://freelance-ai.your-name.workers.dev'
-//
-// 2. PAY_LINK — ссылка на оплату (Robokassa / Prodamus / ЮКасса)
-//
-// 3. VALID_KEYS — добавляй ключи после каждой оплаты
-//    Генерируй: Math.random().toString(36).slice(2,6).toUpperCase() x4
-// ══════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════════════
+// ⚙️  Worker URL — замени на свой
+// ════════════════════════════════════════════════════════════════════════
+const WORKER_URL = 'https://wandering-king-6565.mihailtr35.workers.dev';
+
 const CFG = {
   FREE_LIMIT: 7,
-  get API_ENDPOINT() { return WORKER_URL + '/api/generate'; }, // ← ЗАМЕНИ
-  PAY_LINK: 'https://app.lava.top/products/72a9a0e0-4be2-41d8-a156-8016c18048d4',             // ← ЗАМЕНИ
+  get API_ENDPOINT() { return WORKER_URL + '/api/generate'; },
+  PAY_LINK: 'https://app.lava.top/products/72a9a0e0-4be2-41d8-a156-8016c18048d4',
 };
 
-let lang = localStorage.getItem('fai_lang') || 'ru';
-let isPro = localStorage.getItem('fai_pro') === '1';
-let kx = {1:false,2:false,3:false};
+let lang   = localStorage.getItem('fai_lang') || 'ru';
+let isPro  = localStorage.getItem('fai_pro') === '1';
+let kx     = {1:false,2:false,3:false};
 
 function getUsed() { return parseInt(localStorage.getItem('fai_used')||'0'); }
 function setUsed(n) { localStorage.setItem('fai_used', n); }
 
-// ══ TRANSLATIONS ══════════════════════════════════
+// ══ TRANSLATIONS ══════════════════════════════════════════════════════
 const L = {
   ru: {
     tag:'⚡ ИИ-помощник фрилансера',
@@ -961,10 +943,10 @@ const L = {
     proSub:'Instant access · Secure payment · <strong style="color:var(--gold)">Works immediately</strong>',
     proKeyDiv:'or enter your activation key',
     testis:[
-      {av:'👨‍💻',txt:'"Bought PRO, sent an invoice chaser the same day. Got paid within 2 hours."',name:'Alex K.',role:'Frontend developer'},
-      {av:'🎨',txt:'"The rate-raising script is gold. Raised rates 40%, didn\'t lose a single client."',name:'Marina R.',role:'UI/UX designer'},
-      {av:'✍️',txt:'"Client analysis saved me from a nightmare project. AI spotted 4 red flags I missed."',name:'Dmitry V.',role:'Copywriter'},
-      {av:'📱',txt:'"Got a contract in 30 seconds. Client signed, extra revisions got paid. It works."',name:'Anna S.',role:'Mobile developer'},
+      {av:'👨‍💻',txt:'"Bought PRO, sent an invoice chaser the same day. Got paid within 2 hours. Best investment of the month."',name:'Alex K.',role:'Frontend developer'},
+      {av:'🎨',txt:'"Rate-raising script is gold. Raised rates 40% — not a single client left."',name:'Marina R.',role:'UI/UX designer'},
+      {av:'✍️',txt:'"AI spotted 4 red flags in the brief I completely missed. Declined the project — saved weeks of pain."',name:'Dmitry V.',role:'Copywriter'},
+      {av:'📱',txt:'"Contract in 30 seconds. Client signed, paid for extra revisions. Never working without a contract again."',name:'Anna S.',role:'Mobile developer'},
     ],
     features:[
       {i:'⚡',t:'10 seconds',d:'Instead of an hour writing proposals by hand'},
@@ -983,7 +965,7 @@ const L = {
   }
 };
 
-// ══ PROMPTS ══════════════════════════════════════
+// ══ PROMPTS ══════════════════════════════════════════════════════════
 function getPrompt(tool) {
   const t = L[lang];
   if (tool === 'kp') {
@@ -1004,8 +986,6 @@ function getPrompt(tool) {
       ? `Ты опытный фрилансер уровня ${level}. Ставка: ${rate} ₽/час.\n\nКлиент написал: "${task}"\n\nСделай профессиональную оценку:\n1. Разбивка задач — все подзадачи и часы на каждую\n2. Итого часов — минимум и максимум\n3. Итого стоимость + 20% буфер на непредвиденное\n4. Риски — что может увеличить объём (2-3 пункта)\n5. Что уточнить у клиента (3-5 вопросов)\n6. Рекомендация — стоит ли браться и почему\n\nИспользуй конкретные цифры. Будь прямым.`
       : `You are an experienced ${level} freelancer. Rate: $${rate}/hr.\n\nClient wrote: "${task}"\n\n1. Task breakdown with hours per subtask\n2. Total hours — min and max range\n3. Total cost + recommend 20% buffer\n4. Risks — what could expand scope (2-3 points)\n5. Clarifying questions (3-5)\n6. Recommendation — take it or not, and why\n\nUse specific numbers. Be direct.`;
   }
-
-  // ══ PRO PROMPTS ══
   if (tool === 'letter') {
     const sit=v('letter-sit'), ltone=v('letter-tone'), ctx=v('letter-ctx')||'нет деталей';
     return lang==='ru'
@@ -1053,26 +1033,21 @@ function getPrompt(tool) {
 }
 const v = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
 
-// ══ APPLY LANG ═══════════════════════════════════
+// ══ APPLY LANG ═══════════════════════════════════════════════════════
 function applyLang() {
   const t = L[lang];
-  // hero
   $('h-tag').textContent=t.tag; $('h-title').innerHTML=t.h1; $('h-sub').textContent=t.sub;
-  // tabs
   const tabs = document.querySelectorAll('#tabsNav .tool-tab');
   t.tabs.forEach((lbl,i)=>{ if(tabs[i]) tabs[i].innerHTML=lbl; });
-  // proof
-  if($('pf1t')) $('pf1t').textContent=t.pf1t; // pf1 number stays, only label changes
+  if($('pf1t')) $('pf1t').textContent=t.pf1t;
   $('pf2').textContent=t.pf2; $('pf2t').textContent=t.pf2t;
   if($('pf3')) $('pf3').textContent=t.pf3; if($('pf3t')) $('pf3t').textContent=t.pf3t;
-  // access bars
   [1,2,3].forEach(n=>{
     setTxt(`ab${n}-lbl`,t.abLbl);
     setTxt(`ab${n}-t`,t.enterKey);
   });
   document.querySelectorAll('.btn-pro').forEach(b=>b.textContent=t.buyPro);
   document.querySelectorAll('.btn-activate').forEach(b=>b.textContent=t.activate);
-  // KP
   setTxt('kp-title',t.kpTitle); setTxt('kp-desc',t.kpDesc);
   setTxt('l-spec',t.lSpec); setTxt('l-client',t.lClient); setTxt('l-task',t.lTask);
   setTxt('l-price',t.lPrice); setTxt('l-deadline',t.lDeadline); setTxt('l-tone',t.lTone);
@@ -1081,14 +1056,12 @@ function applyLang() {
   document.getElementById('kp-tone').innerHTML=t.tones.map(a=>`<option value="${a[1]}">${a[0]}</option>`).join('');
   setTxt('btn-kp-txt',t.kpBtn); setTxt('rl-kp',t.rlKp); setTxt('cp-kp',t.copy);
   setHtml('rh-kp',`${t.rhHint}<strong onclick="goToPay()">${t.rhCta}</strong>`);
-  // EST
   setTxt('est-title',t.estTitle); setTxt('est-desc',t.estDesc);
   setTxt('l-etask',t.lEtask); setPh('est-task',t.etaskPh);
   setTxt('l-rate',t.lRate); setPh('est-rate',t.ratePh); setTxt('l-level',t.lLevel);
   setOpts('est-level',t.levels);
   setTxt('btn-est-txt',t.estBtn); setTxt('rl-est',t.rlEst); setTxt('cp-est',t.copy);
   setHtml('rh-est',`${t.rhHint}<strong onclick="goToPay()">${t.rhCta}</strong>`);
-  // BRIEF
   setTxt('brief-title',t.briefTitle); setTxt('brief-desc',t.briefDesc);
   setTxt('l-btype',t.lBtype); setTxt('l-bclient',t.lBclient); setTxt('l-bdesc',t.lBdesc);
   setPh('brief-desc-input',t.bdescPh);
@@ -1097,7 +1070,6 @@ function applyLang() {
   setOpts('brief-style',t.bstyles); setOpts('brief-detail',t.bdetails);
   setTxt('btn-brief-txt',t.briefBtn); setTxt('rl-brief',t.rlBrief); setTxt('cp-brief',t.copy);
   setHtml('rh-brief',`${t.rhHint}<strong onclick="goToPay()">${t.rhCta}</strong>`);
-  // PRO
   setTxt('pro-title',t.proTitle); setTxt('pro-desc',t.proDesc);
   $('pro-grid').innerHTML=t.proItems.map(p=>`<div class="pi"><div class="pi-ico">${p.i}</div><div class="pi-title">${p.t}</div><div class="pi-desc">${p.d}</div></div>`).join('');
   $('testi-grid').innerHTML=t.testis.map(x=>`<div class="testi"><div class="stars">★★★★★</div><div class="testi-txt">${x.txt}</div><div class="testi-who"><div class="testi-av">${x.av}</div><div><div class="testi-name">${x.name}</div><div class="testi-role">${x.role}</div></div></div></div>`).join('');
@@ -1107,10 +1079,8 @@ function applyLang() {
   setTxt('pro-btn',t.proBtn); setHtml('pro-sub',t.proSub);
   setTxt('pro-kd',t.proKeyDiv);
   const pkb=$('pki') && $('pki').nextElementSibling; if(pkb) pkb.textContent=t.activate;
-  // features
   $('features-grid').innerHTML=t.features.map(f=>`<div class="fc"><div class="fc-ico">${f.i}</div><div class="fc-title">${f.t}</div><div class="fc-desc">${f.d}</div></div>`).join('');
   setHtml('footer-txt',t.footer);
-  // PRO tool selects
   const isRu = lang==='ru';
   setOpts('letter-sit', isRu
     ? ['Напоминание об оплате','Задержка ответа','Сдача работы','Конфликт / недопонимание','Отказ от проекта','Запрос обратной связи']
@@ -1129,17 +1099,13 @@ function applyLang() {
     ? ['Веб-разработчик','Дизайнер','Мобильный разработчик','Копирайтер','SMM-специалист','Маркетолог','Аналитик','Fullstack','Другое']
     : ['Web developer','Designer','Mobile developer','Copywriter','SMM','Marketer','Analyst','Fullstack','Other'];
   setOpts('contract-spec', specs2);
-  // Обновить замки на вкладках
   updateProTabs();
-  // modal
   setTxt('m-title',t.mTitle); setTxt('m-desc',t.mDesc);
   $('m-list').innerHTML=t.mItems.map(s=>`<div class="modal-li">${s}</div>`).join('');
   setTxt('m-pm',t.mPriceMain); setTxt('m-ps',t.mPriceSub);
   setTxt('m-btn',t.mBtn); setTxt('m-guar',t.mGuar);
   setTxt('m-kd',t.mKeyDiv); setTxt('m-kb',t.mKeyBtn); setTxt('m-cl',t.mClose);
-  // banner
   setTxt('pro-banner-txt',t.proBanner);
-  // badge
   $('planBadge').textContent=isPro?t.badgePro:t.badgeFree;
   $('planBadge').className='badge '+(isPro?'badge-pro':'badge-free');
   updateCounters();
@@ -1172,16 +1138,18 @@ function setLang(l) {
   lang=l; localStorage.setItem('fai_lang',l);
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
   applyLang();
-  applyReviewsLang(); // update reviews language too
+  applyReviewsLang();
+  // Reload reviews for new language
+  loadUserReviews().then(()=>renderReviews());
 }
 
-// ══ KEY SYSTEM ════════════════════════════════════
+// ══ KEY SYSTEM ════════════════════════════════════════════════════════
 function fmtKey(inp) {
   const v=inp.value.replace(/[^A-Za-z0-9]/g,'').toUpperCase();
   const parts=v.match(/.{1,4}/g);
   inp.value=(parts?parts.join('-'):v).slice(0,19);
 }
-// doActivate — defined below in auth section (uses Worker+D1)
+
 function activatePro() {
   isPro=true; localStorage.setItem('fai_pro','1');
   const t=L[lang];
@@ -1196,11 +1164,9 @@ function toggleKey(n) {
   else { exp.classList.remove('open'); btn.textContent=t.enterKey; const err=$('ke'+n); if(err) err.textContent=''; }
 }
 
-// ══ GENERATE ═════════════════════════════════════
+// ══ GENERATE ═════════════════════════════════════════════════════════
 async function gen(tool) {
-  // Незалогиненных — на авторизацию
   if (!authToken) { openAuthModal(); return; }
-
   const used=getUsed();
   if(!isPro && used>=CFG.FREE_LIMIT){ showModal(); return; }
   const btnEl=$('btn-'+tool), resBox=$('res-'+tool), rbEl=$('rb-'+tool);
@@ -1208,19 +1174,12 @@ async function gen(tool) {
   const prompt=getPrompt(tool);
   btnEl.innerHTML='<span class="dots"><span></span><span></span><span></span></span>';
   btnWrap.disabled=true; resBox.classList.add('show'); rbEl.textContent='';
-
   try {
-    // Запрос идёт к Worker'у, который хранит API-ключ
     const headers = {'Content-Type':'application/json'};
     if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
     const res=await fetch(CFG.API_ENDPOINT, {
-      method:'POST',
-      headers,
-      body:JSON.stringify({
-        model:'anthropic/claude-3-haiku',
-        max_tokens:1400,
-        messages:[{role:'user',content:prompt}]
-      })
+      method:'POST', headers,
+      body:JSON.stringify({ model:'anthropic/claude-3-haiku', max_tokens:1400, messages:[{role:'user',content:prompt}] })
     });
     if (res.status === 401) { clearSession(); updateAuthHeader(); openAuthModal(); return; }
     if (res.status === 403) {
@@ -1239,15 +1198,11 @@ async function gen(tool) {
       rbEl.textContent=txt;
       if(!isPro){ setUsed(used+1); updateCounters(); if((used+1)>=CFG.FREE_LIMIT) setTimeout(showModal,2400); }
     } else {
-      // Показываем полный ответ для диагностики
-      const debugInfo = JSON.stringify(json).slice(0,300);
-      rbEl.textContent='⚠️ Неожиданный ответ: '+debugInfo;
+      rbEl.textContent='⚠️ Неожиданный ответ: '+JSON.stringify(json).slice(0,300);
     }
   } catch(e) {
-    const msg = (e && typeof e.message === 'string') ? e.message : String(e);
-    rbEl.textContent=(lang==='ru'?'⚠️ Ошибка: ':'⚠️ Error: ')+msg;
+    rbEl.textContent=(lang==='ru'?'⚠️ Ошибка: ':'⚠️ Error: ')+(e && e.message ? e.message : String(e));
   }
-
   const t=L[lang];
   const again=tool==='kp'?t.kpBtnAgain:(tool==='brief'?t.briefBtnAgain:t.estBtnAgain);
   btnEl.innerHTML=`✦ <span>${again}</span>`;
@@ -1255,18 +1210,15 @@ async function gen(tool) {
   resBox.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-// ══ PANELS / MODAL / COPY ════════════════════════
+// ══ PANELS / MODAL / COPY ════════════════════════════════════════════
 function sw(panel,el) {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tool-tab').forEach(t=>t.classList.remove('active'));
   const p=$('panel-'+panel); if(p) p.classList.add('active'); if(el) el.classList.add('active');
   p && p.scrollIntoView({behavior:'smooth',block:'start'});
 }
-
 function swPro(panel,el) {
-  // Если не PRO — показываем paywall
   if (!isPro) { sw('pro', el); return; }
-  // Убираем замки с активной вкладки и показываем панель
   sw(panel, el);
 }
 function showModal(){ $('modal').classList.add('show'); }
@@ -1284,29 +1236,20 @@ function cp(id,btnId) {
   });
 }
 
-// ══ HELPERS ══════════════════════════════════════
+// ══ HELPERS ══════════════════════════════════════════════════════════
 const $=id=>document.getElementById(id);
 const setTxt=(id,v)=>{ const el=$(id); if(el) el.textContent=v; };
 const setHtml=(id,v)=>{ const el=$(id); if(el) el.innerHTML=v; };
 const setPh=(id,v)=>{ const el=$(id); if(el) el.placeholder=v; };
 const setOpts=(id,arr)=>{ const el=$(id); if(el) el.innerHTML=arr.map(s=>`<option>${s}</option>`).join(''); };
 
-
-
-// ════════════════════════════════════════════════════════
-// ⚙️  НАСТРОЙКА: замени на URL своего Worker'а
-// ════════════════════════════════════════════════════════
-const WORKER_URL = 'https://wandering-king-6565.mihailtr35.workers.dev'; // напр. https://freelanceai.you.workers.dev
-
-// ── Auth state ────────────────────────────────────────────
+// ══ AUTH STATE ════════════════════════════════════════════════════════
 let authToken  = localStorage.getItem('fai_token')  || null;
 let authEmail  = localStorage.getItem('fai_email')  || null;
 let authIsPro  = localStorage.getItem('fai_is_pro') === '1';
-let authLoaded = false; // загрузили ли профиль с сервера
+let authLoaded = false;
 
-// ── Open / close auth modal ───────────────────────────────
 function openAuthModal(startStep) {
-  // Если уже залогинен — показываем шаг 3 (профиль)
   if (authToken && authEmail) {
     authStep(3);
     $('as3-email-show').textContent = authEmail;
@@ -1325,30 +1268,23 @@ function authStep(n) {
   });
 }
 
-// ── Step 1: send magic link ───────────────────────────────
 async function sendMagicLink() {
   const email = ($('auth-email').value || '').trim().toLowerCase();
   const err = $('as1-err');
   const btn = $('as1-btn');
-  const t = L[lang];
-
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     err.textContent = lang==='ru' ? 'Введи корректный email' : 'Enter a valid email'; return;
   }
   err.textContent = '';
   btn.disabled = true;
   $('as1-btn-txt').textContent = lang==='ru' ? 'Отправляем...' : 'Sending...';
-
   try {
     const res = await fetch(WORKER_URL + '/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Ошибка сервера');
-
-    // Show step 2
     $('as2-email-show').textContent = email;
     authStep(2);
   } catch(e) {
@@ -1358,7 +1294,8 @@ async function sendMagicLink() {
   updateAuthLang();
 }
 
-// ── Step 1 alt: activate with email + key ────────────────
+let _activating = false;
+
 async function activateWithEmailKey() {
   if (_activating) return;
   _activating = true;
@@ -1366,35 +1303,24 @@ async function activateWithEmailKey() {
   const key   = ($('auth-key-inp').value || '').trim().toLowerCase();
   const err   = $('as1-key-err');
   const btn   = $('as1-key-btn');
-
-  // Email необязателен — если не введён, создаём технический идентификатор
   const effectiveEmail = email || ('key.' + key.toLowerCase().replace(/-/g,'') + '@freelanceai.app');
-  if (!key || key.length < 4) { err.textContent = lang==='ru' ? 'Введи ключ активации' : 'Enter activation key'; return; }
+  if (!key || key.length < 4) { err.textContent = lang==='ru' ? 'Введи ключ активации' : 'Enter activation key'; _activating=false; return; }
   err.textContent = '';
   btn.disabled = true;
   btn.textContent = lang==='ru' ? 'Проверяем...' : 'Checking...';
-
   try {
     const res = await fetch(WORKER_URL + '/api/auth/activate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: effectiveEmail, key })
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Ошибка');
-
-    // Сохраняем сессию и применяем PRO
     saveSession(data.token, data.email, data.is_pro);
     applyProStatus(true);
     applyLang();
-
-    // Закрываем все модалки — не показываем никакого шага авторизации
     closeAuthModal();
     closeModal();
-
-    // Показываем красивое уведомление об активации PRO
     showProToast();
-
   } catch(e) {
     err.textContent = e.message;
   }
@@ -1404,28 +1330,18 @@ async function activateWithEmailKey() {
   if (btn) btn.textContent = t2.activate || 'Активировать';
 }
 
-// ── Verify magic token from URL (called on page load) ─────
 async function checkMagicToken() {
   const params  = new URLSearchParams(window.location.search);
-
-  // Вариант 1: Worker сделал редирект и передал ?session=TOKEN&email=...&is_pro=...
   const session = params.get('session');
   const emailParam = params.get('email');
   const isProParam = params.get('is_pro');
-
-  // Вариант 2: старый формат — прямой токен (если SITE_URL не настроен в воркере)
   const tokenParam = params.get('token');
-
   if (!session && !tokenParam) return;
-
-  // Убираем параметры из URL без перезагрузки
   window.history.replaceState({}, '', window.location.pathname);
-
   if (session && emailParam) {
-    // Воркер уже проверил токен и дал нам готовую сессию
-    const isPro = isProParam === '1';
-    if (isPro) applyProStatus(true);
-    saveSession(session, decodeURIComponent(emailParam), isPro);
+    const isPro2 = isProParam === '1';
+    if (isPro2) applyProStatus(true);
+    saveSession(session, decodeURIComponent(emailParam), isPro2);
     openAuthModal(1);
     $('as3-email-show').textContent = decodeURIComponent(emailParam);
     authStep(3);
@@ -1433,75 +1349,49 @@ async function checkMagicToken() {
     applyLang();
     return;
   }
-
-  // Старый формат: верифицируем через API (если SITE_URL не задан в воркере)
   openAuthModal(1);
   $('as1-btn-txt').textContent = lang==='ru' ? 'Верифицируем...' : 'Verifying...';
-
   try {
     const res  = await fetch(WORKER_URL + '/api/auth/verify?token=' + encodeURIComponent(tokenParam));
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Ошибка');
-
     if (data.is_pro) applyProStatus(true);
     saveSession(data.token, data.email, data.is_pro);
     $('as3-email-show').textContent = data.email;
     authStep(3);
     updateStep3Lang();
     applyLang();
-
   } catch(e) {
     $('as1-err').textContent = e.message;
     authStep(1);
   }
 }
 
-// ── Load profile from server on startup ──────────────────
 async function loadProfile() {
-  if (!authToken) {
-    // Not logged in — update UI to show login button
-    updateAuthHeader();
-    return;
-  }
-
+  if (!authToken) { updateAuthHeader(); return; }
   try {
     const res = await fetch(WORKER_URL + '/api/auth/me', {
       headers: { 'Authorization': 'Bearer ' + authToken }
     });
-
-    if (res.status === 401) {
-      // Session expired — clear
-      clearSession();
-      updateAuthHeader();
-      return;
-    }
-
+    if (res.status === 401) { clearSession(); updateAuthHeader(); return; }
     const data = await res.json();
     authEmail  = data.email;
     authIsPro  = data.is_pro;
     localStorage.setItem('fai_email', authEmail);
     localStorage.setItem('fai_is_pro', authIsPro ? '1' : '0');
-
-    // Sync free usage count from server
-    if (!authIsPro) {
-      setUsed(data.free_used || 0);
-    }
-
+    if (!authIsPro) setUsed(data.free_used || 0);
     applyProStatus(authIsPro);
     updateAuthHeader();
     authLoaded = true;
-
   } catch(e) {
-    // Network error - use cached values
     if (authIsPro) applyProStatus(true);
     updateAuthHeader();
   }
 }
 
-// ── Helpers ───────────────────────────────────────────────
 function saveSession(token, email, pro) {
   authToken = token; authEmail = email; authIsPro = pro;
-  isPro = pro; // синхронизируем глобальный флаг
+  isPro = pro;
   localStorage.setItem('fai_token',  token);
   localStorage.setItem('fai_email',  email);
   localStorage.setItem('fai_is_pro', pro ? '1' : '0');
@@ -1519,15 +1409,13 @@ function clearSession() {
 }
 
 function applyProStatus(pro) {
-  isPro = pro;
-  authIsPro = pro;
+  isPro = pro; authIsPro = pro;
   if (pro) {
     localStorage.setItem('fai_pro', '1');
     const t = L[lang];
     if ($('planBadge')) { $('planBadge').textContent = t.badgePro; $('planBadge').className = 'badge badge-pro'; }
     if ($('proBanner')) $('proBanner').classList.add('show');
     updateCounters();
-    // Скрыть access bars и unlock-блоки
     ['ab1','ab2','ab3'].forEach(id => { const el=$(id); if(el) el.style.display='none'; });
     document.querySelectorAll('.result-cta').forEach(el => el.style.display='none');
     updateProTabs();
@@ -1537,19 +1425,14 @@ function applyProStatus(pro) {
 function updateAuthHeader() {
   const loginBtn    = $('hdr-login-btn');
   const accountPill = $('hdr-account-pill');
-  const t = L[lang];
-
   if (authEmail && authToken) {
-    // Logged in
     if (loginBtn)    loginBtn.style.display = 'none';
     if (accountPill) {
       accountPill.style.display = 'flex';
-      const initial = (authEmail[0] || '?').toUpperCase();
-      $('hdr-av').textContent = initial;
+      $('hdr-av').textContent = (authEmail[0] || '?').toUpperCase();
       $('hdr-email-pill').textContent = authEmail;
     }
   } else {
-    // Logged out
     if (loginBtn) {
       loginBtn.style.display = 'block';
       loginBtn.textContent = lang==='ru' ? 'Войти' : 'Log in';
@@ -1558,40 +1441,27 @@ function updateAuthHeader() {
   }
 }
 
-// Override generate to pass auth token ────────────────────
-// (wraps the existing gen() function to inject Bearer header)
-const _origFetch = window.fetch;
-
-let _activating = false; // защита от двойного запроса
 async function doActivate(inpId, errId) {
   if (_activating) return;
   const inp = $(inpId);
   const errEl = errId ? $(errId) : null;
   const key = (inp ? inp.value : '').trim().toLowerCase();
-
   if (!key || key.length < 4) {
     if (errEl) errEl.textContent = lang==='ru' ? 'Введи ключ активации' : 'Enter activation key';
     return;
   }
   if (errEl) errEl.textContent = '';
   _activating = true;
-
-  // Если нет email — используем технический идентификатор на основе ключа
   const emailToUse = authEmail || ('key.' + key.toLowerCase().replace(/-/g,'') + '@freelanceai.app');
-
-  // Активируем
   if (inp) inp.disabled = true;
   if (errEl) errEl.textContent = lang==='ru' ? 'Проверяем...' : 'Checking...';
-
   try {
     const res = await fetch(WORKER_URL + '/api/auth/activate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: emailToUse, key })
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || (lang==='ru' ? 'Неверный ключ' : 'Invalid key'));
-
     saveSession(data.token, data.email, data.is_pro);
     applyProStatus(true);
     applyLang();
@@ -1599,7 +1469,6 @@ async function doActivate(inpId, errId) {
     closeAuthModal();
     if (errEl) errEl.textContent = '';
     showProToast();
-
   } catch(e) {
     if (errEl) errEl.textContent = e.message;
   }
@@ -1608,7 +1477,6 @@ async function doActivate(inpId, errId) {
 }
 
 function updateStep3Lang() {
-  const t = L[lang];
   const isRu = lang === 'ru';
   setTxt('as3-ttl', isRu ? (authIsPro ? '🎉 PRO активирован!' : '👋 Добро пожаловать!') : (authIsPro ? '🎉 PRO activated!' : '👋 Welcome back!'));
   setTxt('as3-sub', isRu
@@ -1617,8 +1485,6 @@ function updateStep3Lang() {
   );
   const btn3 = $('as3-btn');
   if (btn3) btn3.textContent = isRu ? 'Начать работу →' : 'Start working →';
-
-  // Add logout option to step 3
   if (!$('as3-logout')) {
     const logoutBtn = document.createElement('button');
     logoutBtn.id = 'as3-logout';
@@ -1633,7 +1499,6 @@ function updateStep3Lang() {
 
 function updateAuthLang() {
   const isRu = lang === 'ru';
-  // Step 1
   setTxt('as1-ttl', isRu ? 'Войти или создать аккаунт' : 'Sign in or create account');
   setTxt('as1-sub', isRu ? 'Введи email — пришлём ссылку для входа. Без пароля.' : 'Enter email — we\'ll send a login link. No password needed.');
   const lbl1 = $('as1-l-email'); if (lbl1) lbl1.textContent = 'Email';
@@ -1641,20 +1506,16 @@ function updateAuthLang() {
   const as1btn = $('as1-btn-txt'); if (as1btn) as1btn.textContent = isRu ? '✦ Получить ссылку для входа' : '✦ Get login link';
   const as1div = $('as1-div'); if (as1div) as1div.textContent = isRu ? 'или активировать ключ' : 'or activate key';
   const as1kb = $('as1-key-btn'); if (as1kb) as1kb.textContent = isRu ? 'Активировать' : 'Activate';
-  // Step 2
   setTxt('as2-ttl', isRu ? 'Проверь почту' : 'Check your email');
   setTxt('as2-sub', isRu ? 'Ссылка для входа отправлена. Она действует 15 минут и сработает только один раз.' : 'Login link sent. Valid for 15 minutes, one use only.');
   setTxt('as2-c1', isRu ? 'Письмо обычно приходит за 10–30 секунд' : 'Email usually arrives in 10–30 seconds');
   setTxt('as2-c2', isRu ? 'Проверь папку Спам если не пришло' : 'Check Spam folder if not received');
   const back2 = $('as2-back'); if (back2) back2.textContent = isRu ? '← Изменить email' : '← Change email';
-  // Step 3
   updateStep3Lang();
-  // Login btn in header
   updateAuthHeader();
 }
 
-// ══ REVIEWS SYSTEM ═══════════════════════════════
-// Seed-отзывы — показываются всегда, хранятся как константа
+// ══ REVIEWS — сохраняются в Worker D1 ════════════════════════════════
 const SEED_REVIEWS = {
   ru: [
     {id:'s1',av:'👨‍💻',name:'Алексей К.',role:'Фронтенд-разработчик',tool:'💸 Выбить долг',stars:5,text:'Купил PRO и сразу написал письмо клиенту, который молчал 3 недели. Деньги пришли через 2 часа. Окупилось мгновенно.',date:'15 янв 2025'},
@@ -1665,14 +1526,6 @@ const SEED_REVIEWS = {
     {id:'s6',av:'📊',name:'Елена М.',role:'Маркетолог',tool:'✉️ Письмо клиенту',stars:5,text:'Использую для сложных писем — когда надо мягко отказать или перенести срок. Тон всегда идеальный.',date:'19 мар 2025'},
     {id:'s7',av:'🎬',name:'Игорь Н.',role:'Видеограф',tool:'🛡 Scope creep',stars:5,text:'Наконец научился говорить нет доп. правкам. Клиент с удивлением согласился доплатить — и это было легко.',date:'25 мар 2025'},
     {id:'s8',av:'📝',name:'Света К.',role:'Контент-менеджер',tool:'📊 Отчёт',stars:4,text:'Отчёты стали выглядеть профессионально. Клиенты воспринимают меня как агентство. Хотелось бы чуть больше настроек шаблона.',date:'2 апр 2025'},
-    {id:'s9',av:'💻',name:'Роман Д.',role:'Python-разработчик',tool:'🧮 Оценка проекта',stars:5,text:'Раньше занижал сроки и горел. Теперь вставляю ТЗ — получаю честную оценку с буфером риска. Незаменимо.',date:'7 апр 2025'},
-    {id:'s10',av:'🎨',name:'Катя Л.',role:'Графический дизайнер',tool:'🎨 Бриф',stars:5,text:'Бриф-генератор изменил всё. Клиенты заполняют — я сразу понимаю что хотят. Правок стало раза в три меньше.',date:'11 апр 2025'},
-    {id:'s11',av:'📱',name:'Максим Р.',role:'iOS разработчик',tool:'💸 Выбить долг',stars:4,text:'Вернул долг от заказчика который тянул 5 недель. Три письма — и готово. Минус звезда — хочу WhatsApp-шаблоны.',date:'15 апр 2025'},
-    {id:'s12',av:'✍️',name:'Вика П.',role:'Копирайтер / SMM',tool:'💰 Поднять цену',stars:5,text:'Поднять цену всегда страшно. С этим скриптом — нет. Подготовилась за минуту, провела разговор, клиент согласился.',date:'20 апр 2025'},
-    {id:'s13',av:'🖥',name:'Андрей Б.',role:'Веб-разработчик',tool:'📝 Контракт',stars:5,text:'Договор под конкретный проект, а не шаблон для всех. Юрист сказал что всё грамотно. Теперь подписываю с каждым.',date:'24 апр 2025'},
-    {id:'s14',av:'📊',name:'Наташа В.',role:'Аналитик данных',tool:'🔍 Анализ клиента',stars:5,text:'Была скептически настроена. Попробовала — удивилась. Сразу видно спорные моменты в брифе. Экономит кучу нервов.',date:'29 апр 2025'},
-    {id:'s15',av:'🎬',name:'Серёжа К.',role:'Моушн-дизайнер',tool:'✉️ Письмо клиенту',stars:5,text:'Клиент пропал после сдачи работы. ИИ написал письмо с правильным тоном — клиент ответил и оплатил в тот же день.',date:'3 май 2025'},
-    {id:'s16',av:'💻',name:'Таня О.',role:'Тестировщик QA',tool:'📄 КП',stars:4,text:'Хорошо для быстрого КП. Под QA нужно немного адаптировать промпт, но в целом экономит кучу времени. Рекомендую.',date:'8 май 2025'},
   ],
   en: [
     {id:'s1',av:'👨‍💻',name:'Alex K.',role:'Frontend developer',tool:'💸 Chase Invoice',stars:5,text:'Sent a chaser to a client who had been ignoring me for 3 weeks. Got paid within 2 hours. Best investment of the month.',date:'Jan 15 2025'},
@@ -1683,35 +1536,36 @@ const SEED_REVIEWS = {
     {id:'s6',av:'📊',name:'Elena M.',role:'Marketing specialist',tool:'✉️ Client Email',stars:5,text:'Use it for tricky emails — declining scope, pushing deadlines. The tone always comes out perfect.',date:'Mar 19 2025'},
     {id:'s7',av:'🎬',name:'Igor N.',role:'Videographer',tool:'🛡 Scope Creep',stars:5,text:'Finally know how to say no to extra revisions. Scope creep script is a lifesaver. Client agreed to pay extra.',date:'Mar 25 2025'},
     {id:'s8',av:'📝',name:'Sveta K.',role:'Content manager',tool:'📊 Progress Report',stars:4,text:'Reports look super professional now. Clients treat me like an agency. Would love more template customization options.',date:'Apr 2 2025'},
-    {id:'s9',av:'💻',name:'Roman D.',role:'Python developer',tool:'🧮 Project Estimate',stars:5,text:'Used to underestimate and burn out. Now I paste the brief and get an honest estimate with risk buffer. Essential.',date:'Apr 7 2025'},
-    {id:'s10',av:'🎨',name:'Kate L.',role:'Graphic designer',tool:'🎨 Brief',stars:5,text:'Brief generator changed everything. Clients fill it out, I immediately know what they want. Revisions dropped 3x.',date:'Apr 11 2025'},
-    {id:'s11',av:'📱',name:'Max R.',role:'iOS developer',tool:'💸 Chase Invoice',stars:4,text:'Got paid from a client stalling for 5 weeks. Three emails did the trick. Minus one star — would love WhatsApp templates.',date:'Apr 15 2025'},
-    {id:'s12',av:'✍️',name:'Vika P.',role:'Copywriter / SMM',tool:'💰 Raise Rates',stars:5,text:'Raising rates is always scary. With this script it wasn\'t. Prepared in a minute, client agreed without pushback.',date:'Apr 20 2025'},
-    {id:'s13',av:'🖥',name:'Andrew B.',role:'Web developer',tool:'📝 Contract',stars:5,text:'Contract tailored to each project — not a one-size-fits-all template. My lawyer said it was solid.',date:'Apr 24 2025'},
-    {id:'s14',av:'📊',name:'Natasha V.',role:'Data analyst',tool:'🔍 Client Check',stars:5,text:'Was skeptical. Tried it, was genuinely surprised. Spots grey areas and red flags instantly. Saves a ton of stress.',date:'Apr 29 2025'},
-    {id:'s15',av:'🎬',name:'Sergey K.',role:'Motion designer',tool:'✉️ Client Email',stars:5,text:'Client ghosted after delivery. AI wrote the perfect follow-up. They replied and paid the same day.',date:'May 3 2025'},
-    {id:'s16',av:'💻',name:'Tanya O.',role:'QA Engineer',tool:'📄 Proposal',stars:4,text:'Great for fast proposals. Needed slight QA-specific tweaks, but easy to adjust. Saves a ton of time overall.',date:'May 8 2025'},
   ]
 };
 
-const REVIEWS_INITIAL = 4;   // показываем 4 seed-отзыва сразу
-const REVIEW_PAGE_SIZE = 10; // страница пагинации для user-отзывов
+const REVIEWS_INITIAL = 4;
 let reviewStarValue = 5;
 let allUserReviews = [];
-let seedsExpanded = false;   // true после клика "больше отзывов"
-let visibleCount = 100;      // все user-отзывы показываем сразу после клика
+let seedsExpanded = false;
 
-// Инициализация блока отзывов
 async function initReviews() {
   await loadUserReviews();
   renderReviews();
   applyReviewsLang();
 }
 
+// ▶▶ ИЗМЕНЕНО: загружаем отзывы из Worker API (D1 база)
 async function loadUserReviews() {
   try {
-    const result = await window.storage.get('reviews-all', true);
-    allUserReviews = result ? JSON.parse(result.value) : [];
+    const res = await fetch(WORKER_URL + '/api/reviews?lang=' + lang + '&limit=100');
+    if (!res.ok) throw new Error('fetch failed');
+    const data = await res.json();
+    allUserReviews = (data.reviews || []).map(r => ({
+      id:    'u' + r.id,
+      av:    r.av,
+      name:  r.name,
+      role:  r.role,
+      tool:  r.tool,
+      stars: r.stars,
+      text:  r.text,
+      date:  r.date,
+    }));
   } catch(e) {
     allUserReviews = [];
   }
@@ -1721,18 +1575,14 @@ function renderReviews() {
   const seeds = SEED_REVIEWS[lang] || SEED_REVIEWS.ru;
   const grid = $('reviews-grid');
   if (!grid) return;
-
   const visibleSeeds = seedsExpanded ? seeds : seeds.slice(0, REVIEWS_INITIAL);
-  const visibleUsers = seedsExpanded ? allUserReviews : [];
+  const visibleUsers = seedsExpanded ? allUserReviews : allUserReviews.slice(0, 0);
   const allVisible   = [...visibleSeeds, ...visibleUsers];
-
   if (allVisible.length === 0) {
     grid.innerHTML = `<div class="reviews-empty">${lang==='ru'?'Будь первым — оставь отзыв ниже 👇':'Be the first — leave a review below 👇'}</div>`;
   } else {
     grid.innerHTML = allVisible.map(r => reviewCardHTML(r)).join('');
   }
-
-  // "Больше отзывов" — показываем только если есть скрытые
   const lmBtn = $('rv-load-more');
   if (lmBtn) {
     const hiddenCount = (seeds.length - visibleSeeds.length) + (allUserReviews.length - visibleUsers.length);
@@ -1741,7 +1591,6 @@ function renderReviews() {
       ? `Читать все отзывы (ещё ${hiddenCount})`
       : `Read all reviews (+${hiddenCount} more)`;
   }
-
   updateReviewStats();
 }
 
@@ -1759,7 +1608,7 @@ function reviewCardHTML(r) {
       <div class="review-stars">${'★'.repeat(r.stars||5)}</div>
     </div>
     <div class="review-text">${esc(r.text)}</div>
-    ${r.tool ? `<div class="review-tool-badge">${r.tool}</div>` : ''}
+    ${r.tool ? `<div class="review-tool-badge">${esc(r.tool)}</div>` : ''}
     <div class="review-date">${r.date||''}</div>
   </div>`;
 }
@@ -1769,7 +1618,6 @@ function updateReviewStats() {
   const all = [...seeds, ...allUserReviews];
   const total = all.length;
   const avgRaw = total > 0 ? all.reduce((s,r)=>s+(r.stars||5),0)/total : 4.8;
-  // Clamp avg to max 4.9 so it looks natural (not 5.0 which looks fake)
   const avg = Math.min(4.9, Math.round(avgRaw*10)/10);
   const filledStars = Math.round(avg);
   setTxt('rv-avg-num', avg.toFixed(1));
@@ -1778,7 +1626,6 @@ function updateReviewStats() {
   if(cntEl) cntEl.textContent = `(${total})`;
   const cntEl2 = $('rv-avg-cnt');
   if(cntEl2) cntEl2.textContent = lang==='ru'?`${total} отзывов`:`${total} reviews`;
-  // Update proof bar rating
   setTxt('pf2', avg.toFixed(1)+' ★');
 }
 
@@ -1787,12 +1634,10 @@ function loadMoreReviews() {
   renderReviews();
   const lmBtn = $('rv-load-more');
   if (lmBtn) lmBtn.style.display = 'none';
-  // Smooth scroll so new reviews are visible
   const grid = $('reviews-grid');
   if (grid) setTimeout(() => grid.scrollIntoView({behavior:'smooth', block:'nearest'}), 80);
 }
 
-// Star rating picker
 function setStar(n) {
   reviewStarValue = n;
   document.querySelectorAll('.star-btn').forEach((btn,i) => {
@@ -1800,61 +1645,52 @@ function setStar(n) {
   });
 }
 
-// Submit new review
+// ▶▶ ИЗМЕНЕНО: сохраняем отзыв через Worker API в D1
 async function submitReview() {
-  const t = L[lang];
   const name = ($('rvf-name').value||'').trim();
   const role = ($('rvf-role').value||'').trim();
   const text = ($('rvf-text').value||'').trim();
   const errEl = $('rvf-err');
-
   if(!name){ errEl.textContent = lang==='ru'?'Введи имя':'Enter your name'; return; }
   if(!text || text.length < 20){ errEl.textContent = lang==='ru'?'Напиши отзыв (минимум 20 символов)':'Write a review (min 20 characters)'; return; }
   errEl.textContent='';
-
   const btn = $('rvf-submit');
   btn.disabled = true;
   setTxt('rvf-submit-txt', lang==='ru'?'Сохраняем...':'Saving...');
-
   const toolEl = $('rvf-tool');
   const tool = toolEl ? toolEl.value : '';
-
   const avatars = ['🧑‍💻','👩‍💻','🧑‍🎨','👩‍🎨','✍️','📱','📊','🎯','💼','🚀'];
   const av = avatars[Math.floor(Math.random()*avatars.length)];
-
   const now = new Date();
   const months_ru = ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
   const months_en = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const dateStr = lang==='ru'
     ? `${now.getDate()} ${months_ru[now.getMonth()]} ${now.getFullYear()}`
     : `${months_en[now.getMonth()]} ${now.getDate()} ${now.getFullYear()}`;
-
   const review = {
-    id: 'u'+Date.now(),
     av, name, role: role||'Фрилансер',
     tool, stars: reviewStarValue,
     text, date: dateStr,
     lang
   };
-
   try {
-    // Загружаем свежие данные перед записью
-    let fresh = [];
-    try {
-      const r = await window.storage.get('reviews-all', true);
-      fresh = r ? JSON.parse(r.value) : [];
-    } catch(e) { fresh = allUserReviews; }
-
-    fresh.unshift(review); // новые сверху
-    await window.storage.set('reviews-all', JSON.stringify(fresh), true);
-    allUserReviews = fresh;
-    visibleCount = Math.max(visibleCount, REVIEW_PAGE_SIZE);
+    // ▶▶ Сохраняем отзыв через Worker API в D1
+    const saveRes = await fetch(WORKER_URL + '/api/reviews', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(review)
+    });
+    if (!saveRes.ok) {
+      const errData = await saveRes.json().catch(() => ({}));
+      throw new Error(errData.error || 'Ошибка сервера');
+    }
+    // Перезагружаем отзывы с сервера
+    await loadUserReviews();
+    seedsExpanded = true;
     renderReviews();
-
     // Show success
     $('rvf-form').style.display = 'none';
     $('rvf-success').classList.add('show');
-    // Reset after 5 sec
     setTimeout(()=>{
       $('rvf-success').classList.remove('show');
       $('rvf-form').style.display = 'block';
@@ -1862,7 +1698,6 @@ async function submitReview() {
       setStar(5); btn.disabled=false;
       applyReviewsLang();
     }, 5000);
-
   } catch(e) {
     errEl.textContent = lang==='ru'?'Ошибка сохранения: '+e.message:'Save error: '+e.message;
     btn.disabled=false; applyReviewsLang();
@@ -1872,11 +1707,9 @@ async function submitReview() {
 function applyReviewsLang() {
   const isRu = lang==='ru';
   setTxt('rv-title', isRu?'Отзывы':'Reviews');
-  // update count in span
   const seeds = SEED_REVIEWS[lang]||SEED_REVIEWS.ru;
   const total = seeds.length + allUserReviews.length;
   const cntEl = $('rv-count'); if(cntEl) cntEl.textContent=`(${total})`;
-
   setTxt('rvf-title', isRu?'Оставить отзыв':'Leave a review');
   setTxt('rvf-desc', isRu?'Расскажи как FreelanceAI помог тебе — это важно для других фрилансеров':'Tell how FreelanceAI helped you — it matters to other freelancers');
   setTxt('rvf-l-name', isRu?'Имя':'Name');
@@ -1890,14 +1723,10 @@ function applyReviewsLang() {
   setTxt('rvf-submit-txt', isRu?'✦ Опубликовать отзыв':'✦ Publish review');
   setTxt('rvf-ty-title', isRu?'Спасибо за отзыв!':'Thanks for your review!');
   setTxt('rvf-ty-sub', isRu?'Твой отзыв виден всем фрилансерам':'Your review is visible to all freelancers');
-
-  // Populate tool dropdown
   const tools = isRu
     ? ['📄 КП','🧮 Оценка проекта','🎨 Бриф','✉️ Письмо клиенту','💰 Поднять цену','📝 Контракт','🛡 Scope creep','💸 Выбить долг','🔍 Анализ клиента','📊 Отчёт','Несколько инструментов']
     : ['📄 Proposal','🧮 Estimate','🎨 Brief','✉️ Client Email','💰 Raise Rates','📝 Contract','🛡 Scope Creep','💸 Chase Invoice','🔍 Client Check','📊 Progress Report','Multiple tools'];
   setOpts('rvf-tool', tools);
-
-  // Re-render to update seed language
   renderReviews();
 }
 
@@ -1905,70 +1734,27 @@ function esc(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-
-
-// ── PRO Activation Toast ─────────────────────────────────
 function showProToast() {
-  // Удалить предыдущий тост если есть
-  const old = $('pro-toast');
-  if (old) old.remove();
-
+  const old = $('pro-toast'); if (old) old.remove();
   const toast = document.createElement('div');
   toast.id = 'pro-toast';
-  toast.innerHTML = `
-    <div style="display:flex;align-items:center;gap:12px">
-      <span style="font-size:24px">🎉</span>
-      <div>
-        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#f0a020">${lang==='ru' ? 'PRO активирован!' : 'PRO activated!'}</div>
-        <div style="font-size:12px;color:#6a6a82;margin-top:2px">${lang==='ru' ? 'Все инструменты разблокированы' : 'All tools unlocked'}</div>
-      </div>
-      <span style="font-size:18px;margin-left:auto">✦</span>
-    </div>
-  `;
-  toast.style.cssText = `
-    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
-    background:#111118;border:1px solid rgba(240,160,32,0.4);border-radius:14px;
-    padding:14px 20px;z-index:9999;min-width:280px;max-width:360px;
-    box-shadow:0 8px 32px rgba(240,160,32,0.2);
-    transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),opacity 0.4s;
-    opacity:0;
-  `;
+  toast.innerHTML = `<div style="display:flex;align-items:center;gap:12px"><span style="font-size:24px">🎉</span><div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:14px;color:#f0a020">${lang==='ru' ? 'PRO активирован!' : 'PRO activated!'}</div><div style="font-size:12px;color:#6a6a82;margin-top:2px">${lang==='ru' ? 'Все инструменты разблокированы' : 'All tools unlocked'}</div></div><span style="font-size:18px;margin-left:auto">✦</span></div>`;
+  toast.style.cssText = `position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#111118;border:1px solid rgba(240,160,32,0.4);border-radius:14px;padding:14px 20px;z-index:9999;min-width:280px;max-width:360px;box-shadow:0 8px 32px rgba(240,160,32,0.2);transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),opacity 0.4s;opacity:0;`;
   document.body.appendChild(toast);
-  // Animate in
   requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      toast.style.transform = 'translateX(-50%) translateY(0)';
-      toast.style.opacity = '1';
-    });
+    requestAnimationFrame(() => { toast.style.transform = 'translateX(-50%) translateY(0)'; toast.style.opacity = '1'; });
   });
-  // Animate out after 3.5s
-  setTimeout(() => {
-    toast.style.transform = 'translateX(-50%) translateY(80px)';
-    toast.style.opacity = '0';
-    setTimeout(() => toast.remove(), 400);
-  }, 3500);
+  setTimeout(() => { toast.style.transform = 'translateX(-50%) translateY(80px)'; toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 3500);
 }
 
-// ══ ONLINE COUNTER ═══════════════════════════════════════
-// Natural-looking online counter: random 200-700, changes ±0-10 on each reload
+// ══ ONLINE COUNTER ════════════════════════════════════════════════════
 function initOnlineCounter() {
-  // Get or generate base number (persists across sessions for consistency)
   let base = parseInt(localStorage.getItem('fai_online_base') || '0');
-  if (!base || base < 200 || base > 700) {
-    base = Math.floor(Math.random() * 501) + 200; // 200-700
-    localStorage.setItem('fai_online_base', base);
-  }
-  // On each page load, drift ±0-10 (natural fluctuation)
-  const drift = Math.floor(Math.random() * 21) - 10; // -10 to +10
-  let current = base + drift;
-  current = Math.max(200, Math.min(700, current)); // clamp 200-700
-  // Save drifted value as new base for next reload
+  if (!base || base < 200 || base > 700) { base = Math.floor(Math.random() * 501) + 200; localStorage.setItem('fai_online_base', base); }
+  const drift = Math.floor(Math.random() * 21) - 10;
+  let current = Math.max(200, Math.min(700, base + drift));
   localStorage.setItem('fai_online_base', current);
-  // Format number nicely
-  const formatted = current.toLocaleString('ru-RU');
   const el = $('pf1');
-  if (el) el.textContent = formatted;
-  // Animate the number counting up from current-5 to current
   let display = Math.max(200, current - 5);
   const interval = setInterval(() => {
     display++;
@@ -1977,28 +1763,15 @@ function initOnlineCounter() {
   }, 80);
 }
 
-// ══ INIT ════════════════════════════════════════
-// Restore cached pro status immediately (before server check) so UI isn't blank
+// ══ INIT ══════════════════════════════════════════════════════════════
 if (authIsPro || localStorage.getItem('fai_pro') === '1') applyProStatus(true);
 applyLang();
 updateAuthLang();
-
-// Check magic link token in URL
 checkMagicToken();
-
-// Load real profile from server (async, non-blocking)
 loadProfile();
-
-// Online counter
 initOnlineCounter();
-
-// Reviews
-if(window.storage) {
-  initReviews();
-} else {
-  window.storage = { get: async () => null, set: async () => null };
-  initReviews();
-}
+// ▶▶ Reviews — сохраняются в Worker D1
+initReviews();
 </script>
 </body>
 </html>
