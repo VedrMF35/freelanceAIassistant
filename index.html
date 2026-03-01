@@ -665,7 +665,7 @@ footer a { color: var(--accent); text-decoration: none; }
       <div class="reviews-title" id="rv-title">Отзывы <span id="rv-count"></span></div>
       <div class="reviews-avg" id="rv-avg-wrap">
         <div class="reviews-avg-stars" id="rv-avg-stars">★★★★★</div>
-        <div class="reviews-avg-num" id="rv-avg-num">4.9</div>
+        <div class="reviews-avg-num" id="rv-avg-num">4.8</div>
         <div class="reviews-avg-cnt" id="rv-avg-cnt"></div>
       </div>
     </div>
@@ -718,21 +718,6 @@ footer a { color: var(--accent); text-decoration: none; }
 </div>
 
 <script>
-// ── Online counter: random 200-700, drifts ±0-10 on each reload ──
-(function(){
-  var stored = parseInt(localStorage.getItem('fai_online_base') || '0');
-  var base;
-  if (!stored || stored < 200 || stored > 700) {
-    base = Math.floor(Math.random() * 501) + 200; // первый визит
-  } else {
-    var drift = Math.floor(Math.random() * 21) - 10; // -10..+10
-    base = Math.min(700, Math.max(200, stored + drift));
-  }
-  localStorage.setItem('fai_online_base', base);
-  window._onlineCount = base;
-})();
-</script>
-<script>
 // ══════════════════════════════════════════════════
 // ⚠️  НАСТРОЙ ЭТИ 3 ПАРАМЕТРА ПЕРЕД ЗАПУСКОМ:
 //
@@ -775,7 +760,7 @@ const L = {
     activate:'Активировать', close:'Закрыть',
     copy:'Скопировать', copied:'Скопировано ✓',
     rhHint:'Нравится? ', rhCta:'Получи безлимит →',
-    pf1:window._onlineCount+' онлайн', pf1t:'фрилансеров сейчас',
+    pf1t:'фрилансеров онлайн сейчас',
     pf2:'4.8 ★', pf2t:'средняя оценка',
     pf3:'10 секунд', pf3t:'вместо часа на КП',
     proBanner:'✦ PRO активирован — все инструменты разблокированы, генерации безлимитные',
@@ -853,7 +838,7 @@ const L = {
     activate:'Activate', close:'Close',
     copy:'Copy', copied:'Copied ✓',
     rhHint:'Like it? ', rhCta:'Get unlimited →',
-    pf1:window._onlineCount+' online', pf1t:'freelancers right now',
+    pf1t:'online right now',
     pf2:'4.8 ★', pf2t:'average rating',
     pf3:'10 sec', pf3t:'instead of an hour',
     proBanner:'✦ PRO activated — all tools unlocked, unlimited generations',
@@ -951,9 +936,9 @@ function applyLang() {
   const tabs = document.querySelectorAll('#tabsNav .tool-tab');
   t.tabs.forEach((lbl,i)=>{ if(tabs[i]) tabs[i].innerHTML=lbl; });
   // proof
-  $('pf1').textContent=t.pf1; $('pf1t').textContent=t.pf1t;
+  if($('pf1t')) $('pf1t').textContent=t.pf1t; // pf1 number stays, only label changes
   $('pf2').textContent=t.pf2; $('pf2t').textContent=t.pf2t;
-  $('pf3').textContent=t.pf3; $('pf3t').textContent=t.pf3t;
+  if($('pf3')) $('pf3').textContent=t.pf3; if($('pf3t')) $('pf3t').textContent=t.pf3t;
   // access bars
   [1,2,3].forEach(n=>{
     setTxt(`ab${n}-lbl`,t.abLbl);
@@ -1026,7 +1011,6 @@ function updateCounters() {
 
 function setLang(l) {
   lang=l; localStorage.setItem('fai_lang',l);
-  visibleCount = REVIEW_PAGE_SIZE; // сбрасываем при смене языка
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
   applyLang();
   applyReviewsLang(); // update reviews language too
@@ -1038,10 +1022,7 @@ function fmtKey(inp) {
   const parts=v.match(/.{1,4}/g);
   inp.value=(parts?parts.join('-'):v).slice(0,19);
 }
-function doActivate(inpId,errId) {
-  // Старая система ключей отключена — теперь всё через Worker + D1
-  openAuthModal(1);
-}
+// doActivate — defined below in auth section (uses Worker+D1)
 function activatePro() {
   isPro=true; localStorage.setItem('fai_pro','1');
   const t=L[lang];
@@ -1097,12 +1078,12 @@ async function gen(tool) {
     const txt=json.choices?.[0]?.message?.content;
     if(txt) {
       rbEl.textContent=txt;
-      if(!isPro){ setUsed(used+1); updateCounters(); if((used+1)>=CFG.FREE_LIMIT) setTimeout(showModal,2400); }
+      if(!isPro && !authToken){ setUsed(used+1); updateCounters(); if((used+1)>=CFG.FREE_LIMIT) setTimeout(showModal,2400); }
     } else {
       rbEl.textContent='⚠️ Пустой ответ: '+JSON.stringify(json).slice(0,180);
     }
   } catch(e) {
-    rbEl.textContent='⚠️ Ошибка: '+e.message+'\n\nПроверь, что Worker задеплоен и URL правильный.';
+    rbEl.textContent=(lang==='ru'?'⚠️ Ошибка: ':'⚠️ Error: ')+e.message+(lang==='ru'?'\n\nПроверь что Worker задеплоен и URL правильный.':'\n\nCheck that your Worker is deployed and URL is correct.');
   }
 
   const t=L[lang];
@@ -1215,10 +1196,9 @@ async function activateWithEmailKey() {
   const err   = $('as1-key-err');
   const btn   = $('as1-key-btn');
 
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    $('as1-err').textContent = lang==='ru' ? 'Сначала введи email сверху' : 'Enter email above first'; return;
-  }
-  if (!key || key.length < 4) { err.textContent = lang==='ru' ? 'Введи ключ' : 'Enter key'; return; }
+  // Email необязателен — если не введён, создаём технический идентификатор
+  const effectiveEmail = email || ('key.' + key.toLowerCase().replace(/-/g,'') + '@freelanceai.app');
+  if (!key || key.length < 4) { err.textContent = lang==='ru' ? 'Введи ключ активации' : 'Enter activation key'; return; }
   err.textContent = '';
   btn.disabled = true;
   btn.textContent = lang==='ru' ? 'Проверяем...' : 'Checking...';
@@ -1227,7 +1207,7 @@ async function activateWithEmailKey() {
     const res = await fetch(WORKER_URL + '/api/auth/activate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, key })
+      body: JSON.stringify({ email: effectiveEmail, key })
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Ошибка');
@@ -1377,7 +1357,10 @@ function updateAuthHeader() {
 // (wraps the existing gen() function to inject Bearer header)
 const _origFetch = window.fetch;
 
-// doActivate is defined above
+function doActivate(inpId, errId) {
+  // Old key-only flow is now replaced by auth modal
+  openAuthModal(1);
+}
 
 function updateStep3Lang() {
   const t = L[lang];
@@ -1429,47 +1412,48 @@ function updateAuthLang() {
 // Seed-отзывы — показываются всегда, хранятся как константа
 const SEED_REVIEWS = {
   ru: [
-    {id:'s1', av:'👨‍💻',name:'Алексей К.',    role:'Фронтенд-разработчик',  tool:'💸 Выбить долг',     stars:5, text:'Купил PRO и в первый же день написал письмо клиенту насчёт долга. Деньги пришли через 2 часа. Окупилось в 50 раз.',                                                                          date:'15 янв 2025'},
-    {id:'s2', av:'🎨',name:'Марина Р.',        role:'UI/UX дизайнер',         tool:'💰 Поднять цену',    stars:5, text:'Скрипт повышения цены — огонь. Подготовилась за 10 секунд, подняла ставку на 40%, ни один клиент не ушёл. Рекомендую всем.',                                                              date:'3 фев 2025'},
-    {id:'s3', av:'✍️',name:'Дмитрий В.',       role:'Копирайтер',             tool:'🔍 Анализ клиента',  stars:5, text:'Анализ клиента спас от токсичного проекта. ИИ нашёл 4 красных флага, которые я не заметил. Теперь прогоняю каждый бриф перед ответом.',                                                  date:'22 фев 2025'},
-    {id:'s4', av:'📱',name:'Анна С.',           role:'Разработчик мобильных',  tool:'📝 Контракт',        stars:5, text:'Контракт за 30 секунд. Клиент подписал, доп. правки оплатил. Раньше работала без договора и не раз пожалела.',                                                                            date:'8 мар 2025'},
-    {id:'s5', av:'🧑‍💻',name:'Павел Т.',       role:'Fullstack-разработчик',  tool:'📄 КП',              stars:5, text:'Первое КП через сервис — клиент написал "одно из лучших что видел". Закрыл проект на 120к. Сервис окупился за первые 10 минут использования.',                                             date:'19 мар 2025'},
-    {id:'s6', av:'🎯',name:'Екатерина М.',      role:'Маркетолог',             tool:'🛡 Scope creep',     stars:4, text:'Скрипт защиты от scope creep реально помог: клиент постоянно добавлял задачи, теперь каждое допзадание оплачивается. Небольшие замечания по тону, но в целом огонь.',                     date:'2 апр 2025'},
-    {id:'s7', av:'💼',name:'Игорь Н.',          role:'Бизнес-аналитик',        tool:'🧮 Оценка проекта',  stars:5, text:'Оценка проекта дала структуру которой мне всегда не хватало. Теперь не занижаю сроки и беру буфер 20%. За 3 недели не было ни одного вылета за бюджет.',                                date:'11 апр 2025'},
-    {id:'s8', av:'🚀',name:'Татьяна Л.',        role:'SMM-специалист',         tool:'✉️ Письмо клиенту', stars:5, text:'Написала письмо насчёт просроченной оплаты — деньги пришли через час. Без скандала, без обид. Сервис стоит своих денег.',                                                                 date:'24 апр 2025'},
-    {id:'s9', av:'🧑‍🎨',name:'Роман Ф.',       role:'Графический дизайнер',   tool:'🎨 Бриф',            stars:4, text:'Бриф-генератор — хорошая штука. Клиенты приходят уже подготовленными, правок стало меньше. Было бы 5 звёзд если бы можно было сохранять шаблоны.',                                       date:'5 май 2025'},
-    {id:'s10',av:'📊',name:'Наталья Б.',        role:'Веб-разработчик',        tool:'🔍 Анализ клиента',  stars:5, text:'Прогнала несколько брифов через анализ клиента — по двум сразу вылезли тревожные сигналы. От одного проекта отказалась. Сэкономила кучу нервов и времени.',                              date:'13 май 2025'},
-    {id:'s11',av:'✍️',name:'Владимир О.',       role:'Технический писатель',   tool:'📝 Контракт',        stars:5, text:'Контракт с пунктом про поздний расчёт и доп. правки — клиент стал относиться серьёзнее. Первый раз за 3 года получил аванс без напоминаний.',                                             date:'28 май 2025'},
-    {id:'s12',av:'🎨',name:'Ксения Д.',         role:'Иллюстратор',            tool:'💰 Поднять цену',    stars:5, text:'Боялась поднять цены уже год. С этим скриптом подготовилась за 5 минут. Написала 8 клиентам — 6 согласились без вопросов. Доход вырос на 35%.',                                            date:'6 июн 2025'},
-    {id:'s13',av:'📱',name:'Сергей Х.',         role:'iOS-разработчик',        tool:'💸 Выбить долг',     stars:4, text:'Три уровня давления в письмах — умно. Первое не сработало, второе помогло. Клиент заплатил 80к которые висели 2 месяца. Минус звезда — первый шаблон немного шаблонный.',                 date:'17 июн 2025'},
-    {id:'s14',av:'💼',name:'Ольга В.',          role:'Проджект-менеджер',      tool:'Несколько инструментов',stars:5,text:'Пользуюсь КП, оценкой и анализом клиента каждую неделю. За месяц закрыла 4 проекта вместо обычных 2. Просто нет времени тратить час на написание КП вручную.',                          date:'29 июн 2025'},
-    {id:'s15',av:'🧑‍💻',name:'Михаил Г.',       role:'Backend-разработчик',    tool:'📊 Отчёт',           stars:5, text:'Отчёт по проекту — клиент написал "выглядит как от агентства". Поднял ставку на следующем проекте на 25% и согласились без разговоров.',                                                   date:'8 июл 2025'},
-    {id:'s16',av:'🎯',name:'Лариса П.',         role:'Копирайтер',             tool:'✉️ Письмо клиенту', stars:4, text:'Удобно что есть разные тональности для разных ситуаций. Письмо по конфликту помогло не сорвать проект. Хотелось бы больше вариантов под русский рынок.',                                  date:'22 июл 2025'},
+    {id:'s1',av:'👨‍💻',name:'Алексей К.',role:'Фронтенд-разработчик',tool:'💸 Выбить долг',stars:5,text:'Купил PRO и сразу написал письмо клиенту, который молчал 3 недели. Деньги пришли через 2 часа. Окупилось мгновенно.',date:'15 янв 2025'},
+    {id:'s2',av:'🎨',name:'Марина Р.',role:'UI/UX дизайнер',tool:'💰 Поднять цену',stars:5,text:'Скрипт повышения ставки просто огонь. Подготовилась за 10 секунд, подняла цену на 40% — ни один клиент не ушёл.',date:'3 фев 2025'},
+    {id:'s3',av:'✍️',name:'Дмитрий В.',role:'Копирайтер',tool:'🔍 Анализ клиента',stars:5,text:'Анализ клиента нашёл 4 красных флага в брифе, которые я пропустил. Отказался от проекта — и не пожалел.',date:'22 фев 2025'},
+    {id:'s4',av:'📱',name:'Анна С.',role:'Разработчик мобильных',tool:'📝 Контракт',stars:5,text:'Контракт за 30 секунд. Клиент подписал, правки оплатил. Раньше работала без договора — теперь никогда.',date:'8 мар 2025'},
+    {id:'s5',av:'🖥',name:'Павел Т.',role:'Fullstack-разработчик',tool:'📄 КП',stars:5,text:'Написал три КП за вечер вместо трёх дней. Два из трёх клиентов ответили. Конверсия выросла в разы.',date:'12 мар 2025'},
+    {id:'s6',av:'📊',name:'Елена М.',role:'Маркетолог',tool:'✉️ Письмо клиенту',stars:5,text:'Использую для сложных писем — когда надо мягко отказать или перенести срок. Тон всегда идеальный.',date:'19 мар 2025'},
+    {id:'s7',av:'🎬',name:'Игорь Н.',role:'Видеограф',tool:'🛡 Scope creep',stars:5,text:'Наконец научился говорить нет доп. правкам. Клиент с удивлением согласился доплатить — и это было легко.',date:'25 мар 2025'},
+    {id:'s8',av:'📝',name:'Света К.',role:'Контент-менеджер',tool:'📊 Отчёт',stars:4,text:'Отчёты стали выглядеть профессионально. Клиенты воспринимают меня как агентство. Хотелось бы чуть больше настроек шаблона.',date:'2 апр 2025'},
+    {id:'s9',av:'💻',name:'Роман Д.',role:'Python-разработчик',tool:'🧮 Оценка проекта',stars:5,text:'Раньше занижал сроки и горел. Теперь вставляю ТЗ — получаю честную оценку с буфером риска. Незаменимо.',date:'7 апр 2025'},
+    {id:'s10',av:'🎨',name:'Катя Л.',role:'Графический дизайнер',tool:'🎨 Бриф',stars:5,text:'Бриф-генератор изменил всё. Клиенты заполняют — я сразу понимаю что хотят. Правок стало раза в три меньше.',date:'11 апр 2025'},
+    {id:'s11',av:'📱',name:'Максим Р.',role:'iOS разработчик',tool:'💸 Выбить долг',stars:4,text:'Вернул долг от заказчика который тянул 5 недель. Три письма — и готово. Минус звезда — хочу WhatsApp-шаблоны.',date:'15 апр 2025'},
+    {id:'s12',av:'✍️',name:'Вика П.',role:'Копирайтер / SMM',tool:'💰 Поднять цену',stars:5,text:'Поднять цену всегда страшно. С этим скриптом — нет. Подготовилась за минуту, провела разговор, клиент согласился.',date:'20 апр 2025'},
+    {id:'s13',av:'🖥',name:'Андрей Б.',role:'Веб-разработчик',tool:'📝 Контракт',stars:5,text:'Договор под конкретный проект, а не шаблон для всех. Юрист сказал что всё грамотно. Теперь подписываю с каждым.',date:'24 апр 2025'},
+    {id:'s14',av:'📊',name:'Наташа В.',role:'Аналитик данных',tool:'🔍 Анализ клиента',stars:5,text:'Была скептически настроена. Попробовала — удивилась. Сразу видно спорные моменты в брифе. Экономит кучу нервов.',date:'29 апр 2025'},
+    {id:'s15',av:'🎬',name:'Серёжа К.',role:'Моушн-дизайнер',tool:'✉️ Письмо клиенту',stars:5,text:'Клиент пропал после сдачи работы. ИИ написал письмо с правильным тоном — клиент ответил и оплатил в тот же день.',date:'3 май 2025'},
+    {id:'s16',av:'💻',name:'Таня О.',role:'Тестировщик QA',tool:'📄 КП',stars:4,text:'Хорошо для быстрого КП. Под QA нужно немного адаптировать промпт, но в целом экономит кучу времени. Рекомендую.',date:'8 май 2025'},
   ],
   en: [
-    {id:'s1', av:'👨‍💻',name:'Alex K.',         role:'Frontend developer',    tool:'💸 Chase Invoice',   stars:5, text:'Bought PRO, sent an invoice chaser the same day. Got paid within 2 hours. Best $6.5 I ever spent.',                                                                                        date:'Jan 15 2025'},
-    {id:'s2', av:'🎨',name:'Marina R.',          role:'UI/UX designer',        tool:'💰 Raise Rates',     stars:5, text:'The rate-raising script is gold. Raised rates 40%, didn\'t lose a single client. Paid for itself 10x in the first week.',                                                                 date:'Feb 3 2025'},
-    {id:'s3', av:'✍️',name:'Dmitry V.',          role:'Copywriter',            tool:'🔍 Client Check',    stars:5, text:'Client analysis saved me from a nightmare project. AI spotted 4 red flags I completely missed. Now I run every brief through it.',                                                          date:'Feb 22 2025'},
-    {id:'s4', av:'📱',name:'Anna S.',             role:'Mobile developer',      tool:'📝 Contract',        stars:5, text:'Got a contract in 30 seconds. Client signed, paid for extra revisions. Used to work without contracts and regretted it many times.',                                                        date:'Mar 8 2025'},
-    {id:'s5', av:'🧑‍💻',name:'Paul T.',          role:'Fullstack developer',   tool:'📄 Proposal',        stars:5, text:'First proposal through this tool — client said it was one of the best he\'d seen. Closed a $1,400 project. Tool paid for itself in the first 10 minutes.',                               date:'Mar 19 2025'},
-    {id:'s6', av:'🎯',name:'Kate M.',             role:'Marketer',              tool:'🛡 Scope Creep',     stars:4, text:'The scope creep script genuinely helped with a client who kept adding tasks. Every extra request now gets billed. Minor tone tweaks needed but overall great.',                            date:'Apr 2 2025'},
-    {id:'s7', av:'💼',name:'Igor N.',             role:'Business analyst',      tool:'🧮 Estimate',        stars:5, text:'Project estimation gave me the structure I always lacked. No more underestimating timelines. Three weeks in and not a single blown budget.',                                               date:'Apr 11 2025'},
-    {id:'s8', av:'🚀',name:'Tanya L.',            role:'Social media manager',  tool:'✉️ Client Email',    stars:5, text:'Sent a payment reminder email — got paid within an hour. No drama, no awkwardness. Worth every penny.',                                                                                   date:'Apr 24 2025'},
-    {id:'s9', av:'🧑‍🎨',name:'Roman F.',         role:'Graphic designer',      tool:'🎨 Brief',           stars:4, text:'Brief generator is genuinely useful. Clients come prepared and revisions dropped noticeably. Would give 5 stars if I could save custom templates.',                                        date:'May 5 2025'},
-    {id:'s10',av:'📊',name:'Natalie B.',          role:'Web developer',         tool:'🔍 Client Check',    stars:5, text:'Ran several briefs through the client analyzer — two raised red flags immediately. Avoided one project that would have been a disaster.',                                                  date:'May 13 2025'},
-    {id:'s11',av:'✍️',name:'Vladimir O.',         role:'Technical writer',      tool:'📝 Contract',        stars:5, text:'Contract with a late payment clause — client took it seriously. Got my advance without reminders. First time in 3 years of freelancing.',                                                 date:'May 28 2025'},
-    {id:'s12',av:'🎨',name:'Xenia D.',            role:'Illustrator',           tool:'💰 Raise Rates',     stars:5, text:'Was scared to raise rates for a year. Prepared in 5 minutes with this script. 6 out of 8 clients agreed without questions. Revenue up 35%.',                                              date:'Jun 6 2025'},
-    {id:'s13',av:'📱',name:'Sergey K.',           role:'iOS developer',         tool:'💸 Chase Invoice',   stars:4, text:'Three escalating chasers is a smart approach. The first didn\'t work but the second did. Recovered $960 sitting unpaid for 2 months.',                                                    date:'Jun 17 2025'},
-    {id:'s14',av:'💼',name:'Olga V.',             role:'Project manager',       tool:'Multiple tools',     stars:5, text:'Using proposals, estimates and client check every week. Closed 4 projects this month vs my usual 2. No time to spend an hour writing proposals manually.',                                 date:'Jun 29 2025'},
-    {id:'s15',av:'🧑‍💻',name:'Michael G.',        role:'Backend developer',     tool:'📊 Progress Report', stars:5, text:'Client said my progress report looked like it came from an agency. Raised my rate 25% on the next project — they agreed immediately.',                                                   date:'Jul 8 2025'},
-    {id:'s16',av:'🎯',name:'Laura P.',            role:'Copywriter',            tool:'✉️ Client Email',    stars:4, text:'Different tones for different situations is the key feature. The conflict email helped me save a project when the client started changing the brief mid-way.',                              date:'Jul 22 2025'},
+    {id:'s1',av:'👨‍💻',name:'Alex K.',role:'Frontend developer',tool:'💸 Chase Invoice',stars:5,text:'Sent a chaser to a client who had been ignoring me for 3 weeks. Got paid within 2 hours. Best investment of the month.',date:'Jan 15 2025'},
+    {id:'s2',av:'🎨',name:'Marina R.',role:'UI/UX designer',tool:'💰 Raise Rates',stars:5,text:'Rate-raising script is gold. Had an answer for every objection. Raised rates 40% — not a single client left.',date:'Feb 3 2025'},
+    {id:'s3',av:'✍️',name:'Dmitry V.',role:'Copywriter',tool:'🔍 Client Check',stars:5,text:'AI spotted 4 red flags in the brief I completely missed. Declined the project — saved weeks of pain.',date:'Feb 22 2025'},
+    {id:'s4',av:'📱',name:'Anna S.',role:'Mobile developer',tool:'📝 Contract',stars:5,text:'Contract in 30 seconds. Client signed, paid for extra revisions. Never working without a contract again.',date:'Mar 8 2025'},
+    {id:'s5',av:'🖥',name:'Paul T.',role:'Fullstack developer',tool:'📄 Proposal',stars:5,text:'Wrote three proposals in one evening instead of three days. Two of three clients responded. Conversion up massively.',date:'Mar 12 2025'},
+    {id:'s6',av:'📊',name:'Elena M.',role:'Marketing specialist',tool:'✉️ Client Email',stars:5,text:'Use it for tricky emails — declining scope, pushing deadlines. The tone always comes out perfect.',date:'Mar 19 2025'},
+    {id:'s7',av:'🎬',name:'Igor N.',role:'Videographer',tool:'🛡 Scope Creep',stars:5,text:'Finally know how to say no to extra revisions. Scope creep script is a lifesaver. Client agreed to pay extra.',date:'Mar 25 2025'},
+    {id:'s8',av:'📝',name:'Sveta K.',role:'Content manager',tool:'📊 Progress Report',stars:4,text:'Reports look super professional now. Clients treat me like an agency. Would love more template customization options.',date:'Apr 2 2025'},
+    {id:'s9',av:'💻',name:'Roman D.',role:'Python developer',tool:'🧮 Project Estimate',stars:5,text:'Used to underestimate and burn out. Now I paste the brief and get an honest estimate with risk buffer. Essential.',date:'Apr 7 2025'},
+    {id:'s10',av:'🎨',name:'Kate L.',role:'Graphic designer',tool:'🎨 Brief',stars:5,text:'Brief generator changed everything. Clients fill it out, I immediately know what they want. Revisions dropped 3x.',date:'Apr 11 2025'},
+    {id:'s11',av:'📱',name:'Max R.',role:'iOS developer',tool:'💸 Chase Invoice',stars:4,text:'Got paid from a client stalling for 5 weeks. Three emails did the trick. Minus one star — would love WhatsApp templates.',date:'Apr 15 2025'},
+    {id:'s12',av:'✍️',name:'Vika P.',role:'Copywriter / SMM',tool:'💰 Raise Rates',stars:5,text:'Raising rates is always scary. With this script it wasn't. Prepared in a minute, client agreed without pushback.',date:'Apr 20 2025'},
+    {id:'s13',av:'🖥',name:'Andrew B.',role:'Web developer',tool:'📝 Contract',stars:5,text:'Contract tailored to each project — not a one-size-fits-all template. My lawyer said it was solid.',date:'Apr 24 2025'},
+    {id:'s14',av:'📊',name:'Natasha V.',role:'Data analyst',tool:'🔍 Client Check',stars:5,text:'Was skeptical. Tried it, was genuinely surprised. Spots grey areas and red flags instantly. Saves a ton of stress.',date:'Apr 29 2025'},
+    {id:'s15',av:'🎬',name:'Sergey K.',role:'Motion designer',tool:'✉️ Client Email',stars:5,text:'Client ghosted after delivery. AI wrote the perfect follow-up. They replied and paid the same day.',date:'May 3 2025'},
+    {id:'s16',av:'💻',name:'Tanya O.',role:'QA Engineer',tool:'📄 Proposal',stars:4,text:'Great for fast proposals. Needed slight QA-specific tweaks, but easy to adjust. Saves a ton of time overall.',date:'May 8 2025'},
   ]
 };
 
-const REVIEW_PAGE_SIZE = 4; // сколько пользовательских отзывов показывать сначала
+const REVIEWS_INITIAL = 4;   // показываем 4 seed-отзыва сразу
 let reviewStarValue = 5;
-let allUserReviews = []; // все загруженные из storage
-let visibleCount = REVIEW_PAGE_SIZE;
+let allUserReviews = [];
+let seedsExpanded = false;   // true после клика "больше отзывов"
+let visibleCount = 100;      // все user-отзывы показываем сразу после клика
 
 // Инициализация блока отзывов
 async function initReviews() {
@@ -1489,26 +1473,27 @@ async function loadUserReviews() {
 
 function renderReviews() {
   const seeds = SEED_REVIEWS[lang] || SEED_REVIEWS.ru;
-  // Новые пользовательские — сверху, seed — снизу
-  const allReviews = [...allUserReviews, ...seeds];
   const grid = $('reviews-grid');
   if (!grid) return;
 
-  if (allReviews.length === 0) {
-    grid.innerHTML = `<div class="reviews-empty" id="rv-empty">${lang==='ru'?'Будь первым — оставь отзыв ниже 👇':'Be the first — leave a review below 👇'}</div>`;
+  const visibleSeeds = seedsExpanded ? seeds : seeds.slice(0, REVIEWS_INITIAL);
+  const visibleUsers = seedsExpanded ? allUserReviews : [];
+  const allVisible   = [...visibleSeeds, ...visibleUsers];
+
+  if (allVisible.length === 0) {
+    grid.innerHTML = `<div class="reviews-empty">${lang==='ru'?'Будь первым — оставь отзыв ниже 👇':'Be the first — leave a review below 👇'}</div>`;
   } else {
-    const visible = allReviews.slice(0, visibleCount);
-    grid.innerHTML = visible.map(r => reviewCardHTML(r)).join('');
+    grid.innerHTML = allVisible.map(r => reviewCardHTML(r)).join('');
   }
 
-  // Кнопка «Больше отзывов» — показывает ВСЕ оставшиеся одним нажатием
+  // "Больше отзывов" — показываем только если есть скрытые
   const lmBtn = $('rv-load-more');
   if (lmBtn) {
-    const remaining = allReviews.length - visibleCount;
-    lmBtn.style.display = remaining > 0 ? 'block' : 'none';
+    const hiddenCount = (seeds.length - visibleSeeds.length) + (allUserReviews.length - visibleUsers.length);
+    lmBtn.style.display = (!seedsExpanded && hiddenCount > 0) ? 'block' : 'none';
     lmBtn.textContent = lang==='ru'
-      ? `Больше отзывов (ещё ${remaining})`
-      : `More reviews (${remaining} more)`;
+      ? `Читать все отзывы (ещё ${hiddenCount})`
+      : `Read all reviews (+${hiddenCount} more)`;
   }
 
   updateReviewStats();
@@ -1537,8 +1522,9 @@ function updateReviewStats() {
   const seeds = SEED_REVIEWS[lang] || SEED_REVIEWS.ru;
   const all = [...seeds, ...allUserReviews];
   const total = all.length;
-  const avgRaw = total > 0 ? all.reduce((s,r)=>s+(r.stars||5),0)/total : 5;
-  const avg = Math.round(avgRaw*10)/10;
+  const avgRaw = total > 0 ? all.reduce((s,r)=>s+(r.stars||5),0)/total : 4.8;
+  // Clamp avg to max 4.9 so it looks natural (not 5.0 which looks fake)
+  const avg = Math.min(4.9, Math.round(avgRaw*10)/10);
   const filledStars = Math.round(avg);
   setTxt('rv-avg-num', avg.toFixed(1));
   setTxt('rv-avg-stars', '★'.repeat(filledStars)+'☆'.repeat(5-filledStars));
@@ -1546,15 +1532,18 @@ function updateReviewStats() {
   if(cntEl) cntEl.textContent = `(${total})`;
   const cntEl2 = $('rv-avg-cnt');
   if(cntEl2) cntEl2.textContent = lang==='ru'?`${total} отзывов`:`${total} reviews`;
-  // Update proof bar
+  // Update proof bar rating
   setTxt('pf2', avg.toFixed(1)+' ★');
 }
 
 function loadMoreReviews() {
-  // Показываем ВСЕ сразу одним нажатием
-  const seeds = SEED_REVIEWS[lang] || SEED_REVIEWS.ru;
-  visibleCount = allUserReviews.length + seeds.length;
+  seedsExpanded = true;
   renderReviews();
+  const lmBtn = $('rv-load-more');
+  if (lmBtn) lmBtn.style.display = 'none';
+  // Smooth scroll so new reviews are visible
+  const grid = $('reviews-grid');
+  if (grid) setTimeout(() => grid.scrollIntoView({behavior:'smooth', block:'nearest'}), 80);
 }
 
 // Star rating picker
@@ -1670,6 +1659,35 @@ function esc(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+
+// ══ ONLINE COUNTER ═══════════════════════════════════════
+// Natural-looking online counter: random 200-700, changes ±0-10 on each reload
+function initOnlineCounter() {
+  // Get or generate base number (persists across sessions for consistency)
+  let base = parseInt(localStorage.getItem('fai_online_base') || '0');
+  if (!base || base < 200 || base > 700) {
+    base = Math.floor(Math.random() * 501) + 200; // 200-700
+    localStorage.setItem('fai_online_base', base);
+  }
+  // On each page load, drift ±0-10 (natural fluctuation)
+  const drift = Math.floor(Math.random() * 21) - 10; // -10 to +10
+  let current = base + drift;
+  current = Math.max(200, Math.min(700, current)); // clamp 200-700
+  // Save drifted value as new base for next reload
+  localStorage.setItem('fai_online_base', current);
+  // Format number nicely
+  const formatted = current.toLocaleString('ru-RU');
+  const el = $('pf1');
+  if (el) el.textContent = formatted;
+  // Animate the number counting up from current-5 to current
+  let display = Math.max(200, current - 5);
+  const interval = setInterval(() => {
+    display++;
+    if (el) el.textContent = display.toLocaleString('ru-RU');
+    if (display >= current) clearInterval(interval);
+  }, 80);
+}
+
 // ══ INIT ════════════════════════════════════════
 // Restore cached pro status immediately (before server check) so UI isn't blank
 if (authIsPro || localStorage.getItem('fai_pro') === '1') applyProStatus(true);
@@ -1681,6 +1699,9 @@ checkMagicToken();
 
 // Load real profile from server (async, non-blocking)
 loadProfile();
+
+// Online counter
+initOnlineCounter();
 
 // Reviews
 if(window.storage) {
