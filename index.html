@@ -1191,8 +1191,10 @@ async function sendMagicLink() {
 
 // ── Step 1 alt: activate with email + key ────────────────
 async function activateWithEmailKey() {
+  if (_activating) return;
+  _activating = true;
   const email = ($('auth-email').value || '').trim().toLowerCase();
-  const key   = ($('auth-key-inp').value || '').trim().toUpperCase();
+  const key   = ($('auth-key-inp').value || '').trim().toLowerCase();
   const err   = $('as1-key-err');
   const btn   = $('as1-key-btn');
 
@@ -1227,6 +1229,7 @@ async function activateWithEmailKey() {
   } catch(e) {
     err.textContent = e.message;
   }
+  _activating = false;
   btn.disabled = false;
   const t2 = L[lang];
   if (btn) btn.textContent = t2.activate || 'Активировать';
@@ -1389,16 +1392,19 @@ function updateAuthHeader() {
 // (wraps the existing gen() function to inject Bearer header)
 const _origFetch = window.fetch;
 
+let _activating = false; // защита от двойного запроса
 async function doActivate(inpId, errId) {
+  if (_activating) return;
   const inp = $(inpId);
   const errEl = errId ? $(errId) : null;
-  const key = (inp ? inp.value : '').trim().toUpperCase();
+  const key = (inp ? inp.value : '').trim().toLowerCase();
 
   if (!key || key.length < 4) {
     if (errEl) errEl.textContent = lang==='ru' ? 'Введи ключ активации' : 'Enter activation key';
     return;
   }
   if (errEl) errEl.textContent = '';
+  _activating = true;
 
   // Если нет email — используем технический идентификатор на основе ключа
   const emailToUse = authEmail || ('key.' + key.toLowerCase().replace(/-/g,'') + '@freelanceai.app');
@@ -1427,6 +1433,7 @@ async function doActivate(inpId, errId) {
   } catch(e) {
     if (errEl) errEl.textContent = e.message;
   }
+  _activating = false;
   if (inp) inp.disabled = false;
 }
 
