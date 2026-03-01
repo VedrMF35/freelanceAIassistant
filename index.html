@@ -1230,19 +1230,39 @@ async function activateWithEmailKey() {
 
 // ── Verify magic token from URL (called on page load) ─────
 async function checkMagicToken() {
-  const params = new URLSearchParams(window.location.search);
-  const token  = params.get('token');
-  if (!token) return;
+  const params  = new URLSearchParams(window.location.search);
 
-  // Remove token from URL without reload
+  // Вариант 1: Worker сделал редирект и передал ?session=TOKEN&email=...&is_pro=...
+  const session = params.get('session');
+  const emailParam = params.get('email');
+  const isProParam = params.get('is_pro');
+
+  // Вариант 2: старый формат — прямой токен (если SITE_URL не настроен в воркере)
+  const tokenParam = params.get('token');
+
+  if (!session && !tokenParam) return;
+
+  // Убираем параметры из URL без перезагрузки
   window.history.replaceState({}, '', window.location.pathname);
 
-  // Show auth modal in loading state
+  if (session && emailParam) {
+    // Воркер уже проверил токен и дал нам готовую сессию
+    const isPro = isProParam === '1';
+    saveSession(session, decodeURIComponent(emailParam), isPro);
+    openAuthModal(1);
+    $('as3-email-show').textContent = decodeURIComponent(emailParam);
+    authStep(3);
+    updateStep3Lang();
+    if (isPro) applyProStatus(true);
+    return;
+  }
+
+  // Старый формат: верифицируем через API (если SITE_URL не задан в воркере)
   openAuthModal(1);
   $('as1-btn-txt').textContent = lang==='ru' ? 'Верифицируем...' : 'Verifying...';
 
   try {
-    const res = await fetch(WORKER_URL + '/api/auth/verify?token=' + encodeURIComponent(token));
+    const res  = await fetch(WORKER_URL + '/api/auth/verify?token=' + encodeURIComponent(tokenParam));
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Ошибка');
 
@@ -1441,7 +1461,7 @@ const SEED_REVIEWS = {
     {id:'s9',av:'💻',name:'Roman D.',role:'Python developer',tool:'🧮 Project Estimate',stars:5,text:'Used to underestimate and burn out. Now I paste the brief and get an honest estimate with risk buffer. Essential.',date:'Apr 7 2025'},
     {id:'s10',av:'🎨',name:'Kate L.',role:'Graphic designer',tool:'🎨 Brief',stars:5,text:'Brief generator changed everything. Clients fill it out, I immediately know what they want. Revisions dropped 3x.',date:'Apr 11 2025'},
     {id:'s11',av:'📱',name:'Max R.',role:'iOS developer',tool:'💸 Chase Invoice',stars:4,text:'Got paid from a client stalling for 5 weeks. Three emails did the trick. Minus one star — would love WhatsApp templates.',date:'Apr 15 2025'},
-    {id:'s12',av:'✍️',name:'Vika P.',role:'Copywriter / SMM',tool:'💰 Raise Rates',stars:5,text:'Raising rates is always scary. With this script it wasn't. Prepared in a minute, client agreed without pushback.',date:'Apr 20 2025'},
+    {id:'s12',av:'✍️',name:'Vika P.',role:'Copywriter / SMM',tool:'💰 Raise Rates',stars:5,text:'Raising rates is always scary. With this script it wasn\'t. Prepared in a minute, client agreed without pushback.',date:'Apr 20 2025'},
     {id:'s13',av:'🖥',name:'Andrew B.',role:'Web developer',tool:'📝 Contract',stars:5,text:'Contract tailored to each project — not a one-size-fits-all template. My lawyer said it was solid.',date:'Apr 24 2025'},
     {id:'s14',av:'📊',name:'Natasha V.',role:'Data analyst',tool:'🔍 Client Check',stars:5,text:'Was skeptical. Tried it, was genuinely surprised. Spots grey areas and red flags instantly. Saves a ton of stress.',date:'Apr 29 2025'},
     {id:'s15',av:'🎬',name:'Sergey K.',role:'Motion designer',tool:'✉️ Client Email',stars:5,text:'Client ghosted after delivery. AI wrote the perfect follow-up. They replied and paid the same day.',date:'May 3 2025'},
@@ -1450,6 +1470,7 @@ const SEED_REVIEWS = {
 };
 
 const REVIEWS_INITIAL = 4;   // показываем 4 seed-отзыва сразу
+const REVIEW_PAGE_SIZE = 10; // страница пагинации для user-отзывов
 let reviewStarValue = 5;
 let allUserReviews = [];
 let seedsExpanded = false;   // true после клика "больше отзывов"
