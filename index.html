@@ -591,13 +591,13 @@ footer a { color: var(--accent); text-decoration: none; }
     <button class="tool-tab active" onclick="sw('kp',this)">📄 КП</button>
     <button class="tool-tab" onclick="sw('est',this)">🧮 Оценка проекта</button>
     <button class="tool-tab" onclick="sw('brief',this)">🎨 Бриф</button>
-    <button class="tool-tab locked" onclick="sw('pro',this)">✉️ Письмо клиенту 🔒</button>
-    <button class="tool-tab locked" onclick="sw('pro',this)">💰 Поднять цену 🔒</button>
-    <button class="tool-tab locked" onclick="sw('pro',this)">📝 Контракт 🔒</button>
-    <button class="tool-tab locked" onclick="sw('pro',this)">🛡 Scope creep 🔒</button>
-    <button class="tool-tab locked" onclick="sw('pro',this)">💸 Выбить долг 🔒</button>
-    <button class="tool-tab locked" onclick="sw('pro',this)">🔍 Анализ клиента 🔒</button>
-    <button class="tool-tab locked" onclick="sw('pro',this)">📊 Отчёт по проекту 🔒</button>
+    <button class="tool-tab pro-tab" id="tab-letter" onclick="swPro('letter',this)">✉️ Письмо клиенту 🔒</button>
+    <button class="tool-tab pro-tab" id="tab-raise" onclick="swPro('raise',this)">💰 Поднять цену 🔒</button>
+    <button class="tool-tab pro-tab" id="tab-contract" onclick="swPro('contract',this)">📝 Контракт 🔒</button>
+    <button class="tool-tab pro-tab" id="tab-scope" onclick="swPro('scope',this)">🛡 Scope creep 🔒</button>
+    <button class="tool-tab pro-tab" id="tab-debt" onclick="swPro('debt',this)">💸 Выбить долг 🔒</button>
+    <button class="tool-tab pro-tab" id="tab-client" onclick="swPro('client',this)">🔍 Анализ клиента 🔒</button>
+    <button class="tool-tab pro-tab" id="tab-report" onclick="swPro('report',this)">📊 Отчёт по проекту 🔒</button>
   </div>
 
   <!-- ═══ КП ═══ -->
@@ -635,6 +635,86 @@ footer a { color: var(--accent); text-decoration: none; }
       <div class="fg"><div><label id="l-bstyle"></label><select id="brief-style"></select></div><div><label id="l-bdetail"></label><select id="brief-detail"></select></div></div>
       <button class="btn-gen" onclick="gen('brief')"><div class="btn-inner" id="btn-brief">✦ <span id="btn-brief-txt"></span></div></button>
       <div class="result-box" id="res-brief"><div class="result-hdr"><span class="result-lbl" id="rl-brief"></span><button class="copy-btn" id="cp-brief" onclick="cp('res-brief','cp-brief')"></button></div><div class="result-body" id="rb-brief"></div><div class="result-foot"><div class="like-row"><button class="like-btn">👍</button><button class="like-btn">👎</button></div><span class="result-cta" id="rh-brief"></span></div></div>
+    </div>
+  </div>
+
+
+  <!-- ═══ PRO: ПИСЬМО КЛИЕНТУ ═══ -->
+  <div class="card panel" id="panel-letter">
+    <div class="card-hdr"><div class="tool-emoji">✉️</div><div><div class="card-title" id="letter-title">Письмо клиенту</div><div class="card-desc" id="letter-desc">Напоминание об оплате, конфликт, сдача работы — любая ситуация</div></div></div>
+    <div class="card-body">
+      <div class="fg"><div><label id="l-lsit">Ситуация</label><select id="letter-sit"></select></div><div><label id="l-ltone">Тон</label><select id="letter-tone"></select></div></div>
+      <div class="fg c1"><div><label id="l-lctx">Контекст (что произошло)</label><textarea id="letter-ctx" rows="3" placeholder="Например: клиент не отвечает 2 недели, работа сдана, сумма 50000₽"></textarea></div></div>
+      <button class="btn-gen" onclick="gen('letter')"><div class="btn-inner" id="btn-letter">✦ <span id="btn-letter-txt">Написать письмо</span></div></button>
+      <div class="result-box" id="res-letter"><div class="result-hdr"><span class="result-lbl">Готовое письмо</span><button class="copy-btn" id="cp-letter" onclick="cp('res-letter','cp-letter')">Скопировать</button></div><div class="result-body" id="rb-letter"></div><div class="result-foot"><div class="like-row"><button class="like-btn">👍</button><button class="like-btn">👎</button></div></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ PRO: ПОДНЯТЬ ЦЕНУ ═══ -->
+  <div class="card panel" id="panel-raise">
+    <div class="card-hdr"><div class="tool-emoji">💰</div><div><div class="card-title" id="raise-title">Поднять цену</div><div class="card-desc" id="raise-desc">Скрипт повышения ставки с ответами на возражения — без потери клиента</div></div></div>
+    <div class="card-body">
+      <div class="fg"><div><label id="l-rold">Текущая ставка</label><input id="raise-old" placeholder="3000 ₽/час"></div><div><label id="l-rnew">Новая ставка</label><input id="raise-new" placeholder="5000 ₽/час"></div></div>
+      <div class="fg c1"><div><label id="l-rctx">Отношения с клиентом</label><textarea id="raise-ctx" rows="2" placeholder="Например: работаем 8 месяцев, клиент платит вовремя, 2-3 проекта в месяц"></textarea></div></div>
+      <button class="btn-gen" onclick="gen('raise')"><div class="btn-inner" id="btn-raise">✦ <span id="btn-raise-txt">Написать скрипт</span></div></button>
+      <div class="result-box" id="res-raise"><div class="result-hdr"><span class="result-lbl">Скрипт повышения</span><button class="copy-btn" id="cp-raise" onclick="cp('res-raise','cp-raise')">Скопировать</button></div><div class="result-body" id="rb-raise"></div><div class="result-foot"><div class="like-row"><button class="like-btn">👍</button><button class="like-btn">👎</button></div></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ PRO: КОНТРАКТ ═══ -->
+  <div class="card panel" id="panel-contract">
+    <div class="card-hdr"><div class="tool-emoji">📝</div><div><div class="card-title" id="contract-title">Генератор контракта</div><div class="card-desc" id="contract-desc">Договор под твой проект: сроки, оплата, правки, штрафы</div></div></div>
+    <div class="card-body">
+      <div class="fg"><div><label id="l-cspec">Твоя специализация</label><select id="contract-spec"></select></div><div><label id="l-cprice">Стоимость проекта</label><input id="contract-price" placeholder="100 000 ₽"></div></div>
+      <div class="fg"><div><label id="l-cdeadline">Срок</label><input id="contract-deadline" placeholder="30 дней"></div><div><label id="l-crev">Количество правок</label><input id="contract-rev" placeholder="3"></div></div>
+      <div class="fg c1"><div><label id="l-cscope">Что входит в работу</label><textarea id="contract-scope" rows="2" placeholder="Разработка лендинга: дизайн, вёрстка, интеграция формы"></textarea></div></div>
+      <button class="btn-gen" onclick="gen('contract')"><div class="btn-inner" id="btn-contract">✦ <span id="btn-contract-txt">Сгенерировать контракт</span></div></button>
+      <div class="result-box" id="res-contract"><div class="result-hdr"><span class="result-lbl">Готовый контракт</span><button class="copy-btn" id="cp-contract" onclick="cp('res-contract','cp-contract')">Скопировать</button></div><div class="result-body" id="rb-contract"></div><div class="result-foot"><div class="like-row"><button class="like-btn">👍</button><button class="like-btn">👎</button></div></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ PRO: SCOPE CREEP ═══ -->
+  <div class="card panel" id="panel-scope">
+    <div class="card-hdr"><div class="tool-emoji">🛡</div><div><div class="card-title" id="scope-title">Защита от scope creep</div><div class="card-desc" id="scope-desc">"Тебе же 5 минут!" — скрипт разговора, доп. работы за доп. деньги</div></div></div>
+    <div class="card-body">
+      <div class="fg c1"><div><label id="l-screq">Что просит клиент сверх договора</label><textarea id="scope-req" rows="2" placeholder="Например: просит добавить ещё 3 страницы, хотя в договоре было 5"></textarea></div></div>
+      <div class="fg"><div><label id="l-scprice">Твоя оценка доп. работы</label><input id="scope-price" placeholder="15 000 ₽ / 3 дня"></div><div><label id="l-sctone">Тон ответа</label><select id="scope-tone"></select></div></div>
+      <button class="btn-gen" onclick="gen('scope')"><div class="btn-inner" id="btn-scope">✦ <span id="btn-scope-txt">Написать скрипт</span></div></button>
+      <div class="result-box" id="res-scope"><div class="result-hdr"><span class="result-lbl">Скрипт защиты</span><button class="copy-btn" id="cp-scope" onclick="cp('res-scope','cp-scope')">Скопировать</button></div><div class="result-body" id="rb-scope"></div><div class="result-foot"><div class="like-row"><button class="like-btn">👍</button><button class="like-btn">👎</button></div></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ PRO: ВЫБИТЬ ДОЛГ ═══ -->
+  <div class="card panel" id="panel-debt">
+    <div class="card-hdr"><div class="tool-emoji">💸</div><div><div class="card-title" id="debt-title">Выбить долг</div><div class="card-desc" id="debt-desc">3 письма с нарастающим давлением — от мягкого до жёсткого</div></div></div>
+    <div class="card-body">
+      <div class="fg"><div><label id="l-damt">Сумма долга</label><input id="debt-amount" placeholder="50 000 ₽"></div><div><label id="l-ddays">Просрочка</label><input id="debt-days" placeholder="14 дней"></div></div>
+      <div class="fg c1"><div><label id="l-dctx">Детали ситуации</label><textarea id="debt-ctx" rows="2" placeholder="Работа сдана и принята, клиент отвечает но тянет, было 2 напоминания"></textarea></div></div>
+      <div class="fg"><div><label id="l-dletter">Какое письмо генерировать</label><select id="debt-letter"></select></div></div>
+      <button class="btn-gen" onclick="gen('debt')"><div class="btn-inner" id="btn-debt">✦ <span id="btn-debt-txt">Написать письмо</span></div></button>
+      <div class="result-box" id="res-debt"><div class="result-hdr"><span class="result-lbl">Письмо о долге</span><button class="copy-btn" id="cp-debt" onclick="cp('res-debt','cp-debt')">Скопировать</button></div><div class="result-body" id="rb-debt"></div><div class="result-foot"><div class="like-row"><button class="like-btn">👍</button><button class="like-btn">👎</button></div></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ PRO: АНАЛИЗ КЛИЕНТА ═══ -->
+  <div class="card panel" id="panel-client">
+    <div class="card-hdr"><div class="tool-emoji">🔍</div><div><div class="card-title" id="client-title">Анализ клиента</div><div class="card-desc" id="client-desc">Вставь текст проекта — получи красные флаги и оценку риска</div></div></div>
+    <div class="card-body">
+      <div class="fg c1"><div><label id="l-cltask">Текст от клиента (бриф, вакансия, сообщение)</label><textarea id="client-task" rows="5" placeholder="Вставь сюда всё что написал клиент — ИИ найдёт красные флаги, странности и риски"></textarea></div></div>
+      <button class="btn-gen" onclick="gen('client')"><div class="btn-inner" id="btn-client">✦ <span id="btn-client-txt">Проанализировать</span></div></button>
+      <div class="result-box" id="res-client"><div class="result-hdr"><span class="result-lbl">Анализ и красные флаги</span><button class="copy-btn" id="cp-client" onclick="cp('res-client','cp-client')">Скопировать</button></div><div class="result-body" id="rb-client"></div><div class="result-foot"><div class="like-row"><button class="like-btn">👍</button><button class="like-btn">👎</button></div></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ PRO: ОТЧЁТ ═══ -->
+  <div class="card panel" id="panel-report">
+    <div class="card-hdr"><div class="tool-emoji">📊</div><div><div class="card-title" id="report-title">Отчёт по проекту</div><div class="card-desc" id="report-desc">Профессиональный отчёт о прогрессе для клиента — выглядишь как агентство</div></div></div>
+    <div class="card-body">
+      <div class="fg"><div><label id="l-rpname">Название проекта</label><input id="report-name" placeholder="Сайт для кофейни"></div><div><label id="l-rppct">Готовность</label><select id="report-pct"></select></div></div>
+      <div class="fg c1"><div><label id="l-rpdone">Что сделано</label><textarea id="report-done" rows="2" placeholder="Готов дизайн главной и 3 внутренних страниц, подключена форма заявки"></textarea></div></div>
+      <div class="fg c1"><div><label id="l-rpnext">Что будет дальше</label><textarea id="report-next" rows="2" placeholder="Вёрстка оставшихся страниц, тестирование на мобильных"></textarea></div></div>
+      <button class="btn-gen" onclick="gen('report')"><div class="btn-inner" id="btn-report">✦ <span id="btn-report-txt">Сгенерировать отчёт</span></div></button>
+      <div class="result-box" id="res-report"><div class="result-hdr"><span class="result-lbl">Отчёт клиенту</span><button class="copy-btn" id="cp-report" onclick="cp('res-report','cp-report')">Скопировать</button></div><div class="result-body" id="rb-report"></div><div class="result-foot"><div class="like-row"><button class="like-btn">👍</button><button class="like-btn">👎</button></div></div></div>
     </div>
   </div>
 
@@ -924,6 +1004,52 @@ function getPrompt(tool) {
       ? `Ты опытный фрилансер уровня ${level}. Ставка: ${rate} ₽/час.\n\nКлиент написал: "${task}"\n\nСделай профессиональную оценку:\n1. Разбивка задач — все подзадачи и часы на каждую\n2. Итого часов — минимум и максимум\n3. Итого стоимость + 20% буфер на непредвиденное\n4. Риски — что может увеличить объём (2-3 пункта)\n5. Что уточнить у клиента (3-5 вопросов)\n6. Рекомендация — стоит ли браться и почему\n\nИспользуй конкретные цифры. Будь прямым.`
       : `You are an experienced ${level} freelancer. Rate: $${rate}/hr.\n\nClient wrote: "${task}"\n\n1. Task breakdown with hours per subtask\n2. Total hours — min and max range\n3. Total cost + recommend 20% buffer\n4. Risks — what could expand scope (2-3 points)\n5. Clarifying questions (3-5)\n6. Recommendation — take it or not, and why\n\nUse specific numbers. Be direct.`;
   }
+
+  // ══ PRO PROMPTS ══
+  if (tool === 'letter') {
+    const sit=v('letter-sit'), ltone=v('letter-tone'), ctx=v('letter-ctx')||'нет деталей';
+    return lang==='ru'
+      ? `Ты фрилансер. Напиши письмо клиенту.\n\nСитуация: ${sit}\nТон: ${ltone}\nКонтекст: ${ctx}\n\nТребования:\n- Профессионально, без агрессии\n- Чёткий призыв к действию в конце\n- Готово к отправке\n- Максимум 150 слов`
+      : `You are a freelancer. Write a client email.\n\nSituation: ${sit}\nTone: ${ltone}\nContext: ${ctx}\n\nRequirements:\n- Professional, no aggression\n- Clear call to action\n- Ready to send\n- Max 150 words`;
+  }
+  if (tool === 'raise') {
+    const oldRate=v('raise-old')||'текущая', newRate=v('raise-new')||'новая', rctx=v('raise-ctx')||'постоянный клиент';
+    return lang==='ru'
+      ? `Ты фрилансер. Напиши скрипт для разговора о повышении ставки.\n\nТекущая ставка: ${oldRate}\nНовая: ${newRate}\nОтношения: ${rctx}\n\n1. Открытие разговора\n2. Обоснование (3-4 аргумента)\n3. Как озвучить новую цену\n4. Ответы на 3 типичных возражения\n5. Финал\n\nТон: уверенный, без ультиматумов.`
+      : `You are a freelancer. Write a rate increase script.\n\nCurrent: ${oldRate}\nNew: ${newRate}\nRelationship: ${rctx}\n\n1. Opening\n2. Justification (3-4 arguments)\n3. How to present the new rate\n4. 3 objection responses\n5. Closing\n\nConfident tone, no ultimatums.`;
+  }
+  if (tool === 'contract') {
+    const cspec=v('contract-spec')||'фрилансер', cprice=v('contract-price')||'по договорённости', cdeadline=v('contract-deadline')||'30 дней', crev=v('contract-rev')||'3', cscope=v('contract-scope')||'работы по проекту';
+    return lang==='ru'
+      ? `Составь договор на оказание услуг.\n\nИсполнитель: ${cspec}\nСтоимость: ${cprice}\nСрок: ${cdeadline}\nПравки: ${crev} раунда\nСостав работ: ${cscope}\n\nВключи: предмет договора, сроки, оплата (50% предоплата), правки, пени за просрочку, передача прав после оплаты, расторжение.\n\nОставь [ФИО] и [ИНН] как плейсхолдеры.`
+      : `Draft a freelance service agreement.\n\nFreelancer: ${cspec}\nPrice: ${cprice}\nDeadline: ${cdeadline}\nRevisions: ${crev}\nScope: ${cscope}\n\nInclude: scope, timeline, payment (50% upfront), revisions, late fee, IP transfer, termination.\n\nUse [NAME] and [TAX ID] as placeholders.`;
+  }
+  if (tool === 'scope') {
+    const screq=v('scope-req')||'доп. работа', scprice=v('scope-price')||'требует оценки', sctone=v('scope-tone')||'мягкий';
+    return lang==='ru'
+      ? `Клиент просит доп. работу вне договора.\n\nЧто просит: ${screq}\nОценка: ${scprice}\nТон: ${sctone}\n\nНапиши скрипт ответа:\n1. Признание запроса\n2. Почему это выходит за рамки (1-2 предложения)\n3. Предложение: доп. оплата или следующий проект\n4. Вопрос для подтверждения\n\nГотово к отправке.`
+      : `Client asks for work outside scope.\n\nRequest: ${screq}\nEstimate: ${scprice}\nTone: ${sctone}\n\nWrite response:\n1. Acknowledge\n2. Explain it is outside scope\n3. Offer: extra pay or next project\n4. Confirmation question\n\nReady to send.`;
+  }
+  if (tool === 'debt') {
+    const damt=v('debt-amount')||'долг', ddays=v('debt-days')||'несколько дней', dctx=v('debt-ctx')||'работа сдана', dletter=parseInt(v('debt-letter')||'1');
+    const dru=dletter===1?'мягкое первое напоминание':dletter===2?'настойчивое второе':'жёсткое финальное с последствиями';
+    const den=dletter===1?'soft first reminder':dletter===2?'firm second reminder':'final notice with consequences';
+    return lang==='ru'
+      ? `Напиши ${dru} о задолженности.\n\nСумма: ${damt}\nПросрочка: ${ddays}\nКонтекст: ${dctx}\n\nПисьмо должно: напомнить о сумме и дате, потребовать оплату в конкретный срок, быть профессиональным, иметь призыв к действию.\n\nМаксимум 120 слов. Готово к отправке.`
+      : `Write a ${den} about unpaid invoice.\n\nAmount: ${damt}\nOverdue: ${ddays}\nContext: ${dctx}\n\nMust: reference amount and date, set a deadline, stay professional, have CTA.\n\nMax 120 words. Ready to send.`;
+  }
+  if (tool === 'client') {
+    const cltask=v('client-task')||'нет текста';
+    return lang==='ru'
+      ? `Проанализируй текст от клиента и найди красные флаги.\n\nТекст:\n"${cltask}"\n\n1. 🚩 Красные флаги с объяснением\n2. 🟡 Жёлтые флаги\n3. ✅ Позитивные сигналы\n4. 💰 Риск: Низкий / Средний / Высокий\n5. 📋 Что уточнить (3-5 вопросов)\n6. 🎯 Итог: брать или нет\n\nОпирайся на конкретные фразы.`
+      : `Analyze the client text for red flags.\n\nText:\n"${cltask}"\n\n1. 🚩 Red flags with explanation\n2. 🟡 Yellow flags\n3. ✅ Positive signals\n4. 💰 Risk: Low / Medium / High\n5. 📋 Clarifying questions (3-5)\n6. 🎯 Verdict\n\nReference specific phrases.`;
+  }
+  if (tool === 'report') {
+    const rpname=v('report-name')||'проект', rppct=v('report-pct')||'50%', rpdone=v('report-done')||'выполнено', rpnext=v('report-next')||'дальше';
+    return lang==='ru'
+      ? `Напиши профессиональный отчёт о прогрессе проекта для клиента.\n\nПроект: ${rpname}\nГотовность: ${rppct}\nЧто сделано: ${rpdone}\nЧто дальше: ${rpnext}\n\nСтруктура: статус, выполнено (список), прогресс %, следующие шаги со сроками, что нужно от клиента, уверенное закрытие.\n\nТон как у агентства. Без воды.`
+      : `Write a professional project status report.\n\nProject: ${rpname}\nProgress: ${rppct}\nDone: ${rpdone}\nNext: ${rpnext}\n\nStructure: status, completed (list), % progress, next steps with timeline, blockers, confident close.\n\nAgency tone. No fluff.`;
+  }
 }
 const v = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
 
@@ -984,6 +1110,27 @@ function applyLang() {
   // features
   $('features-grid').innerHTML=t.features.map(f=>`<div class="fc"><div class="fc-ico">${f.i}</div><div class="fc-title">${f.t}</div><div class="fc-desc">${f.d}</div></div>`).join('');
   setHtml('footer-txt',t.footer);
+  // PRO tool selects
+  const isRu = lang==='ru';
+  setOpts('letter-sit', isRu
+    ? ['Напоминание об оплате','Задержка ответа','Сдача работы','Конфликт / недопонимание','Отказ от проекта','Запрос обратной связи']
+    : ['Payment reminder','Client ghosting','Work delivery','Conflict resolution','Project decline','Feedback request']);
+  setOpts('letter-tone', isRu
+    ? ['Дружелюбный','Профессиональный','Настойчивый']
+    : ['Friendly','Professional','Firm']);
+  setOpts('scope-tone', isRu
+    ? ['Мягкий','Прямой','Жёсткий']
+    : ['Soft','Direct','Firm']);
+  setOpts('debt-letter', isRu
+    ? ['1 — Мягкое напоминание','2 — Настойчивое','3 — Финальное (с последствиями)']
+    : ['1 — Soft reminder','2 — Firm reminder','3 — Final notice']);
+  setOpts('report-pct', ['10%','25%','50%','75%','90%','100%']);
+  const specs2 = isRu
+    ? ['Веб-разработчик','Дизайнер','Мобильный разработчик','Копирайтер','SMM-специалист','Маркетолог','Аналитик','Fullstack','Другое']
+    : ['Web developer','Designer','Mobile developer','Copywriter','SMM','Marketer','Analyst','Fullstack','Other'];
+  setOpts('contract-spec', specs2);
+  // Обновить замки на вкладках
+  updateProTabs();
   // modal
   setTxt('m-title',t.mTitle); setTxt('m-desc',t.mDesc);
   $('m-list').innerHTML=t.mItems.map(s=>`<div class="modal-li">${s}</div>`).join('');
@@ -996,6 +1143,18 @@ function applyLang() {
   $('planBadge').textContent=isPro?t.badgePro:t.badgeFree;
   $('planBadge').className='badge '+(isPro?'badge-pro':'badge-free');
   updateCounters();
+}
+
+function updateProTabs() {
+  const proTabEls = document.querySelectorAll('.pro-tab');
+  const isRu = lang === 'ru';
+  const labels = isRu
+    ? ['✉️ Письмо клиенту','💰 Поднять цену','📝 Контракт','🛡 Scope creep','💸 Выбить долг','🔍 Анализ клиента','📊 Отчёт по проекту']
+    : ['✉️ Client Email','💰 Raise Rates','📝 Contract','🛡 Scope Creep','💸 Chase Invoice','🔍 Client Check','📊 Progress Report'];
+  proTabEls.forEach((btn, i) => {
+    btn.innerHTML = labels[i] + (isPro ? '' : ' 🔒');
+    btn.classList.toggle('locked', !isPro);
+  });
 }
 
 function updateCounters() {
@@ -1099,6 +1258,13 @@ function sw(panel,el) {
   document.querySelectorAll('.tool-tab').forEach(t=>t.classList.remove('active'));
   const p=$('panel-'+panel); if(p) p.classList.add('active'); if(el) el.classList.add('active');
   p && p.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function swPro(panel,el) {
+  // Если не PRO — показываем paywall
+  if (!isPro) { sw('pro', el); return; }
+  // Убираем замки с активной вкладки и показываем панель
+  sw(panel, el);
 }
 function showModal(){ $('modal').classList.add('show'); }
 function closeModal(){ $('modal').classList.remove('show'); }
@@ -1361,6 +1527,7 @@ function applyProStatus(pro) {
     // Скрыть access bars и unlock-блоки
     ['ab1','ab2','ab3'].forEach(id => { const el=$(id); if(el) el.style.display='none'; });
     document.querySelectorAll('.result-cta').forEach(el => el.style.display='none');
+    updateProTabs();
   }
 }
 
