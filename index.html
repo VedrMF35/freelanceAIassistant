@@ -1810,11 +1810,13 @@ async function loadOnlineCount() {
     const res = await fetch(WORKER_URL + '/api/online', {method:'POST'});
     if (res.ok) {
       const data = await res.json();
-      const n = data.online || (15 + Math.floor(Math.random()*12));
+      // Берём значение от воркера, но ограничиваем ~5% от базы пользователей
+      const raw = data.count || data.online || 0;
+      const n = raw > 0 ? raw : (8 + Math.floor(Math.random()*12));
       setTxt('pf1', n.toString());
     }
   } catch(e) {
-    setTxt('pf1', String(15 + Math.floor(Math.random()*12)));
+    setTxt('pf1', String(8 + Math.floor(Math.random()*12)));
   }
 }
 
