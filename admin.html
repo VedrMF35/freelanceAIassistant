@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreelanceAI — Админка</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #09090c; color: #eeeef5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; padding: 40px 20px; }
+.container { max-width: 800px; margin: 0 auto; }
+h1 { font-size: 24px; font-weight: 800; margin-bottom: 8px; background: linear-gradient(135deg, #6c4efa, #f04f7a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { color: #6a6a82; font-size: 13px; margin-bottom: 32px; }
+
+/* Login */
+#login-screen { max-width: 400px; margin: 80px auto; }
+.card { background: #111118; border: 1px solid #232332; border-radius: 16px; padding: 28px; margin-bottom: 20px; }
+label { display: block; font-size: 12px; color: #6a6a82; margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+input[type="password"], input[type="text"], input[type="email"] {
+  width: 100%; padding: 12px 14px; background: #18181f; border: 1px solid #232332;
+  border-radius: 10px; color: #eeeef5; font-size: 14px; outline: none;
+  transition: border-color .2s;
+}
+input:focus { border-color: #6c4efa; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 12px 24px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity .2s; }
+.btn:hover { opacity: 0.85; }
+.btn-primary { background: linear-gradient(135deg, #6c4efa, #f04f7a); color: #fff; width: 100%; margin-top: 16px; }
+.btn-success { background: linear-gradient(135deg, #3de8a0, #1db87a); color: #09090c; padding: 8px 16px; font-size: 12px; }
+.btn-sm { padding: 7px 14px; font-size: 12px; }
+.btn-outline { background: transparent; border: 1px solid #232332; color: #eeeef5; }
+
+/* Stats */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #111118; border: 1px solid #232332; border-radius: 12px; padding: 18px; }
+.stat-value { font-size: 28px; font-weight: 800; color: #eeeef5; }
+.stat-label { font-size: 11px; color: #6a6a82; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* Table */
+.table-wrap { background: #111118; border: 1px solid #232332; border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+table { width: 100%; border-collapse: collapse; }
+th { padding: 12px 16px; text-align: left; font-size: 11px; color: #6a6a82; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #232332; }
+td { padding: 12px 16px; font-size: 13px; border-bottom: 1px solid #18181f; }
+tr:last-child td { border-bottom: none; }
+.badge-pro { background: rgba(240,160,32,0.15); color: #f0a020; border: 1px solid rgba(240,160,32,0.3); padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.badge-free { background: rgba(108,78,250,0.1); color: #6c4efa; border: 1px solid rgba(108,78,250,0.2); padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+
+/* Activate form */
+.activate-form { display: flex; gap: 10px; align-items: flex-end; }
+.activate-form .field { flex: 1; }
+.activate-form input { margin-bottom: 0; }
+
+.error { color: #f04f7a; font-size: 13px; margin-top: 8px; }
+.success-msg { color: #3de8a0; font-size: 13px; margin-top: 8px; }
+.section-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; color: #eeeef5; }
+.top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.loading { color: #6a6a82; font-size: 13px; padding: 20px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- LOGIN -->
+  <div id="login-screen">
+    <h1>FreelanceAI</h1>
+    <p class="subtitle">Панель администратора</p>
+    <div class="card">
+      <label>Admin Secret</label>
+      <input type="password" id="secret-input" placeholder="Введи ADMIN_SECRET" />
+      <div id="login-error" class="error" style="display:none"></div>
+      <button class="btn btn-primary" onclick="doLogin()">Войти</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard" style="display:none">
+    <div class="top-bar">
+      <div>
+        <h1>FreelanceAI Admin</h1>
+        <p class="subtitle">Панель управления</p>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="logout()">Выйти</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card"><div class="stat-value" id="s-users">—</div><div class="stat-label">Пользователей</div></div>
+      <div class="stat-card"><div class="stat-value" id="s-pro">—</div><div class="stat-label">PRO</div></div>
+      <div class="stat-card"><div class="stat-value" id="s-gen">—</div><div class="stat-label">Генераций</div></div>
+      <div class="stat-card"><div class="stat-value" id="s-keys">—</div><div class="stat-label">Ключей</div></div>
+    </div>
+
+    <!-- Activate PRO -->
+    <div class="card" style="margin-bottom:20px">
+      <div class="section-title">✦ Активировать PRO вручную</div>
+      <div class="activate-form">
+        <div class="field">
+          <label>Email пользователя</label>
+          <input type="email" id="activate-email" placeholder="user@example.com" />
+        </div>
+        <button class="btn btn-success" onclick="activatePro()">Активировать PRO</button>
+      </div>
+      <div id="activate-msg"></div>
+    </div>
+
+    <!-- Add Key -->
+    <div class="card" style="margin-bottom:20px">
+      <div class="section-title">🔑 Добавить ключ активации</div>
+      <div class="activate-form">
+        <div class="field">
+          <label>Ключ (или оставь пустым — сгенерируется)</label>
+          <input type="text" id="new-key" placeholder="Необязательно" />
+        </div>
+        <button class="btn btn-success" onclick="addKey()">Добавить ключ</button>
+      </div>
+      <div id="key-msg"></div>
+    </div>
+
+    <!-- Users table -->
+    <div class="section-title">👥 Пользователи</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Статус</th>
+            <th>Генераций</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+        <tbody id="users-tbody">
+          <tr><td colspan="4" class="loading">Загрузка...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const WORKER = 'https://wandering-king-6565.mihailtr35.workers.dev';
+let SECRET = '';
+
+function doLogin() {
+  const val = document.getElementById('secret-input').value.trim();
+  if (!val) return;
+  SECRET = val;
+  loadDashboard();
+}
+
+document.getElementById('secret-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+function logout() {
+  SECRET = '';
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'block';
+  document.getElementById('secret-input').value = '';
+}
+
+async function apiGet(path) {
+  const r = await fetch(WORKER + path, {
+    headers: { 'X-Admin-Secret': SECRET }
+  });
+  return r.json();
+}
+
+async function apiPost(path, body) {
+  const r = await fetch(WORKER + path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': SECRET },
+    body: JSON.stringify(body)
+  });
+  return r.json();
+}
+
+async function loadDashboard() {
+  const err = document.getElementById('login-error');
+  err.style.display = 'none';
+
+  try {
+    const stats = await apiGet('/api/admin/stats');
+    if (stats.error) {
+      err.textContent = 'Неверный секрет';
+      err.style.display = 'block';
+      return;
+    }
+
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+
+    document.getElementById('s-users').textContent = stats.users ?? '—';
+    document.getElementById('s-pro').textContent = stats.pro_users ?? '—';
+    document.getElementById('s-gen').textContent = stats.total_generations ?? '—';
+    document.getElementById('s-keys').textContent = stats.available_keys ?? '—';
+
+    loadUsers();
+  } catch(e) {
+    err.textContent = 'Ошибка подключения к воркеру';
+    err.style.display = 'block';
+  }
+}
+
+async function loadUsers() {
+  const tbody = document.getElementById('users-tbody');
+  try {
+    const data = await apiGet('/api/admin/stats');
+    const users = data.recent_users || [];
+    if (!users.length) {
+      tbody.innerHTML = '<tr><td colspan="4" class="loading">Пользователей пока нет</td></tr>';
+      return;
+    }
+    tbody.innerHTML = users.map(u => `
+      <tr>
+        <td>${u.email}</td>
+        <td><span class="${u.is_pro ? 'badge-pro' : 'badge-free'}">${u.is_pro ? 'PRO' : 'FREE'}</span></td>
+        <td>${u.generations ?? 0}</td>
+        <td>${!u.is_pro ? `<button class="btn btn-success btn-sm" onclick="quickActivate('${u.email}')">→ PRO</button>` : '✓'}</td>
+      </tr>
+    `).join('');
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="4" class="loading">Ошибка загрузки</td></tr>';
+  }
+}
+
+async function activatePro() {
+  const email = document.getElementById('activate-email').value.trim();
+  const msg = document.getElementById('activate-msg');
+  if (!email) { msg.innerHTML = '<span class="error">Введи email</span>'; return; }
+
+  msg.innerHTML = '<span style="color:#6a6a82">Активирую...</span>';
+  const res = await apiPost('/api/admin/add-key', { email, activate_directly: true });
+
+  if (res.error) {
+    msg.innerHTML = `<span class="error">Ошибка: ${res.error}</span>`;
+  } else {
+    msg.innerHTML = `<span class="success-msg">✓ PRO активирован для ${email}</span>`;
+    document.getElementById('activate-email').value = '';
+    loadUsers();
+  }
+}
+
+async function quickActivate(email) {
+  document.getElementById('activate-email').value = email;
+  await activatePro();
+}
+
+async function addKey() {
+  const key = document.getElementById('new-key').value.trim();
+  const msg = document.getElementById('key-msg');
+  msg.innerHTML = '<span style="color:#6a6a82">Добавляю...</span>';
+
+  const body = key ? { key } : {};
+  const res = await apiPost('/api/admin/add-key', body);
+
+  if (res.error) {
+    msg.innerHTML = `<span class="error">Ошибка: ${res.error}</span>`;
+  } else {
+    msg.innerHTML = `<span class="success-msg">✓ Ключ добавлен: ${res.key || '—'}</span>`;
+    document.getElementById('new-key').value = '';
+  }
+}
+</script>
+</body>
+</html>
