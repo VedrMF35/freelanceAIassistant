@@ -3,28 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="dns-prefetch" href="https://wandering-king-6565.mihailtr35.workers.dev">
+<link rel="preconnect" href="https://wandering-king-6565.mihailtr35.workers.dev">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <title>FreelanceAI — КП, переговоры и деньги за 10 секунд</title>
 <meta name="description" content="ИИ-помощник фрилансера. КП, оценка проекта, письма клиентам, контракт, выбить долг — за 10 секунд. Попробуй бесплатно.">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://freelanceai.app/">
+<link rel="canonical" href="https://vedrmf35.github.io/freelanceAIassistant/">
 <meta name="theme-color" content="#09090c">
-<meta property="og:image" content="https://freelanceai.app/preview.webp">
-<meta property="og:url" content="https://freelanceai.app/">
+<meta property="og:image" content="https://vedrmf35.github.io/freelanceAIassistant/preview.png">
+<meta property="og:url" content="https://vedrmf35.github.io/freelanceAIassistant/">
 <meta property="og:site_name" content="FreelanceAI">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="FreelanceAI — рутина за секунды, деньги за работу">
 <meta name="twitter:description" content="10 ИИ-инструментов для фрилансеров. КП, контракт, долги, переговоры — за 10 секунд.">
-<meta name="twitter:image" content="https://freelanceai.app/preview.webp">
+<meta name="twitter:image" content="https://vedrmf35.github.io/freelanceAIassistant/preview.png">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"FreelanceAI","applicationCategory":"BusinessApplication","offers":{"@type":"Offer","price":"490","priceCurrency":"RUB"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"1240"},"description":"ИИ-помощник фрилансера — КП, оценка, письма, контракт за 10 секунд"}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"FreelanceAI","url":"https://vedrmf35.github.io/freelanceAIassistant/","applicationCategory":"BusinessApplication","offers":{"@type":"Offer","price":"490","priceCurrency":"RUB"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"1240"},"description":"ИИ-помощник фрилансера — КП, оценка, письма, контракт за 10 секунд"}
 </script>
 <!-- OG / Social -->
 <meta property="og:title" content="FreelanceAI — рутина за секунды, деньги за работу">
 <meta property="og:description" content="10 ИИ-инструментов для фрилансеров. КП, контракт, долги, переговоры — за 10 секунд.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236c4efa'/><text y='.9em' font-size='80' x='10'>⚡</text></svg>">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FreelanceAI">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"></noscript>
 <style>
 :root {
   --bg: #09090c; --surface: #111118; --surface2: #18181f; --surface3: #1f1f28;
@@ -34,11 +44,17 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+::selection { background: rgba(108,78,250,0.3); color: #eeeef5; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 body {
   background: var(--bg); color: var(--text);
   font-family: 'DM Sans', sans-serif; font-weight: 400;
   min-height: 100vh; overflow-x: hidden;
 }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #232332; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 body::before {
   content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
   background:
@@ -161,7 +177,7 @@ header { padding: 26px 0 14px; display: flex; align-items: center; justify-conte
 label { display: block; font-size: 10px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
 input, select, textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 10px 13px; outline: none; transition: border-color .2s, box-shadow .2s; appearance: none; }
 input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(108,78,250,.1); }
-textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+textarea { resize: vertical; min-height: 80px; line-height: 1.6; field-sizing: content; }
 select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236a6a82' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; cursor: pointer; }
 .btn-gen { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border: none; border-radius: 12px; color: #fff; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; transition: all .2s; margin-top: 8px; box-shadow: 0 4px 22px rgba(108,78,250,.3); }
 .btn-gen:hover { opacity: .92; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108,78,250,.4); }
@@ -492,7 +508,7 @@ footer a { color: var(--accent); text-decoration: none; }
       </div>
       <div class="auth-field-wrap">
         <label id="as1-l-email">Email</label>
-        <input type="email" id="auth-email" placeholder="ivan@example.com" autocomplete="email" onkeydown="if(event.key==='Enter')sendMagicLink()">
+        <input type="email" id="auth-email" placeholder="ivan@example.com" autocomplete="email" inputmode="email" onkeydown="if(event.key==='Enter')sendMagicLink()">
       </div>
       <button class="btn-auth-primary" id="as1-btn" onclick="sendMagicLink()">
         <span id="as1-btn-txt">✦ Получить ссылку для входа</span>
@@ -629,16 +645,16 @@ footer a { color: var(--accent); text-decoration: none; }
   </section>
 
   <div class="tools-nav" id="tabsNav">
-    <button class="tool-tab active" onclick="sw('kp',this)">📄 КП</button>
-    <button class="tool-tab" onclick="sw('est',this)">🧮 Оценка проекта</button>
-    <button class="tool-tab" onclick="sw('brief',this)">🎨 Бриф</button>
-    <button class="tool-tab pro-tab" id="tab-letter" onclick="swPro('letter',this)">✉️ Письмо клиенту 🔒</button>
-    <button class="tool-tab pro-tab" id="tab-raise"  onclick="swPro('raise',this)">💰 Поднять цену 🔒</button>
-    <button class="tool-tab pro-tab" id="tab-contract" onclick="swPro('contract',this)">📝 Контракт 🔒</button>
-    <button class="tool-tab pro-tab" id="tab-scope"  onclick="swPro('scope',this)">🛡 Scope creep 🔒</button>
-    <button class="tool-tab pro-tab" id="tab-debt"   onclick="swPro('debt',this)">💸 Выбить долг 🔒</button>
-    <button class="tool-tab pro-tab" id="tab-client" onclick="swPro('client',this)">🔍 Анализ клиента 🔒</button>
-    <button class="tool-tab pro-tab" id="tab-report" onclick="swPro('report',this)">📊 Отчёт 🔒</button>
+    <button class="tool-tab active" onclick="sw('kp',this)" title="Коммерческое предложение">📄 КП</button>
+    <button class="tool-tab" onclick="sw('est',this)" title="Оценка трудозатрат и стоимости">🧮 Оценка проекта</button>
+    <button class="tool-tab" onclick="sw('brief',this)" title="Бриф-опросник для клиента">🎨 Бриф</button>
+    <button class="tool-tab pro-tab" id="tab-letter" onclick="swPro('letter',this)" title="Письмо клиенту — PRO">✉️ Письмо клиенту 🔒</button>
+    <button class="tool-tab pro-tab" id="tab-raise"  onclick="swPro('raise',this)" title="Скрипт повышения ставки — PRO">💰 Поднять цену 🔒</button>
+    <button class="tool-tab pro-tab" id="tab-contract" onclick="swPro('contract',this)" title="Генератор контракта — PRO">📝 Контракт 🔒</button>
+    <button class="tool-tab pro-tab" id="tab-scope"  onclick="swPro('scope',this)" title="Защита от scope creep — PRO">🛡 Scope creep 🔒</button>
+    <button class="tool-tab pro-tab" id="tab-debt"   onclick="swPro('debt',this)" title="Письма для выбивания долга — PRO">💸 Выбить долг 🔒</button>
+    <button class="tool-tab pro-tab" id="tab-client" onclick="swPro('client',this)" title="Анализ клиента на риски — PRO">🔍 Анализ клиента 🔒</button>
+    <button class="tool-tab pro-tab" id="tab-report" onclick="swPro('report',this)" title="Отчёт по проекту — PRO">📊 Отчёт 🔒</button>
   </div>
 
   <!-- КП -->
@@ -1337,6 +1353,7 @@ function updateCounters() {
 
 function setLang(l) {
   lang = l; localStorage.setItem('fai_lang', l);
+  document.documentElement.lang = l;
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === l.toUpperCase()));
   applyLang(); applyReviewsLang();
   loadUserReviews().then(() => renderReviews());
@@ -1385,7 +1402,12 @@ async function gen(tool) {
       body: JSON.stringify({ model:'anthropic/claude-3-haiku', max_tokens:1400, messages:[{role:'user',content:prompt}] })
     });
     if (res.status === 401) { clearSession(); updateAuthHeader(); openAuthModal(); return; }
-    if (res.status === 429) { rbEl.textContent = lang==='ru' ? '⚠️ Слишком много запросов. Подожди минуту.' : '⚠️ Too many requests. Wait a minute.'; btnEl.innerHTML = `✦ <span>${lang==='ru'?'Попробовать снова':'Try again'}</span>`; btnWrap.disabled=false; return; }
+    if (res.status === 429) {
+      const retryData = await res.json().catch(()=>({}));
+      const retryAfter = retryData.retry_after || 60;
+      rbEl.textContent = lang==='ru' ? `⚠️ Слишком много запросов. Подожди ${retryAfter} секунд.` : `⚠️ Too many requests. Wait ${retryAfter} seconds.`;
+      btnEl.innerHTML = `✦ <span>${lang==='ru'?'Попробовать снова':'Try again'}</span>`; btnWrap.disabled=false; return;
+    }
     if (res.status === 403) {
       const errData = await res.json().catch(()=>({}));
       if (errData.error === 'free_limit_reached') { showModal(); return; }
@@ -1453,16 +1475,26 @@ function sw(panel, el) {
 function swPro(panel, el) { if (!isPro) { sw('pro', el); return; } sw(panel, el); }
 function showModal()  { updateModalScarcity(); $('modal').classList.add('show'); }
 function closeModal() { $('modal').classList.remove('show'); }
-function goToPay()    { window.open(CFG.PAY_LINK, '_blank'); }
+// Click outside modal to close
+document.addEventListener('click', e => {
+  if (e.target.id === 'modal') closeModal();
+  if (e.target.id === 'authModal') closeAuthModal();
+});
+function goToPay()    { window.open(CFG.PAY_LINK, '_blank', 'noopener,noreferrer'); }
 function cp(id, btnId) {
   const txt = $(id).querySelector('.result-body').textContent;
   const btn = $(btnId), t = L[lang];
   navigator.clipboard.writeText(txt).then(() => {
-    btn.textContent = t.copied; setTimeout(() => btn.textContent = t.copy, 2200);
+    btn.textContent = t.copied;
+    btn.style.color = 'var(--accent3)';
+    btn.style.borderColor = 'var(--accent3)';
+    setTimeout(() => { btn.textContent = t.copy; btn.style.color = ''; btn.style.borderColor = ''; }, 2200);
   }).catch(() => {
     const ta = document.createElement('textarea'); ta.value = txt;
     document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-    btn.textContent = t.copied; setTimeout(() => btn.textContent = t.copy, 2200);
+    btn.textContent = t.copied;
+    btn.style.color = 'var(--accent3)';
+    setTimeout(() => { btn.textContent = t.copy; btn.style.color = ''; }, 2200);
   });
 }
 function toggleFaq(item) {
@@ -1922,6 +1954,9 @@ function initSticky() {
 // INIT
 // ═══════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', async () => {
+  // Устанавливаем lang атрибут
+  document.documentElement.lang = lang;
+
   // Применяем язык и переводы
   applyLang();
   applyReviewsLang();
@@ -1931,6 +1966,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Запускаем sticky CTA
   initSticky();
+
+  // Keyboard ESC closes modals
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      closeModal();
+      closeAuthModal();
+    }
+  });
 
   // Грузим онлайн счётчик
   await loadOnlineCount();
