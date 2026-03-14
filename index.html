@@ -1329,7 +1329,7 @@ function updateProTabs() {
   });
 }
 
-ffunction updateCounters() {
+function updateCounters() {
   const t = L[lang];
   const used = getUsed();
   const left = Math.max(0, CFG.FREE_LIMIT - used);
@@ -1360,6 +1360,20 @@ ffunction updateCounters() {
       ah.style.display = 'inline-flex';
       ah.classList.remove('used');
       ah.textContent = lang === 'ru' ? '🎁 Попробуй без регистрации — 1 генерация бесплатно' : '🎁 Try without sign up — 1 free generation';
+    }
+  }
+  // Обновляем firstTip внутри карточки КП
+  const ft = $('firstTip');
+  if (ft) {
+    if (isPro) {
+      ft.style.display = 'none';
+    } else if (authToken) {
+      ft.textContent = lang === 'ru'
+        ? `⚡ Осталось бесплатных генераций: ${left} из ${CFG.FREE_LIMIT}`
+        : `⚡ Free generations left: ${left} of ${CFG.FREE_LIMIT}`;
+      ft.style.background = left === 0 ? 'rgba(240,103,42,0.1)' : 'rgba(61,232,160,0.07)';
+      ft.style.borderColor = left === 0 ? 'rgba(240,103,42,0.3)' : 'rgba(61,232,160,0.2)';
+      ft.style.color = left === 0 ? 'var(--warn)' : 'var(--accent3)';
     }
   }
   if (isPro) {
