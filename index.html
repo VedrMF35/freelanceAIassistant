@@ -1329,7 +1329,7 @@ function updateProTabs() {
   });
 }
 
-function updateCounters() {
+ffunction updateCounters() {
   const t = L[lang];
   const used = getUsed();
   const left = Math.max(0, CFG.FREE_LIMIT - used);
@@ -1343,6 +1343,24 @@ function updateCounters() {
     if (isPro) pill.textContent = t.usagePro;
     else if (!authToken) pill.textContent = t.usageAnon;
     else pill.textContent = t.usageFree(left);
+  }
+  // Обновляем anonHint в зависимости от статуса
+  const ah = $('anonHint');
+  if (ah) {
+    if (isPro) {
+      ah.style.display = 'none';
+    } else if (authToken) {
+      ah.classList.remove('used');
+      ah.style.display = 'inline-flex';
+      ah.textContent = lang === 'ru'
+        ? `⚡ Осталось бесплатных генераций: ${left} из ${CFG.FREE_LIMIT}`
+        : `⚡ Free generations left: ${left} of ${CFG.FREE_LIMIT}`;
+      if (left === 0) { ah.classList.add('used'); ah.textContent = lang === 'ru' ? '⚠️ Бесплатные генерации закончились' : '⚠️ Free generations used up'; }
+    } else {
+      ah.style.display = 'inline-flex';
+      ah.classList.remove('used');
+      ah.textContent = lang === 'ru' ? '🎁 Попробуй без регистрации — 1 генерация бесплатно' : '🎁 Try without sign up — 1 free generation';
+    }
   }
   if (isPro) {
     ['ab1','ab2','ab3'].forEach(id => { const el=$(id); if(el) el.style.display='none'; });
