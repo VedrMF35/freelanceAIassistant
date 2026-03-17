@@ -1431,7 +1431,7 @@ async function gen(tool) {
     if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
     const res = await fetch(CFG.API_ENDPOINT, {
       method: 'POST', headers,
-      body: JSON.stringify({ model:'anthropic/claude-3-haiku', max_tokens:1400, messages:[{role:'user',content:prompt}] })
+      body: JSON.stringify({ model:'arcee-ai/trinity-large-preview:free', max_tokens:1400, messages:[{role:'user',content:prompt}] })
     });
     if (res.status === 401) { clearSession(); updateAuthHeader(); openAuthModal(); return; }
     if (res.status === 429) {
