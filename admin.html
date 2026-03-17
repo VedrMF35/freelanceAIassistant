@@ -190,7 +190,7 @@ async function loadDashboard() {
 
     document.getElementById('s-users').textContent = stats.users ?? '—';
     document.getElementById('s-pro').textContent = stats.pro_users ?? '—';
-    document.getElementById('s-gen').textContent = stats.total_generations ?? '—';
+    document.getElementById('s-gen').textContent = stats.free_generations ?? '—';
     document.getElementById('s-keys').textContent = stats.available_keys ?? '—';
 
     loadUsers();
