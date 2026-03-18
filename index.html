@@ -1635,7 +1635,7 @@ async function loadProfile() {
     localStorage.setItem('fai_email', authEmail);
     localStorage.setItem('fai_is_pro', authIsPro ? '1' : '0');
     if (!authIsPro) setUsed(data.free_used || 0);
-    applyProStatus(authIsPro); updateAuthHeader();
+    applyProStatus(authIsPro); updateAuthHeader(); updateCounters();
   } catch(e) { if (authIsPro) applyProStatus(true); updateAuthHeader(); }
 }
 
@@ -1661,6 +1661,7 @@ function applyProStatus(pro) {
     const ub = $('urgencyBar'); if(ub) ub.classList.add('pro-hidden');
     const sc = $('stickyCta'); if(sc) sc.classList.remove('show');
     const vs = $('valueStrip'); if(vs) vs.style.display='none';
+    const ft = $('firstTip'); if(ft) ft.style.display='none';
     updateCounters(); updateProTabs();
     ['ab1','ab2','ab3'].forEach(id => { const el=$(id); if(el) el.style.display='none'; });
     document.querySelectorAll('.result-cta').forEach(el => el.style.display='none');
