@@ -775,11 +775,11 @@ footer a { color: var(--accent); text-decoration: none; }
           <div class="review-tool-select"><label id="rvf-l-tool"></label><select id="rvf-tool"></select></div>
           <label class="star-label" id="rvf-l-stars"></label>
           <div class="star-picker" id="star-picker">
-            <button class="star-btn active" data-v="1" onclick="setStar(1)">★</button>
-            <button class="star-btn active" data-v="2" onclick="setStar(2)">★</button>
-            <button class="star-btn active" data-v="3" onclick="setStar(3)">★</button>
-            <button class="star-btn active" data-v="4" onclick="setStar(4)">★</button>
-            <button class="star-btn active" data-v="5" onclick="setStar(5)">★</button>
+            <button class="star-btn active" data-v="1" onclick="setStar(1)" onmouseover="previewStar(1)" onmouseleave="resetStarPreview()">★</button>
+            <button class="star-btn active" data-v="2" onclick="setStar(2)" onmouseover="previewStar(2)" onmouseleave="resetStarPreview()">★</button>
+            <button class="star-btn active" data-v="3" onclick="setStar(3)" onmouseover="previewStar(3)" onmouseleave="resetStarPreview()">★</button>
+            <button class="star-btn active" data-v="4" onclick="setStar(4)" onmouseover="previewStar(4)" onmouseleave="resetStarPreview()">★</button>
+            <button class="star-btn active" data-v="5" onclick="setStar(5)" onmouseover="previewStar(5)" onmouseleave="resetStarPreview()">★</button>
           </div>
           <div class="fg c1" style="margin-bottom:12px"><div><label id="rvf-l-text"></label><textarea id="rvf-text" rows="3" maxlength="400"></textarea></div></div>
           <button class="btn-submit-review" id="rvf-submit" onclick="submitReview()"><span id="rvf-submit-txt"></span></button>
@@ -1769,9 +1769,28 @@ function applyReviewsLang() {
 
 function setStar(n) {
   reviewStars = n;
-  document.querySelectorAll('.star-btn').forEach(btn => {
+  const picker = document.getElementById('star-picker');
+  if (!picker) return;
+  picker.querySelectorAll('.star-btn').forEach(btn => {
     const v = parseInt(btn.getAttribute('data-v'));
     btn.classList.toggle('active', v <= n);
+    btn.style.filter = '';
+  });
+}
+function previewStar(n) {
+  const picker = document.getElementById('star-picker');
+  if (!picker) return;
+  picker.querySelectorAll('.star-btn').forEach(btn => {
+    const v = parseInt(btn.getAttribute('data-v'));
+    btn.style.filter = v <= n ? 'none' : 'grayscale(1) opacity(.4)';
+  });
+}
+function resetStarPreview() {
+  const picker = document.getElementById('star-picker');
+  if (!picker) return;
+  picker.querySelectorAll('.star-btn').forEach(btn => {
+    const v = parseInt(btn.getAttribute('data-v'));
+    btn.style.filter = v <= reviewStars ? 'none' : 'grayscale(1) opacity(.4)';
   });
 }
 
@@ -1886,15 +1905,17 @@ async function loadOnlineCount() {
 }
 
 function initUserCount() {
-  // Счётчик нового сайта: запуск окт 2025, ~2 новых в день
+  // Счётчик: запуск окт 2025, ~2 новых в день
+  // Число фиксируется на день — не меняется при обновлении страницы
   const LAUNCH = new Date('2025-10-01');
   const now = new Date();
-  const BASE = 43; // первые пользователи на старте
+  const BASE = 43;
   const daysSinceLaunch = Math.max(0, Math.floor((now - LAUNCH) / 86400000));
-  const dailyGrowth = 2; // ~2 в день для нового продукта
+  const dailyGrowth = 2;
   const total = BASE + daysSinceLaunch * dailyGrowth;
-  // drift ±4 для правдоподобия
-  const drift = Math.floor(Math.random() * 8) - 4;
+  // Стабильный drift на основе дня года — не меняется при обновлении
+  const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+  const drift = (dayOfYear % 8) - 4;
   const display = total + drift;
   const formatted = display + '+';
   const hpEl = $('hp-count');
