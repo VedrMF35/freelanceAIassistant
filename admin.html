@@ -114,6 +114,24 @@ tr:last-child td { border-bottom: none; }
       <div id="key-msg"></div>
     </div>
 
+    <!-- Reviews table -->
+    <div class="section-title" style="margin-top:8px">⭐ Отзывы</div>
+    <div class="table-wrap" style="margin-bottom:20px">
+      <table>
+        <thead>
+          <tr>
+            <th>Имя</th>
+            <th>Звёзд</th>
+            <th>Текст</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+        <tbody id="reviews-tbody">
+          <tr><td colspan="4" class="loading">Загрузка...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
     <!-- Users table -->
     <div class="section-title">👥 Пользователи</div>
     <div class="table-wrap">
@@ -194,6 +212,7 @@ async function loadDashboard() {
     document.getElementById('s-keys').textContent = stats.available_keys ?? '—';
 
     loadUsers();
+    loadReviews();
   } catch(e) {
     err.textContent = 'Ошибка подключения к воркеру';
     err.style.display = 'block';
@@ -242,6 +261,35 @@ async function activatePro() {
 async function quickActivate(email) {
   document.getElementById('activate-email').value = email;
   await activatePro();
+}
+
+async function loadReviews() {
+  const tbody = document.getElementById('reviews-tbody');
+  try {
+    const data = await apiGet('/api/admin/reviews');
+    const reviews = data.reviews || [];
+    if (!reviews.length) {
+      tbody.innerHTML = '<tr><td colspan="4" class="loading">Отзывов пока нет</td></tr>';
+      return;
+    }
+    tbody.innerHTML = reviews.map(r => `
+      <tr>
+        <td>${r.name || '—'}</td>
+        <td>${'★'.repeat(r.stars || 5)}</td>
+        <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.text || ''}</td>
+        <td><button class="btn btn-sm" style="background:#f04f7a;color:#fff" onclick="deleteReview(${r.id})">Удалить</button></td>
+      </tr>
+    `).join('');
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="4" class="loading">Ошибка загрузки</td></tr>';
+  }
+}
+
+async function deleteReview(id) {
+  if (!confirm('Удалить отзыв?')) return;
+  const res = await apiPost('/api/admin/delete-review', { id });
+  if (res.ok) loadReviews();
+  else alert('Ошибка: ' + res.error);
 }
 
 async function addKey() {
