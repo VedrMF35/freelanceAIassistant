@@ -360,9 +360,9 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .review-form-body { padding: 18px; }
 .review-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
 .star-picker { display: flex; gap: 4px; margin-bottom: 14px; }
-.star-btn { font-size: 22px; background: none; border: none; cursor: pointer; filter: grayscale(1) opacity(.4); transition: all .15s; padding: 2px; line-height: 1; }
-.star-btn.active { filter: none; transform: scale(1.15); }
-.star-btn:hover { filter: none; }
+.star-btn { font-size: 24px; background: none; border: none; cursor: pointer; color: #555; transition: all .15s; padding: 2px; line-height: 1; filter: none; }
+.star-btn.active { color: #f0a020; text-shadow: 0 0 8px rgba(240,160,32,0.7); transform: scale(1.15); }
+.star-btn:hover { color: #f0a020; text-shadow: 0 0 12px rgba(240,160,32,0.9); transform: scale(1.2); }
 .star-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 6px; display: block; }
 .review-tool-select { margin-bottom: 10px; }
 .btn-submit-review { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--accent3), var(--accent)); border: none; border-radius: 10px; color: var(--bg); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; cursor: pointer; transition: all .2s; margin-top: 4px; }
@@ -1774,7 +1774,8 @@ function setStar(n) {
   picker.querySelectorAll('.star-btn').forEach(btn => {
     const v = parseInt(btn.getAttribute('data-v'));
     btn.classList.toggle('active', v <= n);
-    btn.style.filter = '';
+    btn.style.color = v <= n ? '#f0a020' : '#555';
+    btn.style.textShadow = v <= n ? '0 0 8px rgba(240,160,32,0.7)' : 'none';
   });
 }
 function previewStar(n) {
@@ -1782,7 +1783,8 @@ function previewStar(n) {
   if (!picker) return;
   picker.querySelectorAll('.star-btn').forEach(btn => {
     const v = parseInt(btn.getAttribute('data-v'));
-    btn.style.filter = v <= n ? 'none' : 'grayscale(1) opacity(.4)';
+    btn.style.color = v <= n ? '#f0a020' : '#555';
+    btn.style.textShadow = v <= n ? '0 0 12px rgba(240,160,32,0.9)' : 'none';
   });
 }
 function resetStarPreview() {
@@ -1790,7 +1792,8 @@ function resetStarPreview() {
   if (!picker) return;
   picker.querySelectorAll('.star-btn').forEach(btn => {
     const v = parseInt(btn.getAttribute('data-v'));
-    btn.style.filter = v <= reviewStars ? 'none' : 'grayscale(1) opacity(.4)';
+    btn.style.color = v <= reviewStars ? '#f0a020' : '#555';
+    btn.style.textShadow = v <= reviewStars ? '0 0 8px rgba(240,160,32,0.7)' : 'none';
   });
 }
 
@@ -1856,12 +1859,35 @@ async function submitReview() {
   if(errEl) errEl.textContent = '';
   if(submitBtn) submitBtn.disabled = true;
   if($('rvf-submit-txt')) $('rvf-submit-txt').textContent = lang==='ru'?'Отправляем...':'Submitting...';
+  // Аватарка по специализации
+  const roleToAv = {
+    'веб':'👨‍💻','web':'👨‍💻','разработ':'👨‍💻','dev':'👨‍💻','програм':'👨‍💻',
+    'дизайн':'🎨','design':'🎨','ui':'🎨','ux':'🎨',
+    'копир':'✍️','copy':'✍️','текст':'✍️','writer':'✍️','контент':'✍️',
+    'smm':'📱','маркет':'📱','market':'📱','соцсет':'📱',
+    'фото':'📸','photo':'📸','видео':'🎬','video':'🎬','motion':'🎬',
+    'перевод':'🌐','translat':'🌐',
+    'seo':'🔍','аналит':'📊','analyt':'📊','data':'📊',
+    'менедж':'💼','manage':'💼','проект':'💼',
+    'иллюстр':'🖼','illustr':'🖼',
+  };
+  const roleLower = roleVal.toLowerCase();
+  let av = '🧑‍💻';
+  for (const [key, emoji] of Object.entries(roleToAv)) {
+    if (roleLower.includes(key)) { av = emoji; break; }
+  }
+  const months = lang === 'ru'
+    ? ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек']
+    : ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const now = new Date();
+  const dateStr = months[now.getMonth()] + ' ' + now.getFullYear();
+
   try {
     const headers = {'Content-Type': 'application/json'};
     if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
     const res = await fetch(WORKER_URL + '/api/reviews', {
       method: 'POST', headers,
-      body: JSON.stringify({ name: nameVal, role: roleVal, text: textVal, tool: toolVal, stars: reviewStars, lang })
+      body: JSON.stringify({ name: nameVal, role: roleVal, text: textVal, tool: toolVal, stars: reviewStars, lang, av, date: dateStr })
     });
     if (res.ok) {
       const rvfForm = $('rvf-form'), rvfSuccess = $('rvf-success');
