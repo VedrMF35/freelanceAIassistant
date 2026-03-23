@@ -2,2097 +2,311 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="google-site-verification" content="gpDUm_td_aa0GX2FQcPWXHehGRmuIs8x421b3o27FQg" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="dns-prefetch" href="https://wandering-king-6565.mihailtr35.workers.dev">
-<link rel="preconnect" href="https://wandering-king-6565.mihailtr35.workers.dev">
-<link rel="dns-prefetch" href="https://fonts.googleapis.com">
-<link rel="dns-prefetch" href="https://fonts.gstatic.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<title>FreelanceAI — КП, переговоры и деньги за 10 секунд</title>
-<meta name="description" content="ИИ-помощник фрилансера. КП, оценка проекта, письма клиентам, контракт, выбить долг — за 10 секунд. Попробуй бесплатно.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://vedrmf35.github.io/freelanceAIassistant/">
-<meta name="theme-color" content="#09090c">
-<meta property="og:image" content="https://vedrmf35.github.io/freelanceAIassistant/preview.png">
-<meta property="og:url" content="https://vedrmf35.github.io/freelanceAIassistant/">
-<meta property="og:site_name" content="FreelanceAI">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="FreelanceAI — рутина за секунды, деньги за работу">
-<meta name="twitter:description" content="10 ИИ-инструментов для фрилансеров. КП, контракт, долги, переговоры — за 10 секунд.">
-<meta name="twitter:image" content="https://vedrmf35.github.io/freelanceAIassistant/preview.png">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"FreelanceAI","url":"https://vedrmf35.github.io/freelanceAIassistant/","applicationCategory":"BusinessApplication","offers":{"@type":"Offer","price":"490","priceCurrency":"RUB"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"1240"},"description":"ИИ-помощник фрилансера — КП, оценка, письма, контракт за 10 секунд"}
-</script>
-<!-- OG / Social -->
-<meta property="og:title" content="FreelanceAI — рутина за секунды, деньги за работу">
-<meta property="og:description" content="10 ИИ-инструментов для фрилансеров. КП, контракт, долги, переговоры — за 10 секунд.">
-<meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236c4efa'/><text y='.9em' font-size='80' x='10'>⚡</text></svg>">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="FreelanceAI">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"></noscript>
+<title>FreelanceAI — Админка</title>
 <style>
-:root {
-  --bg: #09090c; --surface: #111118; --surface2: #18181f; --surface3: #1f1f28;
-  --border: #232332; --accent: #6c4efa; --accent-glow: rgba(108,78,250,0.18);
-  --accent2: #f04f7a; --accent3: #3de8a0; --text: #eeeef5; --muted: #6a6a82;
-  --gold: #f0a020; --warn: #f0672a;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #09090c; color: #eeeef5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; padding: 40px 20px; }
+.container { max-width: 800px; margin: 0 auto; }
+h1 { font-size: 24px; font-weight: 800; margin-bottom: 8px; background: linear-gradient(135deg, #6c4efa, #f04f7a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { color: #6a6a82; font-size: 13px; margin-bottom: 32px; }
+
+/* Login */
+#login-screen { max-width: 400px; margin: 80px auto; }
+.card { background: #111118; border: 1px solid #232332; border-radius: 16px; padding: 28px; margin-bottom: 20px; }
+label { display: block; font-size: 12px; color: #6a6a82; margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+input[type="password"], input[type="text"], input[type="email"] {
+  width: 100%; padding: 12px 14px; background: #18181f; border: 1px solid #232332;
+  border-radius: 10px; color: #eeeef5; font-size: 14px; outline: none;
+  transition: border-color .2s;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-::selection { background: rgba(108,78,250,0.3); color: #eeeef5; }
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
-body {
-  background: var(--bg); color: var(--text);
-  font-family: 'DM Sans', sans-serif; font-weight: 400;
-  min-height: 100vh; overflow-x: hidden;
-}
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: #232332; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-body::before {
-  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background:
-    radial-gradient(ellipse 80% 55% at 10% -10%, rgba(108,78,250,0.14) 0%, transparent 60%),
-    radial-gradient(ellipse 55% 45% at 90% 95%, rgba(240,79,122,0.09) 0%, transparent 60%),
-    radial-gradient(ellipse 35% 30% at 55% 55%, rgba(61,232,160,0.03) 0%, transparent 65%);
-}
-.z { position: relative; z-index: 1; }
-.container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+input:focus { border-color: #6c4efa; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 12px 24px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity .2s; }
+.btn:hover { opacity: 0.85; }
+.btn-primary { background: linear-gradient(135deg, #6c4efa, #f04f7a); color: #fff; width: 100%; margin-top: 16px; }
+.btn-success { background: linear-gradient(135deg, #3de8a0, #1db87a); color: #09090c; padding: 8px 16px; font-size: 12px; }
+.btn-sm { padding: 7px 14px; font-size: 12px; }
+.btn-outline { background: transparent; border: 1px solid #232332; color: #eeeef5; }
 
-/* ─── HEADER ─── */
-header { padding: 26px 0 14px; display: flex; align-items: center; justify-content: space-between; }
-.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.logo-ico { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; background: linear-gradient(135deg, var(--accent), var(--accent2)); box-shadow: 0 4px 18px rgba(108,78,250,0.4); }
-.logo-txt { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.5px; color: var(--text); }
-.logo-txt span { color: var(--accent); }
-.hdr-r { display: flex; align-items: center; gap: 9px; }
-.badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; }
-.badge-free { color: var(--accent3); background: rgba(61,232,160,0.07); border: 1px solid rgba(61,232,160,0.18); }
-.badge-pro  { color: var(--gold); background: rgba(240,160,32,0.1); border: 1px solid rgba(240,160,32,0.28); }
-.usage-pill { font-size: 11px; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 3px 10px; }
-.lang-sw { display: flex; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-.lang-btn { padding: 5px 12px; border: none; background: none; color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; font-family: 'Syne', sans-serif; transition: all .2s; }
-.lang-btn.active { background: var(--accent); color: #fff; }
+/* Stats */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 24px; }
+.stat-card { background: #111118; border: 1px solid #232332; border-radius: 12px; padding: 18px; }
+.stat-value { font-size: 28px; font-weight: 800; color: #eeeef5; }
+.stat-label { font-size: 11px; color: #6a6a82; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-/* ─── PRO BANNER ─── */
-.pro-banner { background: linear-gradient(135deg, rgba(240,160,32,0.1), rgba(240,79,122,0.07)); border: 1px solid rgba(240,160,32,0.25); border-radius: 12px; padding: 10px 18px; margin-bottom: 10px; display: none; align-items: center; gap: 10px; font-size: 12px; color: var(--gold); font-weight: 500; }
-.pro-banner.show { display: flex; animation: fadeUp .4s forwards; }
-.pro-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+/* Table */
+.table-wrap { background: #111118; border: 1px solid #232332; border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
+table { width: 100%; border-collapse: collapse; }
+th { padding: 12px 16px; text-align: left; font-size: 11px; color: #6a6a82; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #232332; }
+td { padding: 12px 16px; font-size: 13px; border-bottom: 1px solid #18181f; }
+tr:last-child td { border-bottom: none; }
+.badge-pro { background: rgba(240,160,32,0.15); color: #f0a020; border: 1px solid rgba(240,160,32,0.3); padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.badge-free { background: rgba(108,78,250,0.1); color: #6c4efa; border: 1px solid rgba(108,78,250,0.2); padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700; }
 
-/* ─── URGENCY BAR ─── */
-.urgency-bar { background: linear-gradient(135deg, rgba(240,103,42,0.12), rgba(240,79,122,0.08)); border: 1px solid rgba(240,103,42,0.28); border-radius: 12px; padding: 9px 16px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; opacity: 0; animation: fadeUp .5s .05s forwards; }
-.urgency-bar.pro-hidden { display: none !important; }
-.urgency-left { display: flex; align-items: center; gap: 8px; font-size: 12px; }
-.urgency-fire { font-size: 15px; }
-.urgency-txt { color: var(--warn); font-weight: 600; }
-.urgency-timer { font-family: 'Syne', monospace; font-size: 14px; font-weight: 800; color: var(--warn); background: rgba(240,103,42,0.12); border-radius: 7px; padding: 3px 9px; letter-spacing: 1px; }
-.urgency-note { font-size: 10px; color: var(--muted); }
+/* Activate form */
+.activate-form { display: flex; gap: 10px; align-items: flex-end; }
+.activate-form .field { flex: 1; }
+.activate-form input { margin-bottom: 0; }
 
-/* ─── VALUE STRIP (НОВОЕ) ─── */
-.value-strip {
-  background: linear-gradient(135deg, rgba(108,78,250,0.06), rgba(240,79,122,0.04));
-  border: 1px solid rgba(108,78,250,0.15); border-radius: 12px;
-  padding: 10px 18px; margin-bottom: 16px;
-  display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap;
-  opacity: 0; animation: fadeUp .5s .07s forwards;
-}
-.vs-item { display: flex; align-items: center; gap: 6px; font-size: 12px; }
-.vs-item strong { color: var(--text); font-weight: 700; }
-.vs-item span { color: var(--muted); }
-.vs-sep { width: 1px; height: 18px; background: var(--border); flex-shrink: 0; }
-
-/* ─── PROOF BAR ─── */
-.proof-bar { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 18px; margin-bottom: 26px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; opacity: 0; animation: fadeUp .5s .1s forwards; }
-.proof-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); }
-.proof-item strong { color: var(--text); font-weight: 600; }
-.proof-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent3); }
-
-/* ─── HERO ─── */
-.hero { padding: 30px 0 22px; text-align: center; }
-.hero-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); background: rgba(108,78,250,0.1); border: 1px solid rgba(108,78,250,0.22); padding: 5px 14px; border-radius: 20px; margin-bottom: 16px; opacity: 0; animation: fadeUp .5s .15s forwards; }
-.hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(28px, 5.5vw, 50px); font-weight: 800; line-height: 1.07; letter-spacing: -2px; margin-bottom: 14px; opacity: 0; animation: fadeUp .5s .25s forwards; }
-.hero h1 em { font-style: normal; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.hero-sub { color: var(--muted); font-size: 15px; line-height: 1.7; max-width: 500px; margin: 0 auto 20px; opacity: 0; animation: fadeUp .5s .35s forwards; }
-
-/* ─── SOCIAL PROOF MINI (НОВОЕ) ─── */
-.hero-proof { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 14px; opacity: 0; animation: fadeUp .5s .38s forwards; flex-wrap: wrap; }
-.hp-avatars { display: flex; margin-right: 4px; }
-.hp-av { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg,var(--accent),var(--accent2)); border: 2px solid var(--bg); display: flex; align-items: center; justify-content: center; font-size: 12px; margin-left: -8px; }
-.hp-av:first-child { margin-left: 0; }
-.hp-text { font-size: 12px; color: var(--muted); }
-.hp-text strong { color: var(--text); }
-.hp-stars { color: var(--gold); font-size: 12px; }
-
-/* ─── ANON HINT ─── */
-.anon-hint { display: inline-flex; align-items: center; gap: 6px; background: rgba(61,232,160,0.07); border: 1px solid rgba(61,232,160,0.2); border-radius: 20px; padding: 5px 14px; font-size: 11px; color: var(--accent3); font-weight: 500; margin-bottom: 6px; opacity: 0; animation: fadeUp .5s .4s forwards; }
-.anon-hint.used { color: var(--warn); background: rgba(240,103,42,0.07); border-color: rgba(240,103,42,0.2); }
-
-/* ─── TABS ─── */
-.tools-nav { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin: 0 0 20px; opacity: 0; animation: fadeUp .5s .45s forwards; }
-.tool-tab { padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 12px; font-weight: 500; cursor: pointer; transition: all .2s; font-family: 'DM Sans', sans-serif; }
-.tool-tab:hover { border-color: var(--accent); color: var(--text); }
-.tool-tab.active { background: rgba(108,78,250,0.14); border-color: var(--accent); color: var(--text); }
-.tool-tab.locked { opacity: .5; }
-.tool-tab.locked:hover { border-color: var(--gold); color: var(--gold); opacity: 1; }
-
-/* ─── CARD ─── */
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; margin-bottom: 20px; opacity: 0; animation: fadeUp .6s .5s forwards; }
-.card-hdr { padding: 18px 22px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
-.tool-emoji { width: 38px; height: 38px; background: var(--surface2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-.card-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
-.card-desc { color: var(--muted); font-size: 11px; margin-top: 2px; }
-.card-body { padding: 20px 22px 22px; }
-
-/* ─── ACCESS BAR ─── */
-.access-bar { background: rgba(108,78,250,0.06); border: 1px solid rgba(108,78,250,0.18); border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; }
-.ab-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.ab-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent3); animation: pulse 2s infinite; flex-shrink: 0; }
-.ab-lbl { color: var(--accent3); font-weight: 500; font-size: 12px; }
-.ab-cnt { color: var(--muted); font-size: 12px; }
-.ab-actions { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; }
-@keyframes glowPulse { 0%,100%{box-shadow:0 0 6px rgba(108,78,250,.3)} 50%{box-shadow:0 0 16px rgba(240,79,122,.4)} }
-@keyframes goldGlow  { 0%,100%{box-shadow:0 0 6px rgba(240,160,32,.3)} 50%{box-shadow:0 0 16px rgba(240,160,32,.5)} }
-.btn-key { padding: 5px 13px; background: none; border: 1px solid rgba(108,78,250,.4); border-radius: 7px; color: var(--accent); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 11px; cursor: pointer; animation: glowPulse 2.5s infinite; transition: all .2s; white-space: nowrap; }
-.btn-key:hover { background: rgba(108,78,250,.12); }
-.btn-pro { padding: 5px 15px; background: linear-gradient(135deg, var(--gold), var(--accent2)); border: none; border-radius: 7px; color: #fff; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 11px; cursor: pointer; animation: goldGlow 2s infinite; transition: all .2s; white-space: nowrap; }
-.btn-pro:hover { transform: translateY(-1px); }
-.key-expand { display: none; margin-top: 10px; align-items: center; gap: 8px; flex-wrap: wrap; }
-.key-expand.open { display: flex; }
-.key-field { flex: 1; min-width: 150px; background: var(--bg); border: 1px solid rgba(108,78,250,.38); border-radius: 8px; color: var(--text); font-family: 'Courier New', monospace; font-size: 13px; padding: 8px 12px; outline: none; letter-spacing: 2px; text-transform: uppercase; transition: border-color .2s; }
-.key-field:focus { border-color: var(--accent); }
-.btn-activate { padding: 8px 16px; background: var(--accent); border: none; border-radius: 8px; color: #fff; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 12px; cursor: pointer; transition: opacity .2s; white-space: nowrap; }
-.btn-activate:hover { opacity: .88; }
-.key-err { font-size: 11px; color: var(--accent2); width: 100%; margin-top: 2px; }
-
-/* ─── FORM ─── */
-.fg { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-.fg.c1 { grid-template-columns: 1fr; }
-.fg.c3 { grid-template-columns: 1fr 1fr 1fr; }
-label { display: block; font-size: 10px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; }
-input, select, textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 10px 13px; outline: none; transition: border-color .2s, box-shadow .2s; appearance: none; }
-input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(108,78,250,.1); }
-textarea { resize: vertical; min-height: 80px; line-height: 1.6; field-sizing: content; }
-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236a6a82' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; cursor: pointer; }
-.btn-gen { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border: none; border-radius: 12px; color: #fff; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; cursor: pointer; transition: all .2s; margin-top: 8px; box-shadow: 0 4px 22px rgba(108,78,250,.3); }
-.btn-gen:hover { opacity: .92; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(108,78,250,.4); }
-.btn-gen:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
-.btn-inner { display: flex; align-items: center; justify-content: center; gap: 8px; }
-
-/* ─── RESULT ─── */
-.result-box { margin-top: 16px; background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; display: none; }
-.result-box.show { display: block; animation: fadeUp .4s forwards; }
-.result-hdr { padding: 10px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-.result-lbl { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--accent3); }
-.result-actions { display: flex; gap: 6px; }
-.copy-btn { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .2s; }
-.copy-btn:hover { color: var(--text); border-color: var(--accent); }
-/* НОВОЕ: кнопка поделиться */
-.share-btn { font-size: 11px; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all .2s; }
-.share-btn:hover { color: var(--accent3); border-color: var(--accent3); }
-.result-body { padding: 16px 18px; font-size: 13px; line-height: 1.8; white-space: pre-wrap; word-break: break-word; }
-.result-foot { padding: 10px 18px 14px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-.like-row { display: flex; gap: 6px; }
-.like-btn { background: none; border: 1px solid var(--border); border-radius: 7px; padding: 4px 10px; cursor: pointer; font-size: 14px; transition: all .2s; }
-.like-btn:hover { transform: scale(1.15); border-color: var(--accent3); }
-.result-cta { font-size: 11px; color: var(--muted); }
-.result-cta strong { color: var(--accent); cursor: pointer; }
-/* НОВОЕ: upgrade nudge внутри результата */
-.result-upgrade { margin: 12px 18px 4px; background: linear-gradient(135deg,rgba(240,160,32,.08),rgba(240,79,122,.05)); border: 1px solid rgba(240,160,32,.2); border-radius: 10px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.ru-txt { font-size: 11px; color: var(--muted); }
-.ru-txt strong { color: var(--gold); }
-.ru-btn { padding: 5px 14px; background: linear-gradient(135deg,var(--gold),var(--accent2)); border: none; border-radius: 7px; color: #fff; font-family: 'Syne',sans-serif; font-weight: 800; font-size: 11px; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
-
-/* ─── LOADING ─── */
-.dots { display: inline-flex; gap: 4px; align-items: center; }
-.dots span { width: 5px; height: 5px; background: #fff; border-radius: 50%; animation: dot 1.2s infinite; }
-.dots span:nth-child(2){animation-delay:.2s} .dots span:nth-child(3){animation-delay:.4s}
-@keyframes dot { 0%,80%,100%{opacity:.2;transform:scale(.8)} 40%{opacity:1;transform:scale(1)} }
-
-/* ─── PAYWALL ─── */
-.paywall-card { background: var(--surface); border: 1px solid rgba(240,160,32,.2); border-radius: 20px; overflow: hidden; margin-bottom: 20px; opacity: 0; animation: fadeUp .6s .5s forwards; }
-.pw-hdr { padding: 18px 22px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-.pw-hdr-l { display: flex; align-items: center; gap: 12px; }
-.pro-tag { font-size: 10px; font-weight: 700; color: var(--gold); background: rgba(240,160,32,.1); border: 1px solid rgba(240,160,32,.25); padding: 3px 10px; border-radius: 20px; text-transform: uppercase; }
-.pw-body { padding: 22px; }
-.pro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-.pi { background: var(--surface2); border-radius: 10px; padding: 13px 15px; border: 1px solid var(--border); transition: border-color .2s; }
-.pi:hover { border-color: rgba(240,160,32,.3); }
-.pi-ico { font-size: 17px; margin-bottom: 5px; }
-.pi-title { font-size: 12px; font-weight: 600; font-family: 'Syne', sans-serif; margin-bottom: 3px; }
-.pi-desc { font-size: 11px; color: var(--muted); line-height: 1.45; }
-.testi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-.testi { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
-.stars { color: var(--gold); font-size: 11px; margin-bottom: 6px; }
-.testi-txt { font-size: 12px; line-height: 1.6; color: var(--text); margin-bottom: 10px; font-style: italic; }
-.testi-who { display: flex; align-items: center; gap: 8px; }
-.testi-av { width: 28px; height: 28px; border-radius: 50%; font-size: 15px; display: flex; align-items: center; justify-content: center; background: var(--surface3); }
-.testi-name { font-size: 11px; font-weight: 600; font-family: 'Syne', sans-serif; }
-.testi-role { font-size: 10px; color: var(--muted); }
-
-/* ─── PRICING ─── */
-.pricing-block { background: linear-gradient(135deg, rgba(240,160,32,.1), rgba(240,79,122,.07)); border: 1px solid rgba(240,160,32,.22); border-radius: 14px; padding: 18px 20px; margin-bottom: 16px; }
-.pricing-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
-.pricing-lbl { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); }
-.pricing-price { font-family: 'Syne', sans-serif; font-size: 30px; font-weight: 800; color: var(--gold); }
-.pricing-price s { font-size: 14px; color: var(--muted); font-weight: 400; font-family: 'DM Sans'; margin-left: 8px; }
-/* НОВОЕ: объяснение скидки */
-.pricing-why { font-size: 11px; color: var(--warn); background: rgba(240,103,42,0.08); border-radius: 6px; padding: 4px 10px; display: inline-block; margin-bottom: 10px; }
-.perks { display: flex; flex-wrap: wrap; gap: 8px; }
-.perk { font-size: 11px; color: var(--text); display: flex; align-items: center; gap: 5px; }
-.perk::before { content: '✓'; color: var(--accent3); font-weight: 700; }
-.btn-unlock { width: 100%; padding: 15px; background: linear-gradient(135deg, var(--gold), var(--accent2)); border: none; border-radius: 12px; color: #fff; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; cursor: pointer; transition: all .2s; box-shadow: 0 6px 26px rgba(240,160,32,.3); }
-.btn-unlock:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(240,160,32,.4); }
-.unlock-sub { text-align: center; margin-top: 10px; font-size: 11px; color: var(--muted); }
-/* НОВОЕ: micro-guarantees */
-.micro-guarantees { display: flex; justify-content: center; gap: 18px; margin-top: 12px; flex-wrap: wrap; }
-.mg-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--muted); }
-.mg-ico { font-size: 13px; }
-
-/* ─── MODAL ─── */
-.modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.85); z-index: 100; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-.modal-bg.show { display: flex; }
-.modal { background: var(--surface); border: 1px solid rgba(240,160,32,.22); border-radius: 24px; padding: 36px 30px 28px; max-width: 420px; width: 92%; text-align: center; animation: scaleUp .25s forwards; position: relative; max-height: 90vh; overflow-y: auto; }
-.modal-x { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; transition: color .2s; }
-.modal-x:hover { color: var(--text); }
-.modal-ico { font-size: 44px; margin-bottom: 12px; }
-.modal-ttl { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 20px; color: var(--gold); margin-bottom: 6px; }
-.modal-dsc { color: var(--muted); font-size: 13px; line-height: 1.6; margin-bottom: 16px; }
-.modal-list { background: var(--surface2); border-radius: 12px; padding: 14px 16px; margin-bottom: 16px; text-align: left; display: flex; flex-direction: column; gap: 8px; }
-.modal-li { font-size: 12px; display: flex; align-items: flex-start; gap: 8px; }
-.modal-li::before { content: '✦'; color: var(--gold); font-size: 10px; flex-shrink: 0; margin-top: 2px; }
-.modal-price-wrap { margin-bottom: 14px; }
-.modal-price-main { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--gold); }
-.modal-price-sub { font-size: 12px; color: var(--muted); }
-/* НОВОЕ: scarcity в модале */
-.modal-scarcity { font-size: 11px; color: var(--warn); background: rgba(240,103,42,0.08); border-radius: 8px; padding: 6px 12px; margin-bottom: 14px; display: flex; align-items: center; justify-content: center; gap: 6px; }
-.modal-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--gold), var(--accent2)); border: none; border-radius: 12px; color: #fff; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; cursor: pointer; transition: all .2s; margin-bottom: 6px; }
-.modal-btn:hover { opacity: .92; transform: translateY(-1px); }
-.modal-guarantee { font-size: 10px; color: var(--muted); margin-bottom: 14px; }
-.key-sec { margin-top: 14px; }
-.key-div { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.key-div::before, .key-div::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-.key-div span { font-size: 11px; color: var(--muted); white-space: nowrap; }
-.key-row { display: flex; gap: 8px; }
-.key-row input { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'Courier New', monospace; font-size: 13px; padding: 9px 13px; outline: none; letter-spacing: 2px; text-transform: uppercase; transition: border-color .2s; }
-.key-row input:focus { border-color: var(--accent); }
-.key-row button { padding: 9px 16px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: 'Syne', sans-serif; font-weight: 700; font-size: 12px; cursor: pointer; transition: all .2s; white-space: nowrap; }
-.key-row button:hover { border-color: var(--accent); color: var(--accent); }
-.key-err2 { font-size: 11px; color: var(--accent2); margin-top: 6px; min-height: 16px; text-align: left; }
-.modal-close-link { margin-top: 12px; color: var(--muted); font-size: 11px; cursor: pointer; background: none; border: none; font-family: 'DM Sans', sans-serif; text-decoration: underline; display: block; text-align: center; }
-
-/* ─── AUTH MODAL ─── */
-.auth-modal-bg { position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px); }
-.auth-modal-bg.show { display:flex; }
-.auth-modal { background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:32px 28px 26px;max-width:400px;width:92%;position:relative;animation:scaleUp .25s forwards; }
-.auth-modal-x { position:absolute;top:14px;right:16px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;transition:color .2s; }
-.auth-modal-x:hover { color:var(--text); }
-.auth-step { display:none; } .auth-step.active { display:block; }
-.auth-ico { font-size:40px;margin-bottom:12px;text-align:center; }
-.auth-ttl { font-family:'Syne',sans-serif;font-weight:800;font-size:20px;text-align:center;margin-bottom:6px; }
-.auth-sub { color:var(--muted);font-size:13px;text-align:center;line-height:1.6;margin-bottom:20px; }
-.auth-email-display { font-size:13px;font-weight:600;color:var(--accent3);background:rgba(61,232,160,.08);border:1px solid rgba(61,232,160,.2);border-radius:8px;padding:8px 12px;margin-bottom:14px;text-align:center;word-break:break-all; }
-.auth-field-wrap { margin-bottom:12px; }
-.auth-field-wrap label { display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:5px; }
-.auth-field-wrap input { width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;padding:11px 14px;outline:none;transition:border-color .2s; }
-.auth-field-wrap input:focus { border-color:var(--accent);box-shadow:0 0 0 3px rgba(108,78,250,.1); }
-.btn-auth-primary { width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;margin-bottom:8px; }
-.btn-auth-primary:hover { opacity:.9;transform:translateY(-1px); }
-.btn-auth-primary:disabled { opacity:.4;cursor:not-allowed;transform:none; }
-.btn-auth-ghost { width:100%;padding:10px;background:none;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s; }
-.btn-auth-ghost:hover { border-color:var(--accent);color:var(--text); }
-.auth-err { font-size:12px;color:var(--accent2);margin-top:6px;min-height:16px;text-align:center; }
-.auth-divider { display:flex;align-items:center;gap:10px;margin:14px 0; }
-.auth-divider::before,.auth-divider::after { content:'';flex:1;height:1px;background:var(--border); }
-.auth-divider span { font-size:11px;color:var(--muted);white-space:nowrap; }
-.auth-key-row { display:flex;gap:8px; }
-.auth-key-row input { flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Courier New',monospace;font-size:14px;padding:10px 13px;outline:none;letter-spacing:2px;text-transform:uppercase;transition:border-color .2s; }
-.auth-key-row input:focus { border-color:var(--accent); }
-.auth-key-row button { padding:10px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all .2s;white-space:nowrap; }
-.auth-key-row button:hover { border-color:var(--accent);color:var(--accent); }
-.auth-check-item { display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-bottom:6px; }
-.auth-check-item::before { content:'✓';color:var(--accent3);font-weight:700;flex-shrink:0; }
-/* НОВОЕ: бенефиты в auth modal */
-.auth-benefits { background: rgba(108,78,250,0.06); border: 1px solid rgba(108,78,250,0.15); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; }
-.ab-row { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 7px; margin-bottom: 5px; }
-.ab-row:last-child { margin-bottom: 0; }
-.ab-row::before { content: '✓'; color: var(--accent3); font-weight: 700; flex-shrink: 0; }
-
-/* ─── HEADER ACCOUNT ─── */
-.btn-login { padding:6px 14px;background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'Syne',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:all .2s;white-space:nowrap; }
-.btn-login:hover { border-color:var(--accent);color:var(--accent); }
-.account-pill { display:flex;align-items:center;gap:7px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 12px 4px 6px;cursor:pointer;transition:all .2s; }
-.account-pill:hover { border-color:var(--accent); }
-.account-av { width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff; }
-.account-email { font-size:11px;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
-
-/* ─── REVIEWS ─── */
-.reviews-section { margin-bottom: 28px; opacity: 0; animation: fadeUp .6s .62s forwards; }
-.reviews-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
-.reviews-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -.5px; }
-.reviews-title span { color: var(--accent3); }
-.reviews-avg { display: flex; align-items: center; gap: 8px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 6px 14px; }
-.reviews-avg-stars { color: var(--gold); font-size: 14px; letter-spacing: 1px; }
-.reviews-avg-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px; color: var(--gold); }
-.reviews-avg-cnt { font-size: 11px; color: var(--muted); }
-.reviews-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-.review-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; transition: border-color .2s; }
-.review-card:hover { border-color: rgba(108,78,250,.3); }
-.review-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; gap: 10px; }
-.review-who { display: flex; align-items: center; gap: 9px; }
-.review-av { width: 34px; height: 34px; border-radius: 50%; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; border: 1px solid var(--border); }
-.review-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; }
-.review-role { font-size: 10px; color: var(--muted); margin-top: 1px; }
-.review-stars { color: var(--gold); font-size: 12px; white-space: nowrap; flex-shrink: 0; }
-.review-text { font-size: 13px; line-height: 1.7; color: var(--text); font-style: italic; }
-.review-date { font-size: 10px; color: var(--muted); margin-top: 8px; }
-.review-tool-badge { display: inline-flex; align-items: center; gap: 4px; background: rgba(108,78,250,.1); border: 1px solid rgba(108,78,250,.2); border-radius: 6px; padding: 2px 8px; font-size: 10px; color: var(--accent); margin-top: 8px; }
-.review-form-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
-.review-form-hdr { padding: 14px 18px 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
-.review-form-ico { font-size: 18px; }
-.review-form-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; }
-.review-form-desc { font-size: 11px; color: var(--muted); margin-top: 1px; }
-.review-form-body { padding: 18px; }
-.review-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-.star-picker { display: flex; gap: 4px; margin-bottom: 14px; }
-.star-btn { font-size: 24px; background: none; border: none; cursor: pointer; color: #444; transition: color .15s, text-shadow .15s, transform .15s; padding: 2px; line-height: 1; }
-.star-btn.active { color: #f0a020; text-shadow: 0 0 8px rgba(240,160,32,0.75); transform: scale(1.12); }
-.star-btn:hover { color: #f0a020; text-shadow: 0 0 14px rgba(240,160,32,1); transform: scale(1.2); }
-.star-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 6px; display: block; }
-.review-tool-select { margin-bottom: 10px; }
-.btn-submit-review { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--accent3), var(--accent)); border: none; border-radius: 10px; color: var(--bg); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; cursor: pointer; transition: all .2s; margin-top: 4px; }
-.btn-submit-review:hover { transform: translateY(-1px); opacity: .92; }
-.btn-submit-review:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-.review-success { display: none; text-align: center; padding: 20px; font-size: 13px; color: var(--accent3); }
-.review-success.show { display: block; animation: fadeUp .3s forwards; }
-.reviews-empty { text-align: center; padding: 24px; color: var(--muted); font-size: 13px; }
-.reviews-load-more { width: 100%; padding: 10px; background: none; border: 1px solid var(--border); border-radius: 10px; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer; transition: all .2s; margin-bottom: 14px; }
-.reviews-load-more:hover { border-color: var(--accent); color: var(--text); }
-
-/* ─── FEATURES ─── */
-.features { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 28px; opacity: 0; animation: fadeUp .6s .65s forwards; }
-.fc { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
-.fc-ico { font-size: 20px; margin-bottom: 10px; }
-.fc-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 13px; margin-bottom: 4px; }
-.fc-desc { color: var(--muted); font-size: 11px; line-height: 1.5; }
-
-/* ─── COMPARISON TABLE (НОВОЕ) ─── */
-.compare-section { margin-bottom: 28px; opacity: 0; animation: fadeUp .6s .66s forwards; }
-.compare-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -.5px; margin-bottom: 14px; text-align: center; }
-.compare-table { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
-.ct-row { display: grid; grid-template-columns: 2fr 1fr 1fr; border-bottom: 1px solid var(--border); }
-.ct-row:last-child { border-bottom: none; }
-.ct-row.header { background: var(--surface2); }
-.ct-cell { padding: 11px 16px; font-size: 12px; display: flex; align-items: center; }
-.ct-cell.center { justify-content: center; text-align: center; }
-.ct-row.header .ct-cell { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
-.ct-row.header .ct-cell.pro { color: var(--gold); }
-.ct-yes { color: var(--accent3); font-size: 16px; }
-.ct-no  { color: var(--muted); font-size: 16px; }
-.ct-lim { color: var(--warn); font-size: 11px; font-weight: 600; }
-
-/* ─── STICKY CTA ─── */
-.sticky-cta { position: fixed; bottom: 0; left: 0; right: 0; z-index: 80; background: rgba(17,17,24,0.95); border-top: 1px solid rgba(240,160,32,.2); padding: 12px 20px; display: none; align-items: center; justify-content: center; gap: 16px; backdrop-filter: blur(12px); flex-wrap: wrap; transform: translateY(100%); transition: transform .4s cubic-bezier(.34,1.56,.64,1); }
-.sticky-cta.show { display: flex; transform: translateY(0); }
-.sticky-cta-txt { font-size: 13px; color: var(--muted); }
-.sticky-cta-txt strong { color: var(--accent2); }
-.btn-sticky { padding: 10px 22px; background: linear-gradient(135deg, var(--gold), var(--accent2)); border: none; border-radius: 10px; color: #fff; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; cursor: pointer; box-shadow: 0 4px 18px rgba(240,160,32,.3); transition: all .2s; white-space: nowrap; }
-.btn-sticky:hover { transform: translateY(-1px); }
-
-/* ─── LIVE TOAST ─── */
-.live-toast { position: fixed; bottom: 76px; left: 18px; z-index: 79; background: var(--surface); border: 1px solid rgba(61,232,160,.22); border-radius: 14px; padding: 11px 14px; max-width: 270px; display: flex; align-items: center; gap: 10px; transform: translateX(-120%); opacity: 0; transition: all .5s cubic-bezier(.34,1.56,.64,1); pointer-events: none; box-shadow: 0 8px 28px rgba(0,0,0,.4); }
-.live-toast.show { transform: translateX(0); opacity: 1; }
-.lt-av { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg,var(--accent),var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
-.lt-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 12px; }
-.lt-action { font-size: 11px; color: var(--muted); margin-top: 1px; }
-.lt-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent3); animation: pulse 1.5s infinite; margin-left: auto; flex-shrink: 0; }
-
-/* ─── FAQ ─── */
-.faq-section { margin-bottom: 28px; opacity: 0; animation: fadeUp .6s .68s forwards; }
-.faq-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; letter-spacing: -.5px; margin-bottom: 14px; }
-.faq-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 8px; overflow: hidden; }
-.faq-q { padding: 14px 18px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; font-size: 13px; font-weight: 600; user-select: none; transition: color .2s; }
-.faq-q:hover { color: var(--accent); }
-.faq-arrow { font-size: 10px; color: var(--muted); transition: transform .25s; flex-shrink: 0; }
-.faq-item.open .faq-arrow { transform: rotate(180deg); }
-.faq-a { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
-.faq-a-inner { padding: 0 18px 14px; color: var(--muted); font-size: 12px; line-height: 1.7; }
-.faq-item.open .faq-a { max-height: 200px; }
-
-/* ─── MISC ─── */
-.panel { display: none; } .panel.active { display: block; }
-footer { text-align: center; padding: 24px 0 52px; color: var(--muted); font-size: 11px; opacity: 0; animation: fadeUp .5s .85s forwards; }
-footer a { color: var(--accent); text-decoration: none; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:none} }
-@keyframes scaleUp { from{transform:scale(.9);opacity:0} to{transform:scale(1);opacity:1} }
-
-@media(max-width:620px){
-  .fg,.pro-grid,.testi-grid,.reviews-grid,.value-strip,.compare-table{grid-template-columns:1fr}
-  .ct-row{grid-template-columns:1.5fr 1fr 1fr}
-  .fg.c3{grid-template-columns:1fr 1fr}
-  .features{grid-template-columns:1fr 1fr}
-  .proof-bar{justify-content:center}
-  .hero h1{letter-spacing:-1px}
-  .review-form-grid{grid-template-columns:1fr}
-  .sticky-cta{flex-direction:column;gap:8px;padding:10px 16px}
-  .live-toast{display:none}
-}
-@media(max-width:400px){ .features{grid-template-columns:1fr} .ab-actions{flex-direction:column;align-items:flex-start} }
-
-/* ─── CONVERSION BOOSTERS ─── */
-/* Pulse animation on main CTA button */
-@keyframes ctaPulse { 0%,100%{box-shadow:0 4px 22px rgba(108,78,250,.3)} 50%{box-shadow:0 4px 40px rgba(240,79,122,.5),0 0 0 8px rgba(108,78,250,.08)} }
-.btn-gen:not(:disabled) { animation: ctaPulse 3s ease-in-out infinite; }
-.btn-gen:hover,.btn-gen:focus { animation: none; }
-
-/* Gold shimmer on unlock button */
-@keyframes shimmer { 0%{background-position:200% center} 100%{background-position:-200% center} }
-.btn-unlock,.modal-btn,.btn-unlock:hover {
-  background: linear-gradient(135deg, var(--gold), var(--accent2), #ffd700, var(--gold));
-  background-size: 300% auto;
-  animation: shimmer 3s linear infinite;
-}
-
-/* Trust badges row */
-.trust-row { display:flex; align-items:center; justify-content:center; gap:18px; margin:14px 0 4px; flex-wrap:wrap; }
-.trust-item { display:flex; align-items:center; gap:5px; font-size:10px; color:var(--muted); }
-.trust-ico { font-size:14px; }
-
-/* Highlighted "first use" tip */
-.first-tip { background:rgba(61,232,160,.06); border:1px solid rgba(61,232,160,.18); border-radius:10px; padding:9px 14px; margin-bottom:12px; font-size:11px; color:var(--accent3); display:flex; align-items:center; gap:7px; }
-
-/* Better scroll-into-view for result */
-.result-box.show { scroll-margin-top: 20px; }
-
-/* Social proof on pricing card */
-.proof-mini { display:flex; align-items:center; gap:8px; margin:10px 0 0; flex-wrap:wrap; }
-.pm-item { font-size:11px; color:var(--muted); display:flex; align-items:center; gap:4px; }
-.pm-item::before { content:'✓'; color:var(--accent3); font-weight:700; }
-
-/* Highlight PRO badge in tabs when pro */
-.pro-badge-glow { animation: goldGlow 2s infinite; border-color: rgba(240,160,32,.4) !important; color: var(--gold) !important; }
-
-/* Better mobile sticky */
-@media(max-width:620px) { .sticky-cta { padding-bottom: env(safe-area-inset-bottom, 10px); } }
-
+.error { color: #f04f7a; font-size: 13px; margin-top: 8px; }
+.success-msg { color: #3de8a0; font-size: 13px; margin-top: 8px; }
+.section-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; color: #eeeef5; }
+.top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.loading { color: #6a6a82; font-size: 13px; padding: 20px; text-align: center; }
 </style>
 </head>
 <body>
+<div class="container">
 
-<!-- LIVE TOAST -->
-<div class="live-toast" id="liveToast">
-  <div class="lt-av" id="lt-av">👤</div>
-  <div><div class="lt-name" id="lt-name">Алексей</div><div class="lt-action" id="lt-action">купил PRO доступ</div></div>
-  <div class="lt-dot"></div>
-</div>
+  <!-- LOGIN -->
+  <div id="login-screen">
+    <h1>FreelanceAI</h1>
+    <p class="subtitle">Панель администратора</p>
+    <div class="card">
+      <label>Admin Secret</label>
+      <input type="password" id="secret-input" placeholder="Введи ADMIN_SECRET" />
+      <div id="login-error" class="error" style="display:none"></div>
+      <button class="btn btn-primary" onclick="doLogin()">Войти</button>
+    </div>
+  </div>
 
-<!-- AUTH MODAL -->
-<div class="auth-modal-bg" id="authModal">
-  <div class="auth-modal">
-    <button class="auth-modal-x" onclick="closeAuthModal()">✕</button>
-    <div class="auth-step active" id="auth-s1">
-      <div class="auth-ico">⚡</div>
-      <div class="auth-ttl" id="as1-ttl">Войти или создать аккаунт</div>
-      <div class="auth-sub" id="as1-sub">Введи email — пришлём ссылку для входа. Без пароля.</div>
-      <!-- НОВОЕ: бенефиты регистрации -->
-      <div class="auth-benefits" id="auth-benefits">
-        <div class="ab-row">Сохраняем прогресс — генерации не сгорают</div>
-        <div class="ab-row">Доступ с любого устройства</div>
-        <div class="ab-row">7 генераций бесплатно после входа</div>
+  <!-- DASHBOARD -->
+  <div id="dashboard" style="display:none">
+    <div class="top-bar">
+      <div>
+        <h1>FreelanceAI Admin</h1>
+        <p class="subtitle">Панель управления</p>
       </div>
-      <div class="auth-field-wrap">
-        <label id="as1-l-email">Email</label>
-        <input type="email" id="auth-email" placeholder="ivan@example.com" autocomplete="email" inputmode="email" onkeydown="if(event.key==='Enter')sendMagicLink()">
-      </div>
-      <button class="btn-auth-primary" id="as1-btn" onclick="sendMagicLink()">
-        <span id="as1-btn-txt">✦ Получить ссылку для входа</span>
-      </button>
-      <div class="auth-err" id="as1-err"></div>
-      <div class="auth-divider"><span id="as1-div">или активировать ключ</span></div>
-      <div class="auth-field-wrap">
-        <label id="as1-l-key">Ключ активации (если есть)</label>
-        <div class="auth-key-row">
-          <input type="text" id="auth-key-inp" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" autocomplete="off" spellcheck="false" oninput="fmtKey(this)" onkeydown="if(event.key==='Enter')activateWithEmailKey()">
-          <button id="as1-key-btn" onclick="activateWithEmailKey()">Активировать</button>
+      <button class="btn btn-outline btn-sm" onclick="logout()">Выйти</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card"><div class="stat-value" id="s-users">—</div><div class="stat-label">Пользователей</div></div>
+      <div class="stat-card"><div class="stat-value" id="s-pro">—</div><div class="stat-label">PRO</div></div>
+      <div class="stat-card"><div class="stat-value" id="s-gen">—</div><div class="stat-label">Генераций</div></div>
+      <div class="stat-card"><div class="stat-value" id="s-keys">—</div><div class="stat-label">Ключей</div></div>
+    </div>
+
+    <!-- Activate PRO -->
+    <div class="card" style="margin-bottom:20px">
+      <div class="section-title">✦ Активировать PRO вручную</div>
+      <div class="activate-form">
+        <div class="field">
+          <label>Email пользователя</label>
+          <input type="email" id="activate-email" placeholder="user@example.com" />
         </div>
-        <div class="auth-err" id="as1-key-err"></div>
+        <button class="btn btn-success" onclick="activatePro()">Активировать PRO</button>
       </div>
+      <div id="activate-msg"></div>
     </div>
-    <div class="auth-step" id="auth-s2">
-      <div class="auth-ico">📬</div>
-      <div class="auth-ttl" id="as2-ttl">Проверь почту</div>
-      <div class="auth-email-display" id="as2-email-show"></div>
-      <div class="auth-sub" id="as2-sub">Ссылка для входа отправлена. Она действует 15 минут и сработает только один раз.</div>
-      <div class="auth-check-item" id="as2-c1">Письмо обычно приходит за 10–30 секунд</div>
-      <div class="auth-check-item" id="as2-c2">Проверь папку Спам если не пришло</div>
-      <button class="btn-auth-ghost" style="margin-top:12px" id="as2-back" onclick="authStep(1)">← Изменить email</button>
-      <div class="auth-err" id="as2-err"></div>
-    </div>
-    <div class="auth-step" id="auth-s3">
-      <div class="auth-ico">🎉</div>
-      <div class="auth-ttl" id="as3-ttl">Добро пожаловать!</div>
-      <div class="auth-email-display" id="as3-email-show"></div>
-      <div class="auth-sub" id="as3-sub">Аккаунт активен. PRO-доступ работает на любом устройстве.</div>
-      <button class="btn-auth-primary" onclick="closeAuthModal()" id="as3-btn">Начать работу →</button>
-    </div>
-  </div>
-</div>
 
-<!-- PAYWALL MODAL -->
-<div class="modal-bg" id="modal">
-  <div class="modal">
-    <button class="modal-x" onclick="closeModal()">✕</button>
-    <div class="modal-ico">🚀</div>
-    <div class="modal-ttl" id="m-title">Бесплатные генерации закончились</div>
-    <div class="modal-dsc" id="m-desc">Открой все инструменты — и больше никогда не трать время на рутину.</div>
-    <!-- НОВОЕ: scarcity -->
-    <div class="modal-scarcity" id="m-scarcity">🔥 <span id="m-scarcity-txt">8 фрилансеров смотрят эту страницу прямо сейчас</span></div>
-    <div class="modal-list" id="m-list"></div>
-    <div class="modal-price-wrap">
-      <div class="modal-price-main" id="m-pm">490 ₽</div>
-      <div class="modal-price-sub" id="m-ps">Разовая оплата — меньше часа твоей работы</div>
-    </div>
-    <button class="modal-btn" id="m-btn" onclick="goToPay()">✦ Получить полный доступ</button>
-    <div class="modal-guarantee" id="m-guar">🔒 Безопасная оплата · Мгновенный доступ · Работает сразу</div>
-    <div class="key-sec">
-      <div class="key-div"><span id="m-kd">или введи ключ активации</span></div>
-      <div class="key-row">
-        <input type="text" id="mki" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" autocomplete="off" spellcheck="false" oninput="fmtKey(this)">
-        <button id="m-kb" onclick="doActivate('mki','mke')">Активировать</button>
-      </div>
-      <div class="key-err2" id="mke"></div>
-    </div>
-    <button class="modal-close-link" id="m-cl" onclick="closeModal()">Нет, останусь на бесплатной версии</button>
-  </div>
-</div>
-
-<!-- STICKY CTA -->
-<div class="sticky-cta" id="stickyCta">
-  <span class="sticky-cta-txt" id="sticky-txt">🔥 <strong>Уже 7 фрилансеров</strong> купили PRO сегодня</span>
-  <button class="btn-sticky" onclick="goToPay()" id="sticky-btn">Получить за 490 ₽ →</button>
-</div>
-
-<div class="container z">
-
-  <div class="pro-banner" id="proBanner">
-    <div class="pro-dot"></div>
-    <span id="pro-banner-txt">✦ PRO активирован — все инструменты разблокированы</span>
-  </div>
-
-  <div class="urgency-bar" id="urgencyBar">
-    <div class="urgency-left">
-      <span class="urgency-fire">🔥</span>
-      <span class="urgency-txt" id="urg-txt">Скидка 50% заканчивается через</span>
-      <span class="urgency-timer" id="urgencyTimer">--:--:--</span>
-    </div>
-    <span class="urgency-note" id="urg-note">Потом будет 990 ₽</span>
-  </div>
-
-  <!-- НОВОЕ: value strip -->
-  <div class="value-strip" id="valueStrip">
-    <div class="vs-item"><strong>490 ₽</strong><span>= окупается с первого КП</span></div>
-    <div class="vs-sep"></div>
-    <div class="vs-item"><strong>10 инструментов</strong><span>навсегда</span></div>
-    <div class="vs-sep"></div>
-    <div class="vs-item"><strong>Без подписки</strong><span>разовая оплата</span></div>
-  </div>
-
-  <header>
-    <a href="#" class="logo">
-      <div class="logo-ico">⚡</div>
-      <div class="logo-txt">Freelance<span>AI</span></div>
-    </a>
-    <div class="hdr-r">
-      <span id="planBadge" class="badge badge-free">Бесплатно</span>
-      <span id="usagePill" class="usage-pill"></span>
-      <button class="btn-login" id="hdr-login-btn" onclick="openAuthModal()" style="display:none"></button>
-      <div class="account-pill" id="hdr-account-pill" onclick="openAuthModal()" style="display:none">
-        <div class="account-av" id="hdr-av">?</div>
-        <div class="account-email" id="hdr-email-pill">...</div>
-      </div>
-      <div class="lang-sw">
-        <button class="lang-btn active" onclick="setLang('ru')">RU</button>
-        <button class="lang-btn" onclick="setLang('en')">EN</button>
-      </div>
-    </div>
-  </header>
-
-  <div class="proof-bar">
-    <div class="proof-item"><div class="proof-dot"></div><strong id="pf1">…</strong>&nbsp;<span id="pf1t">фрилансеров онлайн сейчас</span></div>
-    <div class="proof-item"><div class="proof-dot"></div><strong id="pf2">4.9 ★</strong>&nbsp;<span id="pf2t">средняя оценка</span></div>
-    <div class="proof-item"><div class="proof-dot"></div><strong id="pf3">10 секунд</strong>&nbsp;<span id="pf3t">вместо часа на КП</span></div>
-  </div>
-
-  <section class="hero">
-    <div class="hero-tag" id="h-tag">⚡ ИИ-помощник фрилансера</div>
-    <h1 id="h-title">Рутина — за секунды.<br><em>Деньги — за работу.</em></h1>
-    <p class="hero-sub" id="h-sub">КП, оценка, письма, контракт, переговоры — за 10 секунд. Попробуй бесплатно.</p>
-    <!-- НОВОЕ: social proof mini -->
-    <div class="hero-proof">
-      <div class="hp-avatars">
-        <div class="hp-av">👨‍💻</div><div class="hp-av">🎨</div><div class="hp-av">✍️</div><div class="hp-av">📱</div><div class="hp-av">📊</div>
-      </div>
-      <span class="hp-stars">★★★★★</span>
-      <span class="hp-text"><strong id="hp-count">350+</strong> фрилансеров уже используют</span>
-    </div>
-    <div class="anon-hint" id="anonHint">🎁 Попробуй без регистрации — 1 генерация бесплатно</div>
-  </section>
-
-  <div class="tools-nav" id="tabsNav">
-    <button class="tool-tab active" onclick="sw('kp',this)" title="Коммерческое предложение">📄 КП</button>
-    <button class="tool-tab" onclick="sw('est',this)" title="Оценка трудозатрат и стоимости">🧮 Оценка проекта</button>
-    <button class="tool-tab" onclick="sw('brief',this)" title="Бриф-опросник для клиента">🎨 Бриф</button>
-    <button class="tool-tab pro-tab" id="tab-letter" onclick="swPro('letter',this)" title="Письмо клиенту — PRO">✉️ Письмо клиенту 🔒</button>
-    <button class="tool-tab pro-tab" id="tab-raise"  onclick="swPro('raise',this)" title="Скрипт повышения ставки — PRO">💰 Поднять цену 🔒</button>
-    <button class="tool-tab pro-tab" id="tab-contract" onclick="swPro('contract',this)" title="Генератор контракта — PRO">📝 Контракт 🔒</button>
-    <button class="tool-tab pro-tab" id="tab-scope"  onclick="swPro('scope',this)" title="Защита от scope creep — PRO">🛡 Scope creep 🔒</button>
-    <button class="tool-tab pro-tab" id="tab-debt"   onclick="swPro('debt',this)" title="Письма для выбивания долга — PRO">💸 Выбить долг 🔒</button>
-    <button class="tool-tab pro-tab" id="tab-client" onclick="swPro('client',this)" title="Анализ клиента на риски — PRO">🔍 Анализ клиента 🔒</button>
-    <button class="tool-tab pro-tab" id="tab-report" onclick="swPro('report',this)" title="Отчёт по проекту — PRO">📊 Отчёт 🔒</button>
-  </div>
-
-  <!-- КП -->
-  <div class="card panel active" id="panel-kp">
-    <div class="card-hdr"><div class="tool-emoji">📄</div><div><div class="card-title" id="kp-title">Коммерческое предложение</div><div class="card-desc" id="kp-desc">Профессиональное КП под конкретного клиента за 10 секунд</div></div></div>
-    <div class="card-body">
-<div class="first-tip" id="firstTip">💡 Попробуй прямо сейчас — без регистрации. Первая генерация бесплатно.</div>
-      <div class="access-bar" id="ab1"><div class="ab-top"><div class="ab-dot"></div><span class="ab-lbl" id="ab1-lbl"></span><span class="ab-cnt" id="ab1-cnt"></span><div class="ab-actions"><button class="btn-key" id="ab1-t" onclick="toggleKey(1)"></button><button class="btn-pro" onclick="goToPay()"></button></div></div><div class="key-expand" id="kx1"><input class="key-field" id="ki1" type="text" maxlength="19" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false" oninput="fmtKey(this)"><button class="btn-activate btn-act" onclick="doActivate('ki1','ke1')"></button><div class="key-err" id="ke1"></div></div></div>
-      <div class="fg"><div><label id="l-spec"></label><select id="kp-spec"></select></div><div><label id="l-client"></label><select id="kp-client"></select></div></div>
-      <div class="fg c1"><div><label id="l-task"></label><textarea id="kp-task"></textarea></div></div>
-      <div class="fg c3"><div><label id="l-price"></label><input id="kp-price"></div><div><label id="l-deadline"></label><input id="kp-deadline"></div><div><label id="l-tone"></label><select id="kp-tone"></select></div></div>
-      <button class="btn-gen" onclick="gen('kp')"><div class="btn-inner" id="btn-kp">✦ <span id="btn-kp-txt"></span></div></button>
-      <div class="result-box" id="res-kp">
-        <div class="result-hdr"><span class="result-lbl" id="rl-kp"></span><div class="result-actions"><button class="copy-btn" id="cp-kp" onclick="cp('res-kp','cp-kp')"></button></div></div>
-        <div class="result-body" id="rb-kp"></div>
-        <!-- НОВОЕ: upgrade nudge -->
-        <div class="result-upgrade" id="rup-kp" style="display:none"><div class="ru-txt">Понравилось? <strong>7 PRO-инструментов</strong> ждут</div><button class="ru-btn" onclick="goToPay()">PRO за 490 ₽</button></div>
-        <div class="result-foot"><div class="like-row"><button class="like-btn" onclick="likeResult(this)">👍</button><button class="like-btn" onclick="likeResult(this)">👎</button></div><span class="result-cta" id="rh-kp"></span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ОЦЕНКА -->
-  <div class="card panel" id="panel-est">
-    <div class="card-hdr"><div class="tool-emoji">🧮</div><div><div class="card-title" id="est-title"></div><div class="card-desc" id="est-desc"></div></div></div>
-    <div class="card-body">
-      <div class="access-bar" id="ab2"><div class="ab-top"><div class="ab-dot"></div><span class="ab-lbl" id="ab2-lbl"></span><span class="ab-cnt" id="ab2-cnt"></span><div class="ab-actions"><button class="btn-key" id="ab2-t" onclick="toggleKey(2)"></button><button class="btn-pro" onclick="goToPay()"></button></div></div><div class="key-expand" id="kx2"><input class="key-field" id="ki2" type="text" maxlength="19" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false" oninput="fmtKey(this)"><button class="btn-activate btn-act" onclick="doActivate('ki2','ke2')"></button><div class="key-err" id="ke2"></div></div></div>
-      <div class="fg c1"><div><label id="l-etask"></label><textarea id="est-task"></textarea></div></div>
-      <div class="fg"><div><label id="l-rate"></label><input id="est-rate"></div><div><label id="l-level"></label><select id="est-level"></select></div></div>
-      <button class="btn-gen" onclick="gen('est')"><div class="btn-inner" id="btn-est">✦ <span id="btn-est-txt"></span></div></button>
-      <div class="result-box" id="res-est">
-        <div class="result-hdr"><span class="result-lbl" id="rl-est"></span><div class="result-actions"><button class="copy-btn" id="cp-est" onclick="cp('res-est','cp-est')"></button></div></div>
-        <div class="result-body" id="rb-est"></div>
-        <div class="result-upgrade" id="rup-est" style="display:none"><div class="ru-txt">Хочешь сразу написать КП по этой оценке? <strong>Всё в PRO</strong></div><button class="ru-btn" onclick="goToPay()">PRO за 490 ₽</button></div>
-        <div class="result-foot"><div class="like-row"><button class="like-btn" onclick="likeResult(this)">👍</button><button class="like-btn" onclick="likeResult(this)">👎</button></div><span class="result-cta" id="rh-est"></span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- БРИФ -->
-  <div class="card panel" id="panel-brief">
-    <div class="card-hdr"><div class="tool-emoji">🎨</div><div><div class="card-title" id="brief-title"></div><div class="card-desc" id="brief-desc"></div></div></div>
-    <div class="card-body">
-      <div class="access-bar" id="ab3"><div class="ab-top"><div class="ab-dot"></div><span class="ab-lbl" id="ab3-lbl"></span><span class="ab-cnt" id="ab3-cnt"></span><div class="ab-actions"><button class="btn-key" id="ab3-t" onclick="toggleKey(3)"></button><button class="btn-pro" onclick="goToPay()"></button></div></div><div class="key-expand" id="kx3"><input class="key-field" id="ki3" type="text" maxlength="19" placeholder="XXXX-XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false" oninput="fmtKey(this)"><button class="btn-activate btn-act" onclick="doActivate('ki3','ke3')"></button><div class="key-err" id="ke3"></div></div></div>
-      <div class="fg"><div><label id="l-btype"></label><select id="brief-type"></select></div><div><label id="l-bclient"></label><select id="brief-client"></select></div></div>
-      <div class="fg c1"><div><label id="l-bdesc"></label><textarea id="brief-desc-input" rows="3"></textarea></div></div>
-      <div class="fg"><div><label id="l-bstyle"></label><select id="brief-style"></select></div><div><label id="l-bdetail"></label><select id="brief-detail"></select></div></div>
-      <button class="btn-gen" onclick="gen('brief')"><div class="btn-inner" id="btn-brief">✦ <span id="btn-brief-txt"></span></div></button>
-      <div class="result-box" id="res-brief">
-        <div class="result-hdr"><span class="result-lbl" id="rl-brief"></span><div class="result-actions"><button class="copy-btn" id="cp-brief" onclick="cp('res-brief','cp-brief')"></button></div></div>
-        <div class="result-body" id="rb-brief"></div>
-        <div class="result-upgrade" id="rup-brief" style="display:none"><div class="ru-txt">Бриф готов. Следующий шаг — <strong>контракт и оценка</strong></div><button class="ru-btn" onclick="goToPay()">PRO за 490 ₽</button></div>
-        <div class="result-foot"><div class="like-row"><button class="like-btn" onclick="likeResult(this)">👍</button><button class="like-btn" onclick="likeResult(this)">👎</button></div><span class="result-cta" id="rh-brief"></span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PRO TOOLS -->
-  <div class="card panel" id="panel-letter"><div class="card-hdr"><div class="tool-emoji">✉️</div><div><div class="card-title" id="letter-title">Письмо клиенту</div><div class="card-desc" id="letter-desc"></div></div></div><div class="card-body"><div class="fg"><div><label id="l-lsit"></label><select id="letter-sit"></select></div><div><label id="l-ltone"></label><select id="letter-tone"></select></div></div><div class="fg c1"><div><label id="l-lctx"></label><textarea id="letter-ctx" rows="3"></textarea></div></div><button class="btn-gen" onclick="gen('letter')"><div class="btn-inner" id="btn-letter">✦ <span id="btn-letter-txt">Написать письмо</span></div></button><div class="result-box" id="res-letter"><div class="result-hdr"><span class="result-lbl">Готовое письмо</span><div class="result-actions"><button class="copy-btn" id="cp-letter" onclick="cp('res-letter','cp-letter')">Скопировать</button></div></div><div class="result-body" id="rb-letter"></div><div class="result-foot"><div class="like-row"><button class="like-btn" onclick="likeResult(this)">👍</button><button class="like-btn" onclick="likeResult(this)">👎</button></div></div></div></div></div>
-  <div class="card panel" id="panel-raise"><div class="card-hdr"><div class="tool-emoji">💰</div><div><div class="card-title" id="raise-title">Поднять цену</div><div class="card-desc" id="raise-desc"></div></div></div><div class="card-body"><div class="fg"><div><label id="l-rold"></label><input id="raise-old" placeholder="3000 ₽/час"></div><div><label id="l-rnew"></label><input id="raise-new" placeholder="5000 ₽/час"></div></div><div class="fg c1"><div><label id="l-rctx"></label><textarea id="raise-ctx" rows="2"></textarea></div></div><button class="btn-gen" onclick="gen('raise')"><div class="btn-inner" id="btn-raise">✦ <span id="btn-raise-txt">Написать скрипт</span></div></button><div class="result-box" id="res-raise"><div class="result-hdr"><span class="result-lbl">Скрипт повышения</span><div class="result-actions"><button class="copy-btn" id="cp-raise" onclick="cp('res-raise','cp-raise')">Скопировать</button></div></div><div class="result-body" id="rb-raise"></div><div class="result-foot"><div class="like-row"><button class="like-btn" onclick="likeResult(this)">👍</button><button class="like-btn" onclick="likeResult(this)">👎</button></div></div></div></div></div>
-  <div class="card panel" id="panel-contract"><div class="card-hdr"><div class="tool-emoji">📝</div><div><div class="card-title" id="contract-title">Генератор контракта</div><div class="card-desc" id="contract-desc"></div></div></div><div class="card-body"><div class="fg"><div><label id="l-cspec"></label><select id="contract-spec"></select></div><div><label id="l-cprice"></label><input id="contract-price" placeholder="100 000 ₽"></div></div><div class="fg"><div><label id="l-cdeadline"></label><input id="contract-deadline" placeholder="30 дней"></div><div><label id="l-crev"></label><input id="contract-rev" placeholder="3"></div></div><div class="fg c1"><div><label id="l-cscope"></label><textarea id="contract-scope" rows="2"></textarea></div></div><button class="btn-gen" onclick="gen('contract')"><div class="btn-inner" id="btn-contract">✦ <span id="btn-contract-txt">Сгенерировать контракт</span></div></button><div class="result-box" id="res-contract"><div class="result-hdr"><span class="result-lbl">Готовый контракт</span><div class="result-actions"><button class="copy-btn" id="cp-contract" onclick="cp('res-contract','cp-contract')">Скопировать</button></div></div><div class="result-body" id="rb-contract"></div><div class="result-foot"><div class="like-row"><button class="like-btn" onclick="likeResult(this)">👍</button><button class="like-btn" onclick="likeResult(this)">👎</button></div></div></div></div></div>
-  <div class="card panel" id="panel-scope"><div class="card-hdr"><div class="tool-emoji">🛡</div><div><div class="card-title" id="scope-title">Защита от scope creep</div><div class="card-desc" id="scope-desc"></div></div></div><div class="card-body"><div class="fg c1"><div><label id="l-screq"></label><textarea id="scope-req" rows="2"></textarea></div></div><div class="fg"><div><label id="l-scprice"></label><input id="scope-price"></div><div><label id="l-sctone"></label><select id="scope-tone"></select></div></div><button class="btn-gen" onclick="gen('scope')"><div class="btn-inner" id="btn-scope">✦ <span id="btn-scope-txt">Написать скрипт</span></div></button><div class="result-box" id="res-scope"><div class="result-hdr"><span class="result-lbl">Скрипт защиты</span><div class="result-actions"><button class="copy-btn" id="cp-scope" onclick="cp('res-scope','cp-scope')">Скопировать</button></div></div><div class="result-body" id="rb-scope"></div><div class="result-foot"><div class="like-row"><button class="like-btn" onclick="likeResult(this)">👍</button><button class="like-btn" onclick="likeResult(this)">👎</button></div></div></div></div></div>
-  <div class="card panel" id="panel-debt"><div class="card-hdr"><div class="tool-emoji">💸</div><div><div class="card-title" id="debt-title">Выбить долг</div><div class="card-desc" id="debt-desc"></div></div></div><div class="card-body"><div class="fg"><div><label id="l-damt"></label><input id="debt-amount" placeholder="50 000 ₽"></div><div><label id="l-ddays"></label><input id="debt-days" placeholder="14 дней"></div></div><div class="fg c1"><div><label id="l-dctx"></label><textarea id="debt-ctx" rows="2"></textarea></div></div><div class="fg"><div><label id="l-dletter"></label><select id="debt-letter"></select></div></div><button class="btn-gen" onclick="gen('debt')"><div class="btn-inner" id="btn-debt">✦ <span id="btn-debt-txt">Написать письмо</span></div></button><div class="result-box" id="res-debt"><div class="result-hdr"><span class="result-lbl">Письмо о долге</span><div class="result-actions"><button class="copy-btn" id="cp-debt" onclick="cp('res-debt','cp-debt')">Скопировать</button></div></div><div class="result-body" id="rb-debt"></div><div class="result-foot"><div class="like-row"><button class="like-btn" onclick="likeResult(this)">👍</button><button class="like-btn" onclick="likeResult(this)">👎</button></div></div></div></div></div>
-  <div class="card panel" id="panel-client"><div class="card-hdr"><div class="tool-emoji">🔍</div><div><div class="card-title" id="client-title">Анализ клиента</div><div class="card-desc" id="client-desc"></div></div></div><div class="card-body"><div class="fg c1"><div><label id="l-cltask"></label><textarea id="client-task" rows="5"></textarea></div></div><button class="btn-gen" onclick="gen('client')"><div class="btn-inner" id="btn-client">✦ <span id="btn-client-txt">Проанализировать</span></div></button><div class="result-box" id="res-client"><div class="result-hdr"><span class="result-lbl">Анализ и красные флаги</span><div class="result-actions"><button class="copy-btn" id="cp-client" onclick="cp('res-client','cp-client')">Скопировать</button></div></div><div class="result-body" id="rb-client"></div><div class="result-foot"><div class="like-row"><button class="like-btn" onclick="likeResult(this)">👍</button><button class="like-btn" onclick="likeResult(this)">👎</button></div></div></div></div></div>
-  <div class="card panel" id="panel-report"><div class="card-hdr"><div class="tool-emoji">📊</div><div><div class="card-title" id="report-title">Отчёт по проекту</div><div class="card-desc" id="report-desc"></div></div></div><div class="card-body"><div class="fg"><div><label id="l-rpname"></label><input id="report-name" placeholder="Сайт для кофейни"></div><div><label id="l-rppct"></label><select id="report-pct"></select></div></div><div class="fg c1"><div><label id="l-rpdone"></label><textarea id="report-done" rows="2"></textarea></div></div><div class="fg c1"><div><label id="l-rpnext"></label><textarea id="report-next" rows="2"></textarea></div></div><button class="btn-gen" onclick="gen('report')"><div class="btn-inner" id="btn-report">✦ <span id="btn-report-txt">Сгенерировать отчёт</span></div></button><div class="result-box" id="res-report"><div class="result-hdr"><span class="result-lbl">Отчёт клиенту</span><div class="result-actions"><button class="copy-btn" id="cp-report" onclick="cp('res-report','cp-report')">Скопировать</button></div></div><div class="result-body" id="rb-report"></div><div class="result-foot"><div class="like-row"><button class="like-btn" onclick="likeResult(this)">👍</button><button class="like-btn" onclick="likeResult(this)">👎</button></div></div></div></div></div>
-
-  <!-- PRO PAYWALL PANEL -->
-  <div class="paywall-card panel" id="panel-pro">
-    <div class="pw-hdr"><div class="pw-hdr-l"><div class="tool-emoji">🔐</div><div><div class="card-title" id="pro-title"></div><div class="card-desc" id="pro-desc"></div></div></div><span class="pro-tag">PRO</span></div>
-    <div class="pw-body">
-      <div class="pro-grid" id="pro-grid"></div>
-      <div class="testi-grid" id="testi-grid"></div>
-      <!-- НОВОЕ: comparison table -->
-      <div class="compare-section">
-        <div class="compare-title" id="cmp-title">Бесплатно vs PRO</div>
-        <div class="compare-table" id="compare-table"></div>
-      </div>
-      <div class="pricing-block">
-        <div class="pricing-top"><div class="pricing-lbl" id="pr-lbl"></div><div class="pricing-price" id="pr-price"></div></div>
-        <!-- НОВОЕ: почему скидка -->
-        <div class="pricing-why" id="pr-why">🎯 Скидка на старте — хотим собрать отзывы</div>
-        <div class="perks" id="pr-perks"></div>
-      </div>
-      <button class="btn-unlock" id="pro-btn" onclick="goToPay()"></button>
-      <div class="micro-guarantees">
-        <div class="mg-item"><span class="mg-ico">🔒</span> Безопасная оплата</div>
-        <div class="mg-item"><span class="mg-ico">⚡</span> Мгновенный доступ</div>
-        <div class="mg-item"><span class="mg-ico">♾️</span> Навсегда</div>
-      </div>
-      <div class="trust-row">
-        <div class="trust-item"><span class="trust-ico">👥</span><span id="trust-users-count">1 200+</span> пользователей</div>
-        <div class="trust-item"><span class="trust-ico">⭐</span>4.9 / 5 рейтинг</div>
-        <div class="trust-item"><span class="trust-ico">🔒</span>Безопасная оплата</div>
-      </div>
-      <div class="unlock-sub" id="pro-sub"></div>
-      <div class="key-sec" style="margin-top:20px">
-        <div class="key-div"><span id="pro-kd"></span></div>
-        <div class="key-row"><input type="text" id="pki" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" autocomplete="off" spellcheck="false" oninput="fmtKey(this)"><button onclick="doActivate('pki','pke')">Активировать</button></div>
-        <div class="key-err2" id="pke"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- REVIEWS -->
-  <div class="reviews-section" id="reviews-section">
-    <div class="reviews-header">
-      <div class="reviews-title" id="rv-title">Отзывы <span id="rv-count"></span></div>
-      <div class="reviews-avg" id="rv-avg-wrap"><div class="reviews-avg-stars" id="rv-avg-stars">★★★★★</div><div class="reviews-avg-num" id="rv-avg-num">4.9</div><div class="reviews-avg-cnt" id="rv-avg-cnt"></div></div>
-    </div>
-    <div class="reviews-grid" id="reviews-grid"></div>
-    <button class="reviews-load-more" id="rv-load-more" onclick="loadMoreReviews()" style="display:none"></button>
-    <div class="review-form-wrap">
-      <div class="review-form-hdr"><div class="review-form-ico">✍️</div><div><div class="review-form-title" id="rvf-title">Оставить отзыв</div><div class="review-form-desc" id="rvf-desc"></div></div></div>
-      <div class="review-form-body">
-        <div id="rvf-success" class="review-success"><div style="font-size:32px;margin-bottom:8px">🎉</div><div style="font-weight:700;font-family:'Syne',sans-serif;margin-bottom:4px" id="rvf-ty-title">Спасибо за отзыв!</div><div style="color:var(--muted);font-size:12px" id="rvf-ty-sub">Твой отзыв виден всем фрилансерам</div></div>
-        <div id="rvf-form">
-          <div class="review-form-grid"><div><label id="rvf-l-name"></label><input id="rvf-name" maxlength="40"></div><div><label id="rvf-l-role"></label><input id="rvf-role" maxlength="50"></div></div>
-          <div class="review-tool-select"><label id="rvf-l-tool"></label><select id="rvf-tool"></select></div>
-          <label class="star-label" id="rvf-l-stars"></label>
-          <div class="star-picker" id="star-picker">
-            <button class="star-btn active" data-v="1" onclick="setStar(1)" onmouseover="previewStar(1)" onmouseleave="resetStarPreview()">★</button>
-            <button class="star-btn active" data-v="2" onclick="setStar(2)" onmouseover="previewStar(2)" onmouseleave="resetStarPreview()">★</button>
-            <button class="star-btn active" data-v="3" onclick="setStar(3)" onmouseover="previewStar(3)" onmouseleave="resetStarPreview()">★</button>
-            <button class="star-btn active" data-v="4" onclick="setStar(4)" onmouseover="previewStar(4)" onmouseleave="resetStarPreview()">★</button>
-            <button class="star-btn active" data-v="5" onclick="setStar(5)" onmouseover="previewStar(5)" onmouseleave="resetStarPreview()">★</button>
-          </div>
-          <div class="fg c1" style="margin-bottom:12px"><div><label id="rvf-l-text"></label><textarea id="rvf-text" rows="3" maxlength="400"></textarea></div></div>
-          <button class="btn-submit-review" id="rvf-submit" onclick="submitReview()"><span id="rvf-submit-txt"></span></button>
-          <div class="key-err" id="rvf-err" style="margin-top:8px"></div>
+    <!-- Add Key -->
+    <div class="card" style="margin-bottom:20px">
+      <div class="section-title">🔑 Добавить ключ активации</div>
+      <div class="activate-form">
+        <div class="field">
+          <label>Ключ (или оставь пустым — сгенерируется)</label>
+          <input type="text" id="new-key" placeholder="Необязательно" />
         </div>
+        <button class="btn btn-success" onclick="addKey()">Добавить ключ</button>
       </div>
+      <div id="key-msg"></div>
+    </div>
+
+    <!-- Reviews table -->
+    <div class="section-title" style="margin-top:8px">⭐ Отзывы</div>
+    <div class="table-wrap" style="margin-bottom:20px">
+      <table>
+        <thead>
+          <tr>
+            <th>Имя</th>
+            <th>Звёзд</th>
+            <th>Текст</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+        <tbody id="reviews-tbody">
+          <tr><td colspan="4" class="loading">Загрузка...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Users table -->
+    <div class="section-title">👥 Пользователи</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Статус</th>
+            <th>Генераций</th>
+            <th>Действие</th>
+          </tr>
+        </thead>
+        <tbody id="users-tbody">
+          <tr><td colspan="4" class="loading">Загрузка...</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- FAQ -->
-  <div class="faq-section" id="faq-section">
-    <div class="faq-title" id="faq-title">Частые вопросы</div>
-    <div id="faq-list"></div>
-  </div>
-
-  <div class="features" id="features-grid"></div>
-  <footer id="footer-txt"></footer>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════
-// CONFIG
-// ═══════════════════════════════════════════════════════════════
-const WORKER_URL = 'https://wandering-king-6565.mihailtr35.workers.dev'; // ← замени на свой
+const WORKER = 'https://wandering-king-6565.mihailtr35.workers.dev';
+let SECRET = '';
 
-const CFG = {
-  FREE_LIMIT: 7, ANON_LIMIT: 1,
-  get API_ENDPOINT() { return WORKER_URL + '/api/generate'; },
-  PAY_LINK: 'https://app.lava.top/products/72a9a0e0-4be2-41d8-a156-8016c18048d4',
-};
-
-let lang   = localStorage.getItem('fai_lang') || 'ru';
-let isPro  = localStorage.getItem('fai_pro') === '1';
-let kx     = {1:false,2:false,3:false};
-let anonUsed = parseInt(localStorage.getItem('fai_anon_used') || '0');
-function getUsed()  { return parseInt(localStorage.getItem('fai_used') || '0'); }
-function setUsed(n) { localStorage.setItem('fai_used', n); }
-
-// ═══════════════════════════════════════════════════════════════
-// TRANSLATIONS (сокращённые ключи — добавлены только новые)
-// ═══════════════════════════════════════════════════════════════
-const L = {
-  ru: {
-    tag:'⚡ ИИ-помощник фрилансера',
-    h1:'Рутина — за секунды.<br><em>Деньги — за работу.</em>',
-    sub:'КП, оценка, письма, контракт, переговоры — за 10 секунд. Попробуй бесплатно.',
-    anonHint:'🎁 Попробуй без регистрации — 1 генерация бесплатно',
-    anonHintUsed:'✅ Бесплатная генерация использована — войди для ещё 6',
-    tabs:['📄 КП','🧮 Оценка проекта','🎨 Бриф','✉️ Письмо клиенту 🔒','💰 Поднять цену 🔒','📝 Контракт 🔒','🛡 Scope creep 🔒','💸 Выбить долг 🔒','🔍 Анализ клиента 🔒','📊 Отчёт 🔒'],
-    badgeFree:'Бесплатно', badgePro:'PRO ✦',
-    usageFree:n=>n+'/'+CFG.FREE_LIMIT+' генераций',
-    usageAnon:'1/1 · войди для ещё 6', usagePro:'∞ безлимит',
-    abLbl:'Бесплатный инструмент',
-    abCntFree:n=>`· осталось ${n} из ${CFG.FREE_LIMIT}`,
-    abCntAnon:'· 1 без регистрации · войди для ещё 6',
-    abCntPro:'· безлимитно',
-    enterKey:'🔑 Ввести ключ', buyPro:'✦ Купить PRO',
-    activate:'Активировать', close:'Закрыть',
-    copy:'Скопировать', copied:'Скопировано ✓',
-    rhHint:'Нравится? ', rhCta:'Получи безлимит →',
-    pf1t:'фрилансеров онлайн сейчас', pf2:'4.9 ★', pf2t:'средняя оценка',
-    pf3:'10 секунд', pf3t:'вместо часа на КП',
-    urgTxt:'Скидка 50% заканчивается через', urgNote:'Потом будет 990 ₽',
-    stickyCnt:n=>`🔥 <strong>${n} фрилансеров</strong> купили PRO сегодня`,
-    stickyBtn:'✦ Получить за 490 ₽',
-    proBanner:'✦ PRO активирован — все инструменты разблокированы, генерации безлимитные',
-    loginBtn:'Войти',
-    hpCount:'', hpText:'фрилансеров уже используют',
-    // value strip
-    vs1:'490 ₽', vs1s:'= окупается с первого КП', vs2:'10 инструментов', vs2s:'навсегда', vs3:'Без подписки', vs3s:'разовая оплата',
-    kpTitle:'Коммерческое предложение', kpDesc:'Профессиональное КП под конкретного клиента за 10 секунд',
-    lSpec:'Твоя специализация', lClient:'Тип клиента', lTask:'Что нужно сделать',
-    lPrice:'Бюджет (₽)', lDeadline:'Срок', lTone:'Тон',
-    tPh:'Например: разработать лендинг для онлайн-курса с формой записи и оплатой',
-    pricePh:'50 000', deadlinePh:'7–10 дней',
-    specs:['Веб-разработчик','Дизайнер','Мобильный разработчик','Копирайтер','SMM-специалист','Маркетолог','Аналитик данных','Fullstack-разработчик','Верстальщик','Тестировщик'],
-    clients:['Малый бизнес','Стартап','Крупная компания','Частное лицо','Агентство'],
-    tones:[['Профессиональный','профессиональный, но живой'],['Дружелюбный','дружелюбный'],['Деловой','строгий деловой']],
-    kpBtn:'Сгенерировать КП', kpBtnAgain:'Сгенерировать снова', rlKp:'Готовое КП',
-    estTitle:'Оценка проекта', estDesc:'Трудозатраты, риски и справедливая цена за 10 секунд',
-    lEtask:'Описание задачи от клиента', etaskPh:'Вставь текст задачи — ИИ разберётся...',
-    lRate:'Твоя ставка (₽/час)', ratePh:'2 000',
-    lLevel:'Уровень', levels:['Джуниор','Мидл','Сеньор'],
-    estBtn:'Оценить проект', estBtnAgain:'Оценить снова', rlEst:'Оценка проекта',
-    briefTitle:'Бриф для дизайнера', briefDesc:'Параметры → готовый список вопросов для клиента',
-    lBtype:'Тип проекта', lBclient:'Тип клиента', lBdesc:'Что известно о проекте',
-    lBstyle:'Стиль / референсы', lBdetail:'Уровень детализации',
-    bdescPh:'Например: логотип для кофейни, тёплое и уютное',
-    btypes:['Логотип и айдентика','Веб-сайт / лендинг','Мобильное приложение','Иллюстрация','Упаковка / полиграфия','Баннеры / реклама','Презентация','SMM-контент'],
-    bclients:['Малый бизнес','Стартап','Крупная компания','Частное лицо'],
-    bstyles:['Нет референсов','Есть примеры (опишу)','Минимализм','Яркий и смелый','Корпоративный строгий','Ретро / винтаж'],
-    bdetails:['Базовый (10–15 вопросов)','Детальный (20–25 вопросов)','Максимальный (30+ вопросов)'],
-    briefBtn:'Сгенерировать бриф', briefBtnAgain:'Снова', rlBrief:'Готовый бриф',
-    proTitle:'PRO-инструменты', proDesc:'7 дополнительных инструментов — все реальные боли фрилансера',
-    proItems:[
-      {i:'✉️',t:'Письмо клиенту',d:'Напоминание об оплате, конфликт, сдача работы'},
-      {i:'💰',t:'Поднять цену',d:'Скрипт повышения ставки с ответами на возражения'},
-      {i:'📝',t:'Генератор контракта',d:'Договор под твой проект: сроки, оплата, правки'},
-      {i:'🛡',t:'Защита от scope creep',d:'"Тебе же 5 минут!" — скрипт ответа'},
-      {i:'💸',t:'Выбить долг',d:'3 письма с нарастающим давлением'},
-      {i:'🔍',t:'Анализ клиента',d:'Вставь текст — получи красные флаги и риски'},
-      {i:'📊',t:'Отчёт по проекту',d:'Профессиональный отчёт — выглядишь как агентство'},
-    ],
-    proBtn:'🔓 Разблокировать за 490 ₽',
-    proPriceLbl:'Полный доступ навсегда', proPriceMain:'490 ₽', proPriceOld:'990 ₽',
-    proPerks:['Разовая оплата','Без подписки','КП и Оценка — безлимитно','7 PRO-инструментов'],
-    proSub:'Мгновенный доступ · Безопасная оплата · <strong style="color:var(--gold)">Работает сразу</strong>',
-    proKeyDiv:'или введи ключ активации',
-    proWhy:'🎯 Скидка на старте — хотим собрать отзывы',
-    // compare table
-    cmpTitle:'Бесплатно vs PRO',
-    cmpRows:[
-      ['КП, Оценка, Бриф', '7 раз', '∞ безлимит'],
-      ['Письма клиентам', '—', '✓'],
-      ['Скрипт повышения цены', '—', '✓'],
-      ['Генератор контракта', '—', '✓'],
-      ['Защита от scope creep', '—', '✓'],
-      ['Выбить долг', '—', '✓'],
-      ['Анализ клиента', '—', '✓'],
-      ['Отчёт по проекту', '—', '✓'],
-      ['Цена', 'бесплатно', '490 ₽ навсегда'],
-    ],
-    testis:[
-      {av:'👨‍💻',txt:'"Купил PRO — в первый же день написал письмо клиенту насчёт долга. Деньги пришли через 2 часа."',name:'Алексей К.',role:'Фронтенд-разработчик'},
-      {av:'🎨',txt:'"Скрипт повышения цены огонь. Поднял ставку на 40%, ни один клиент не ушёл."',name:'Марина Р.',role:'UI/UX дизайнер'},
-      {av:'✍️',txt:'"Анализ клиента нашёл 4 красных флага. Отказался — и не пожалел."',name:'Дмитрий В.',role:'Копирайтер'},
-      {av:'📱',txt:'"Контракт за 30 секунд. Клиент подписал, доп. правки оплатил."',name:'Анна С.',role:'Разработчик мобильных'},
-    ],
-    features:[
-      {i:'⚡',t:'10 секунд',d:'Вместо часа на написание КП вручную'},
-      {i:'🛡',t:'Защита дохода',d:'Контракт, scope creep и долги — всё под контролем'},
-      {i:'📈',t:'10 инструментов',d:'3 бесплатно + 7 в PRO — все реальные боли'},
-    ],
-    footer:'Сделано с помощью <a href="#">Claude AI</a> · FreelanceAI · <a href="#" onclick="goToPay()">Получить PRO →</a>',
-    mTitle:'Бесплатные генерации закончились',
-    mDesc:'Открой все инструменты — и больше никогда не трать время на рутину.',
-    mItems:['Письма клиентам — напоминание, конфликт, сдача','Скрипт повышения цены без потери клиента','Генератор контракта','Защита от scope creep','Серия писем чтобы выбить долг','Анализ клиента — красные флаги','Отчёт по проекту — выглядишь как агентство','КП и Оценка — безлимитно'],
-    mPriceMain:'490 ₽', mPriceSub:'Разовая оплата — меньше часа твоей работы',
-    mBtn:'✦ Получить полный доступ', mGuar:'🔒 Безопасная оплата · Мгновенный доступ · Работает сразу',
-    mKeyDiv:'или введи ключ активации', mKeyBtn:'Активировать',
-    mClose:'Нет, останусь на бесплатной версии',
-    mScarcity:'👀 фрилансеров смотрят прямо сейчас',
-    kErrEmpty:'Введи ключ активации', kErrUsed:'Этот ключ уже был использован', kErrInvalid:'Неверный ключ',
-    faqTitle:'Частые вопросы',
-    faqs:[
-      {q:'Это разовая оплата или подписка?', a:'Разовая оплата 490 ₽ — навсегда. Никаких ежемесячных платежей.'},
-      {q:'Как получить доступ после оплаты?', a:'После оплаты на email придёт ссылка для входа. Один клик — всё разблокируется мгновенно. Работает на любом устройстве.'},
-      {q:'Почему так дёшево?', a:'Мы на старте и собираем отзывы. Текущая цена — специальная. Чем больше пользователей, тем выше ценность продукта. Ранние пользователи получают лучшую цену навсегда.'},
-      {q:'Что если результат не понравится?', a:'Попробуй бесплатно перед покупкой — 1 генерация без регистрации, ещё 6 после входа. Ты сам увидишь качество до оплаты.'},
-      {q:'Тексты уникальные или шаблонные?', a:'Каждый раз генерируется новый текст через Claude AI — с учётом твоей специализации, клиента и задачи.'},
-      {q:'Работает для разных специализаций?', a:'Да: веб-разработчики, дизайнеры, копирайтеры, SMM, маркетологи, мобильные разработчики, аналитики.'},
-    ],
-    lLsit:'Ситуация', lLtone:'Тон',
-    lLetterCtxPh:'Например: клиент не отвечает 2 недели, работа сдана, сумма 50000₽',
-    lRold:'Текущая ставка', lRnew:'Новая ставка',
-    lRctxPh:'Работаем 8 месяцев, клиент платит вовремя',
-    lCspec:'Твоя специализация', lCprice:'Стоимость проекта',
-    lCdeadline:'Срок', lCrev:'Количество правок',
-    lCscopePh:'Разработка лендинга: дизайн, вёрстка, интеграция формы',
-    lScreq:'Что просит клиент сверх договора',
-    lScprice:'Твоя оценка доп. работы', lSctone:'Тон ответа',
-    lDamt:'Сумма долга', lDdays:'Просрочка', lDctx:'Детали ситуации',
-    lDletter:'Какое письмо генерировать',
-    lCltask:'Текст от клиента (бриф, вакансия, сообщение)',
-    lCltaskPh:'Вставь сюда всё что написал клиент — ИИ найдёт красные флаги',
-    lRpname:'Название проекта', lRppct:'Готовность',
-    lRpdone:'Что сделано', lRpnext:'Что будет дальше',
-    authBenefits:['Сохраняем прогресс — генерации не сгорают','Доступ с любого устройства','7 генераций бесплатно после входа'],
-  },
-  en: {
-    tag:'⚡ AI Assistant for Freelancers',
-    h1:'Less admin.<br><em>More money.</em>',
-    sub:'Proposals, estimates, emails, contracts — in 10 seconds. Try free, no signup.',
-    anonHint:'🎁 Try without signup — 1 free generation',
-    anonHintUsed:'✅ Free generation used — sign in for 6 more',
-    tabs:['📄 Proposal','🧮 Estimate','🎨 Brief','✉️ Client Email 🔒','💰 Raise Rates 🔒','📝 Contract 🔒','🛡 Scope Creep 🔒','💸 Chase Invoice 🔒','🔍 Client Check 🔒','📊 Progress Report 🔒'],
-    badgeFree:'Free', badgePro:'PRO ✦',
-    usageFree:n=>`${n}/${CFG.FREE_LIMIT} left`,
-    usageAnon:'1/1 · sign in for 6 more', usagePro:'∞ unlimited',
-    abLbl:'Free tool',
-    abCntFree:n=>`· ${n} of ${CFG.FREE_LIMIT} left`,
-    abCntAnon:'· 1 without signup · sign in for 6 more',
-    abCntPro:'· unlimited',
-    enterKey:'🔑 Enter Key', buyPro:'✦ Buy PRO',
-    activate:'Activate', close:'Close',
-    copy:'Copy', copied:'Copied ✓',
-    rhHint:'Like it? ', rhCta:'Get unlimited →',
-    pf1t:'online right now', pf2:'4.9 ★', pf2t:'average rating',
-    pf3:'10 sec', pf3t:'instead of an hour',
-    urgTxt:'50% off ends in', urgNote:'Then $12',
-    stickyCnt:n=>`🔥 <strong>${n} freelancers</strong> got PRO today`,
-    stickyBtn:'✦ Get for $6.5',
-    proBanner:'✦ PRO activated — all tools unlocked, unlimited generations',
-    loginBtn:'Log in',
-    hpCount:'', hpText:'freelancers already using',
-    vs1:'$6.5', vs1s:'= pays off with first proposal', vs2:'10 tools', vs2s:'forever', vs3:'No subscription', vs3s:'one-time payment',
-    kpTitle:'Project Proposal', kpDesc:'Professional proposal for any client — in 10 seconds',
-    lSpec:'Your specialty', lClient:'Client type', lTask:'What needs to be done',
-    lPrice:'Budget ($)', lDeadline:'Timeline', lTone:'Tone',
-    tPh:'E.g.: build a landing page for an online course with signup and payment',
-    pricePh:'1 000', deadlinePh:'7–10 days',
-    specs:['Web developer','Designer','Mobile developer','Copywriter','Social media manager','Marketer','Data analyst','Fullstack developer','Frontend dev','QA engineer'],
-    clients:['Small business','Startup','Enterprise','Individual','Agency'],
-    tones:[['Professional','professional but human'],['Friendly','friendly and casual'],['Formal','formal and strict']],
-    kpBtn:'Generate Proposal', kpBtnAgain:'Generate Again', rlKp:'Your Proposal',
-    estTitle:'Project Estimate', estDesc:'Hours, risks, and fair price — in 10 seconds',
-    lEtask:'Client project description', etaskPh:'Paste the client message — AI will figure it out...',
-    lRate:'Your rate ($/hr)', ratePh:'75',
-    lLevel:'Level', levels:['Junior','Mid-level','Senior'],
-    estBtn:'Estimate Project', estBtnAgain:'Re-estimate', rlEst:'Project Estimate',
-    briefTitle:'Design Brief Generator', briefDesc:'Fill in details — get a ready questionnaire for your client',
-    lBtype:'Project type', lBclient:'Client type', lBdesc:'What you know about the project',
-    lBstyle:'Style / references', lBdetail:'Level of detail',
-    bdescPh:'E.g.: logo for a coffee shop, warm and cozy',
-    btypes:['Logo & brand identity','Website / landing page','Mobile app','Illustration','Packaging / print','Banners / ads','Presentation','Social media content'],
-    bclients:['Small business','Startup','Enterprise','Individual'],
-    bstyles:['No references yet','Has examples (will describe)','Minimalist','Bold & colorful','Corporate / formal','Retro / vintage'],
-    bdetails:['Basic (10–15 questions)','Detailed (20–25 questions)','Maximum (30+ questions)'],
-    briefBtn:'Generate Brief', briefBtnAgain:'Again', rlBrief:'Ready Brief',
-    proTitle:'PRO Tools', proDesc:'7 advanced tools — every real freelancer pain addressed',
-    proItems:[
-      {i:'✉️',t:'Client Email',d:'Payment reminder, conflict, delivery — ready to send'},
-      {i:'💰',t:'Raise Your Rates',d:'Script with objection-handling included'},
-      {i:'📝',t:'Contract Generator',d:'Simple contract with revisions and late fee'},
-      {i:'🛡',t:'Scope Creep Shield',d:'"It\'s just 5 minutes!" — protect your time'},
-      {i:'💸',t:'Chase Invoice',d:'3 escalating messages — gentle to firm'},
-      {i:'🔍',t:'Client Red Flags',d:'AI spots risks before you sign anything'},
-      {i:'📊',t:'Progress Report',d:'Professional update — look like an agency'},
-    ],
-    proBtn:'🔓 Unlock Everything — $6.5',
-    proPriceLbl:'Lifetime Access', proPriceMain:'$6.5', proPriceOld:'$12',
-    proPerks:['One-time payment','No subscription','Proposals & Estimates unlimited','7 PRO tools'],
-    proSub:'Instant access · Secure payment · <strong style="color:var(--gold)">Works immediately</strong>',
-    proKeyDiv:'or enter your activation key',
-    proWhy:'🎯 Launch discount — we want your feedback',
-    cmpTitle:'Free vs PRO',
-    cmpRows:[
-      ['Proposal, Estimate, Brief','7 times','∞ unlimited'],
-      ['Client emails','—','✓'],
-      ['Rate-raising script','—','✓'],
-      ['Contract generator','—','✓'],
-      ['Scope creep protection','—','✓'],
-      ['Chase invoices','—','✓'],
-      ['Client red flags','—','✓'],
-      ['Progress report','—','✓'],
-      ['Price','free','$6.5 forever'],
-    ],
-    testis:[
-      {av:'👨‍💻',txt:'"Bought PRO, sent an invoice chaser the same day. Got paid within 2 hours."',name:'Alex K.',role:'Frontend developer'},
-      {av:'🎨',txt:'"Rate-raising script is gold. Raised rates 40% — not a single client left."',name:'Marina R.',role:'UI/UX designer'},
-      {av:'✍️',txt:'"AI spotted 4 red flags I completely missed. Declined — saved weeks of pain."',name:'Dmitry V.',role:'Copywriter'},
-      {av:'📱',txt:'"Contract in 30 seconds. Client signed, paid for extra revisions."',name:'Anna S.',role:'Mobile developer'},
-    ],
-    features:[
-      {i:'⚡',t:'10 seconds',d:'Instead of an hour writing proposals by hand'},
-      {i:'🛡',t:'Income protection',d:'Contracts, scope creep, and invoices — all covered'},
-      {i:'📈',t:'10 tools',d:'3 free + 7 PRO — every real freelancer pain solved'},
-    ],
-    footer:'Powered by <a href="#">Claude AI</a> · FreelanceAI · <a href="#" onclick="goToPay()">Get PRO →</a>',
-    mTitle:'Free generations used up',
-    mDesc:'Unlock full access — all tools, unlimited generations.',
-    mItems:['Client emails — reminders, conflicts, delivery','Rate-raising script without losing clients','Contract generator','Scope creep protection','Invoice chasing — 3 escalating messages','Client red flag detector','Progress report — look like an agency','Proposals & Estimates — unlimited'],
-    mPriceMain:'$6.5', mPriceSub:'One-time payment — less than one hour of your work',
-    mBtn:'✦ Get Full Access', mGuar:'🔒 Secure payment · Instant access · Works right away',
-    mKeyDiv:'or enter your activation key', mKeyBtn:'Activate',
-    mClose:'No thanks, stay on free plan',
-    mScarcity:'👀 freelancers viewing right now',
-    kErrEmpty:'Enter your activation key', kErrUsed:'Key already used', kErrInvalid:'Invalid key',
-    faqTitle:'FAQ',
-    faqs:[
-      {q:'Is it a one-time payment or subscription?', a:'One-time payment of $6.5 — forever. No monthly fees.'},
-      {q:'How do I get access after payment?', a:'After payment, a login link is sent to your email. One click — everything unlocks instantly.'},
-      {q:'Why is it so cheap?', a:'We\'re in early access and collecting feedback. Current price is special. Early users get the best price forever.'},
-      {q:'What if I\'m not satisfied?', a:'Try free before buying — 1 generation without signup, 6 more after login. You\'ll see the quality yourself.'},
-      {q:'Are the texts unique?', a:'New text is generated every time via Claude AI — based on your specialty, client type, and task.'},
-      {q:'Does it work for different specialties?', a:'Yes: web developers, designers, copywriters, SMM, marketers, mobile developers, analysts.'},
-    ],
-    lLsit:'Situation', lLtone:'Tone',
-    lLetterCtxPh:'E.g.: client ghosting for 2 weeks, work delivered, amount $500',
-    lRold:'Current rate', lRnew:'New rate',
-    lRctxPh:'Working together 8 months, pays on time',
-    lCspec:'Your specialty', lCprice:'Project cost',
-    lCdeadline:'Timeline', lCrev:'Revisions',
-    lCscopePh:'Landing page: design, development, form integration',
-    lScreq:'What client is asking outside scope',
-    lScprice:'Your estimate for extra work', lSctone:'Response tone',
-    lDamt:'Invoice amount', lDdays:'Days overdue', lDctx:'Context',
-    lDletter:'Which message to generate',
-    lCltask:'Client text (brief, job post, message)',
-    lCltaskPh:'Paste everything the client wrote — AI will find red flags',
-    lRpname:'Project name', lRppct:'Completion',
-    lRpdone:'What\'s done', lRpnext:'What\'s next',
-    authBenefits:['Saves your progress — generations don\'t expire','Access from any device','7 free generations after login'],
-  }
-};
-
-// ═══════════════════════════════════════════════════════════════
-// SEED REVIEWS
-// ═══════════════════════════════════════════════════════════════
-const SEED_REVIEWS = {
-  ru: [
-    {id:'s1',av:'👨‍💻',name:'Алексей К.',role:'Фронтенд-разработчик',tool:'💸 Выбить долг',stars:5,text:'Купил PRO и сразу написал письмо клиенту, который молчал 3 недели. Деньги пришли через 2 часа. Окупилось мгновенно.',date:'15 янв 2025'},
-    {id:'s2',av:'🎨',name:'Марина Р.',role:'UI/UX дизайнер',tool:'💰 Поднять цену',stars:5,text:'Скрипт повышения ставки просто огонь. Подготовилась за 10 секунд, подняла цену на 40% — ни один клиент не ушёл.',date:'3 фев 2025'},
-    {id:'s3',av:'✍️',name:'Дмитрий В.',role:'Копирайтер',tool:'🔍 Анализ клиента',stars:5,text:'Анализ клиента нашёл 4 красных флага в брифе, которые я пропустил. Отказался — и не пожалел.',date:'22 фев 2025'},
-    {id:'s4',av:'📱',name:'Анна С.',role:'Разработчик мобильных',tool:'📝 Контракт',stars:5,text:'Контракт за 30 секунд. Клиент подписал, правки оплатил. Теперь всегда с договором.',date:'8 мар 2025'},
-    {id:'s5',av:'🖥',name:'Павел Т.',role:'Fullstack-разработчик',tool:'📄 КП',stars:5,text:'Написал три КП за вечер вместо трёх дней. Два из трёх клиентов ответили. Конверсия выросла в разы.',date:'12 мар 2025'},
-    {id:'s6',av:'📊',name:'Елена М.',role:'Маркетолог',tool:'✉️ Письмо клиенту',stars:5,text:'Использую для сложных писем — мягко отказать или перенести срок. Тон всегда идеальный.',date:'19 мар 2025'},
-    {id:'s7',av:'🎬',name:'Игорь Н.',role:'Видеограф',tool:'🛡 Scope creep',stars:5,text:'Наконец научился говорить нет доп. правкам. Клиент с удивлением согласился доплатить.',date:'25 мар 2025'},
-    {id:'s8',av:'📝',name:'Света К.',role:'Контент-менеджер',tool:'📊 Отчёт',stars:4,text:'Отчёты стали выглядеть профессионально. Клиенты воспринимают меня как агентство.',date:'2 апр 2025'},
-    {id:'s9',av:'🎯',name:'Роман Г.',role:'SEO-специалист',tool:'📄 КП',stars:5,text:'За месяц сделал 12 КП — раньше это заняло бы месяц. Конверсия в клиентов +30%.',date:'10 апр 2025'},
-    {id:'s10',av:'💼',name:'Катя Б.',role:'Таргетолог',tool:'💰 Поднять цену',stars:5,text:'Боялась потерять клиентов при повышении цены. Скрипт дал ответ на все их возражения.',date:'17 апр 2025'},
-    {id:'s11',av:'🧑‍💻',name:'Максим Л.',role:'PHP-разработчик',tool:'💸 Выбить долг',stars:5,text:'Клиент пропал на месяц. Третье письмо из серии сработало — деньги на счёте через день.',date:'24 апр 2025'},
-    {id:'s12',av:'🎨',name:'Оксана Ф.',role:'Графический дизайнер',tool:'🔍 Анализ клиента',stars:5,text:'Проверяю каждый новый бриф перед тем как брать проект. Уже избежала двух токсичных клиентов.',date:'1 мая 2025'},
-    {id:'s13',av:'📱',name:'Артём Д.',role:'iOS разработчик',tool:'📝 Контракт',stars:5,text:'Сгенерировал контракт на 200к проект. Юрист сказал что всё ок. Сэкономил на юристе — уже плюс.',date:'8 мая 2025'},
-    {id:'s14',av:'✍️',name:'Надя С.',role:'UX-писатель',tool:'🧮 Оценка проекта',stars:5,text:'Наконец перестала брать проекты в минус. Оценка честно показывает сколько реально займёт задача.',date:'15 мая 2025'},
-    {id:'s15',av:'📊',name:'Влад П.',role:'Аналитик данных',tool:'✉️ Письмо клиенту',stars:4,text:'Инструмент для писем очень помогает когда клиент начинает задерживать фидбек.',date:'22 мая 2025'},
-    {id:'s16',av:'🚀',name:'Кирилл О.',role:'Growth-хакер',tool:'📄 КП',stars:5,text:'Лучшее вложение 490 рублей за последний год. КП стало выглядеть профессионально.',date:'29 мая 2025'},
-  ],
-  en: [
-    {id:'s1',av:'👨‍💻',name:'Alex K.',role:'Frontend developer',tool:'💸 Chase Invoice',stars:5,text:'Sent a chaser to a client who\'d been ignoring me for 3 weeks. Got paid within 2 hours.',date:'Jan 15 2025'},
-    {id:'s2',av:'🎨',name:'Marina R.',role:'UI/UX designer',tool:'💰 Raise Rates',stars:5,text:'Rate-raising script is gold. Raised rates 40% — not a single client left.',date:'Feb 3 2025'},
-    {id:'s3',av:'✍️',name:'Dmitry V.',role:'Copywriter',tool:'🔍 Client Check',stars:5,text:'AI spotted 4 red flags I completely missed. Declined the project — saved weeks of pain.',date:'Feb 22 2025'},
-    {id:'s4',av:'📱',name:'Anna S.',role:'Mobile developer',tool:'📝 Contract',stars:5,text:'Contract in 30 seconds. Client signed, paid for extra revisions.',date:'Mar 8 2025'},
-    {id:'s5',av:'🖥',name:'Paul T.',role:'Fullstack developer',tool:'📄 Proposal',stars:5,text:'Three proposals in one evening instead of three days. Conversion up massively.',date:'Mar 12 2025'},
-    {id:'s6',av:'📊',name:'Elena M.',role:'Marketing specialist',tool:'✉️ Client Email',stars:5,text:'Use it for tricky emails. The tone always comes out perfect.',date:'Mar 19 2025'},
-    {id:'s7',av:'🎬',name:'Igor N.',role:'Videographer',tool:'🛡 Scope Creep',stars:5,text:'Finally know how to say no to extra revisions. Client agreed to pay extra without a fight.',date:'Mar 25 2025'},
-    {id:'s8',av:'📝',name:'Sveta K.',role:'Content manager',tool:'📊 Progress Report',stars:4,text:'Reports look super professional now. Clients treat me like an agency.',date:'Apr 2 2025'},
-    {id:'s9',av:'🎯',name:'Roman G.',role:'SEO specialist',tool:'📄 Proposal',stars:5,text:'Made 12 proposals in a month. Conversion to clients up 30%.',date:'Apr 10 2025'},
-    {id:'s10',av:'💼',name:'Kate B.',role:'Paid ads specialist',tool:'💰 Raise Rates',stars:5,text:'Was afraid of losing clients. The script answered every objection. Everyone stayed.',date:'Apr 17 2025'},
-    {id:'s11',av:'🧑‍💻',name:'Max L.',role:'PHP developer',tool:'💸 Chase Invoice',stars:5,text:'Client disappeared for a month. Third message worked — money in account next day.',date:'Apr 24 2025'},
-    {id:'s12',av:'🎨',name:'Oksana F.',role:'Graphic designer',tool:'🔍 Client Check',stars:5,text:'I check every new brief before taking a project. Already avoided two toxic clients.',date:'May 1 2025'},
-    {id:'s13',av:'📱',name:'Artem D.',role:'iOS developer',tool:'📝 Contract',stars:5,text:'Generated a contract for a $2k project. Lawyer said it was solid. Saved money on legal fees right away.',date:'May 8 2025'},
-    {id:'s14',av:'✍️',name:'Nadia S.',role:'UX writer',tool:'🧮 Estimate',stars:5,text:'Finally stopped taking projects at a loss. The estimate shows honestly how long a task will actually take.',date:'May 15 2025'},
-    {id:'s15',av:'📊',name:'Vlad P.',role:'Data analyst',tool:'✉️ Client Email',stars:4,text:'The email tool is really helpful when clients start delaying feedback and you need to nudge them.',date:'May 22 2025'},
-    {id:'s16',av:'🚀',name:'Kirill O.',role:'Growth hacker',tool:'📄 Proposal',stars:5,text:'Best investment I made this year. My proposals now look like they came from an agency.',date:'May 29 2025'},
-  ]
-};
-
-// ═══════════════════════════════════════════════════════════════
-// PROMPTS
-// ═══════════════════════════════════════════════════════════════
-function getPrompt(tool) {
-  const t = L[lang];
-  const v2 = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
-  if (tool === 'kp') {
-    const spec=v2('kp-spec'),client=v2('kp-client'),task=v2('kp-task')||(lang==='ru'?'разработка сайта':'website development'),price=v2('kp-price')||t.pricePh,deadline=v2('kp-deadline')||t.deadlinePh,tone=v2('kp-tone');
-    return lang==='ru'
-      ? `Ты опытный ${spec} на фрилансе. Напиши профессиональное коммерческое предложение для клиента (${client}).\n\nЗадача: ${task}\nСтоимость: ${price} ₽\nСрок: ${deadline}\nТон: ${tone}\n\nСтруктура:\n1. Приветствие и понимание задачи (2-3 предложения)\n2. Твоё решение (3-4 конкретных пункта)\n3. Почему ты (1-2 аргумента)\n4. Условия: стоимость, срок, что входит\n5. Следующий шаг\n\nПиши живо, без штампов. Максимум 1 страница А4.`
-      : `You are an experienced ${spec} freelancer. Write a professional project proposal for a ${client} client.\n\nProject: ${task}\nBudget: $${price}\nTimeline: ${deadline}\nTone: ${tone}\n\nStructure:\n1. Opening — show you understand the project\n2. Your solution (3-4 concrete points)\n3. Why you (1-2 arguments)\n4. Terms: price, timeline, scope\n5. Clear call to action\n\nNatural writing, max 1 page.`;
-  }
-  if (tool === 'est') {
-    const task=v2('est-task')||(lang==='ru'?'разработка лендинга':'landing page'),rate=v2('est-rate')||t.ratePh,level=v2('est-level');
-    return lang==='ru'
-      ? `Ты опытный фрилансер уровня ${level}. Ставка: ${rate} ₽/час.\n\nКлиент написал: "${task}"\n\nСделай профессиональную оценку:\n1. Разбивка задач — все подзадачи и часы на каждую\n2. Итого часов — минимум и максимум\n3. Итого стоимость + 20% буфер\n4. Риски (2-3 пункта)\n5. Что уточнить у клиента (3-5 вопросов)\n6. Рекомендация\n\nИспользуй конкретные цифры.`
-      : `You are an experienced ${level} freelancer. Rate: $${rate}/hr.\n\nClient wrote: "${task}"\n\n1. Task breakdown with hours per subtask\n2. Total hours — min and max range\n3. Total cost + 20% buffer\n4. Risks (2-3 points)\n5. Clarifying questions (3-5)\n6. Recommendation\n\nUse specific numbers.`;
-  }
-  if (tool === 'brief') {
-    const btype=v2('brief-type'),bclient=v2('brief-client'),bdesc=v2('brief-desc-input')||(lang==='ru'?'нет описания':'no details'),bstyle=v2('brief-style'),bdetail=v2('brief-detail');
-    return lang==='ru'
-      ? `Ты опытный арт-директор. Создай подробный бриф-опросник.\n\nТип проекта: ${btype}\nТип клиента: ${bclient}\nЧто известно: ${bdesc}\nСтиль: ${bstyle}\nДетализация: ${bdetail}\n\nСтруктура:\n1. О бизнесе и аудитории\n2. О задаче и целях\n3. О стиле и визуальных предпочтениях\n4. О технических требованиях\n5. Об организации работы\n\nПосле каждого вопроса — подсказка почему он важен.`
-      : `You are an experienced art director. Create a detailed client questionnaire.\n\nProject: ${btype}\nClient: ${bclient}\nKnown: ${bdesc}\nStyle: ${bstyle}\nDetail: ${bdetail}\n\n1. Business & audience\n2. Project goals\n3. Style preferences\n4. Technical requirements\n5. Timeline and formats\n\nAdd a note after each question why it matters.`;
-  }
-  if (tool === 'letter') {
-    const sit=v2('letter-sit'),ltone=v2('letter-tone'),ctx=v2('letter-ctx')||'нет деталей';
-    return lang==='ru'
-      ? `Ты фрилансер. Напиши письмо клиенту.\n\nСитуация: ${sit}\nТон: ${ltone}\nКонтекст: ${ctx}\n\n- Профессионально, без агрессии\n- Чёткий призыв к действию\n- Готово к отправке\n- Максимум 150 слов`
-      : `You are a freelancer. Write a client email.\n\nSituation: ${sit}\nTone: ${ltone}\nContext: ${ctx}\n\n- Professional, no aggression\n- Clear call to action\n- Ready to send\n- Max 150 words`;
-  }
-  if (tool === 'raise') {
-    const old=v2('raise-old')||'текущая',nw=v2('raise-new')||'новая',rctx=v2('raise-ctx')||'постоянный клиент';
-    return lang==='ru'
-      ? `Напиши скрипт для разговора о повышении ставки.\n\nТекущая: ${old}\nНовая: ${nw}\nОтношения: ${rctx}\n\n1. Открытие\n2. Обоснование (3-4 аргумента)\n3. Как озвучить цену\n4. Ответы на 3 возражения\n5. Финал\n\nТон: уверенный, без ультиматумов.`
-      : `Write a rate increase script.\n\nCurrent: ${old}\nNew: ${nw}\nRelationship: ${rctx}\n\n1. Opening\n2. Justification (3-4 arguments)\n3. How to present the new rate\n4. 3 objection responses\n5. Closing\n\nConfident tone.`;
-  }
-  if (tool === 'contract') {
-    const cspec=v2('contract-spec'),cprice=v2('contract-price'),cdeadline=v2('contract-deadline'),crev=v2('contract-rev')||'3',cscope=v2('contract-scope');
-    return lang==='ru'
-      ? `Составь договор на оказание услуг.\n\nИсполнитель: ${cspec}\nСтоимость: ${cprice}\nСрок: ${cdeadline}\nПравки: ${crev} раунда\nСостав работ: ${cscope}\n\nВключи: предмет, сроки, оплата (50% предоплата), правки, пени за просрочку, передача прав после оплаты, расторжение.\nОставь [ФИО] и [ИНН] как плейсхолдеры.`
-      : `Draft a freelance service agreement.\n\nFreelancer: ${cspec}\nPrice: ${cprice}\nDeadline: ${cdeadline}\nRevisions: ${crev}\nScope: ${cscope}\n\nInclude: scope, timeline, payment (50% upfront), revisions, late fee, IP transfer, termination.\nUse [NAME] and [TAX ID] as placeholders.`;
-  }
-  if (tool === 'scope') {
-    const sreq=v2('scope-req'),sprice=v2('scope-price'),stone=v2('scope-tone');
-    return lang==='ru'
-      ? `Клиент просит доп. работу вне договора.\n\nЧто просит: ${sreq}\nОценка: ${sprice}\nТон: ${stone}\n\n1. Признание запроса\n2. Почему вне рамок\n3. Предложение: доп. оплата\n4. Вопрос для подтверждения\n\nГотово к отправке.`
-      : `Client asks for work outside scope.\n\nRequest: ${sreq}\nEstimate: ${sprice}\nTone: ${stone}\n\n1. Acknowledge\n2. Explain outside scope\n3. Offer extra pay option\n4. Confirmation question\n\nReady to send.`;
-  }
-  if (tool === 'debt') {
-    const damt=v2('debt-amount'),ddays=v2('debt-days'),dctx=v2('debt-ctx'),dletter=parseInt(v2('debt-letter')||'1');
-    const dru=dletter===1?'мягкое первое напоминание':dletter===2?'настойчивое второе':'жёсткое финальное с последствиями';
-    const den=dletter===1?'soft first reminder':dletter===2?'firm second reminder':'final notice with consequences';
-    return lang==='ru'
-      ? `Напиши ${dru}.\n\nСумма: ${damt}\nПросрочка: ${ddays}\nКонтекст: ${dctx}\n\nНапомни о сумме, установи дедлайн, CTA.\n\nМаксимум 120 слов.`
-      : `Write a ${den}.\n\nAmount: ${damt}\nOverdue: ${ddays}\nContext: ${dctx}\n\nReference amount, set deadline, CTA.\n\nMax 120 words.`;
-  }
-  if (tool === 'client') {
-    const cltask=v2('client-task')||'нет текста';
-    return lang==='ru'
-      ? `Проанализируй текст от клиента.\n\nТекст:\n"${cltask}"\n\n1. 🚩 Красные флаги\n2. 🟡 Жёлтые флаги\n3. ✅ Позитивные сигналы\n4. 💰 Риск: Низкий / Средний / Высокий\n5. 📋 Что уточнить (3-5 вопросов)\n6. 🎯 Итог: брать или нет`
-      : `Analyze client text for red flags.\n\nText:\n"${cltask}"\n\n1. 🚩 Red flags\n2. 🟡 Yellow flags\n3. ✅ Positive signals\n4. 💰 Risk level\n5. 📋 Questions (3-5)\n6. 🎯 Verdict`;
-  }
-  if (tool === 'report') {
-    const rpname=v2('report-name'),rppct=v2('report-pct'),rpdone=v2('report-done'),rpnext=v2('report-next');
-    return lang==='ru'
-      ? `Напиши профессиональный отчёт о прогрессе.\n\nПроект: ${rpname}\nГотовность: ${rppct}\nЧто сделано: ${rpdone}\nЧто дальше: ${rpnext}\n\nСтруктура: статус, выполнено, прогресс %, следующие шаги, что нужно от клиента.\n\nТон агентства. Без воды.`
-      : `Write a project status report.\n\nProject: ${rpname}\nProgress: ${rppct}\nDone: ${rpdone}\nNext: ${rpnext}\n\nStructure: status, completed, % progress, next steps, blockers, close.\n\nAgency tone. No fluff.`;
-  }
+function doLogin() {
+  const val = document.getElementById('secret-input').value.trim();
+  if (!val) return;
+  SECRET = val;
+  loadDashboard();
 }
 
-// ═══════════════════════════════════════════════════════════════
-// APPLY LANG
-// ═══════════════════════════════════════════════════════════════
-function applyLang() {
-  const t = L[lang];
-  $('h-tag').textContent = t.tag;
-  $('h-title').innerHTML = t.h1;
-  $('h-sub').textContent = t.sub;
-  const tabs = document.querySelectorAll('#tabsNav .tool-tab');
-  t.tabs.forEach((lbl,i) => { if(tabs[i]) tabs[i].innerHTML = lbl; });
-  setTxt('pf2', t.pf2); setTxt('pf2t', t.pf2t);
-  setTxt('pf3', t.pf3); setTxt('pf3t', t.pf3t);
-  setTxt('pf1t', t.pf1t);
-  setTxt('hp-count', t.hpCount);
-  const hpt = document.getElementById('hp-text'); if(hpt) hpt.textContent = t.hpText;
-  // value strip
-  const vs = $('valueStrip');
-  if (vs && !isPro) {
-    vs.innerHTML = `<div class="vs-item"><strong>${t.vs1}</strong><span>${t.vs1s}</span></div><div class="vs-sep"></div><div class="vs-item"><strong>${t.vs2}</strong><span>${t.vs2s}</span></div><div class="vs-sep"></div><div class="vs-item"><strong>${t.vs3}</strong><span>${t.vs3s}</span></div>`;
-  }
-  [1,2,3].forEach(n => { setTxt(`ab${n}-lbl`, t.abLbl); setTxt(`ab${n}-t`, t.enterKey); });
-  document.querySelectorAll('.btn-pro').forEach(b => b.textContent = t.buyPro);
-  document.querySelectorAll('.btn-activate').forEach(b => b.textContent = t.activate);
-  setTxt('kp-title', t.kpTitle); setTxt('kp-desc', t.kpDesc);
-  setTxt('l-spec', t.lSpec); setTxt('l-client', t.lClient); setTxt('l-task', t.lTask);
-  setTxt('l-price', t.lPrice); setTxt('l-deadline', t.lDeadline); setTxt('l-tone', t.lTone);
-  setPh('kp-task', t.tPh); setPh('kp-price', t.pricePh); setPh('kp-deadline', t.deadlinePh);
-  setOpts('kp-spec', t.specs); setOpts('kp-client', t.clients);
-  $('kp-tone').innerHTML = t.tones.map(a=>`<option value="${a[1]}">${a[0]}</option>`).join('');
-  setTxt('btn-kp-txt', t.kpBtn); setTxt('rl-kp', t.rlKp); setTxt('cp-kp', t.copy);
-  setHtml('rh-kp', `${t.rhHint}<strong onclick="goToPay()">${t.rhCta}</strong>`);
-  setTxt('est-title', t.estTitle); setTxt('est-desc', t.estDesc);
-  setTxt('l-etask', t.lEtask); setPh('est-task', t.etaskPh);
-  setTxt('l-rate', t.lRate); setPh('est-rate', t.ratePh); setTxt('l-level', t.lLevel);
-  setOpts('est-level', t.levels);
-  setTxt('btn-est-txt', t.estBtn); setTxt('rl-est', t.rlEst); setTxt('cp-est', t.copy);
-  setHtml('rh-est', `${t.rhHint}<strong onclick="goToPay()">${t.rhCta}</strong>`);
-  setTxt('brief-title', t.briefTitle); setTxt('brief-desc', t.briefDesc);
-  setTxt('l-btype', t.lBtype); setTxt('l-bclient', t.lBclient); setTxt('l-bdesc', t.lBdesc);
-  setPh('brief-desc-input', t.bdescPh);
-  setTxt('l-bstyle', t.lBstyle); setTxt('l-bdetail', t.lBdetail);
-  setOpts('brief-type', t.btypes); setOpts('brief-client', t.bclients);
-  setOpts('brief-style', t.bstyles); setOpts('brief-detail', t.bdetails);
-  setTxt('btn-brief-txt', t.briefBtn); setTxt('rl-brief', t.rlBrief); setTxt('cp-brief', t.copy);
-  setHtml('rh-brief', `${t.rhHint}<strong onclick="goToPay()">${t.rhCta}</strong>`);
-  const isRu = lang === 'ru';
-  setTxt('l-lsit', t.lLsit); setTxt('l-ltone', t.lLtone); setPh('letter-ctx', t.lLetterCtxPh);
-  setTxt('l-rold', t.lRold); setTxt('l-rnew', t.lRnew); setPh('raise-ctx', t.lRctxPh);
-  setTxt('l-cspec', t.lCspec); setTxt('l-cprice', t.lCprice);
-  setTxt('l-cdeadline', t.lCdeadline); setTxt('l-crev', t.lCrev); setPh('contract-scope', t.lCscopePh);
-  setTxt('l-screq', t.lScreq); setTxt('l-scprice', t.lScprice); setTxt('l-sctone', t.lSctone);
-  setTxt('l-damt', t.lDamt); setTxt('l-ddays', t.lDdays); setTxt('l-dctx', t.lDctx); setTxt('l-dletter', t.lDletter);
-  setTxt('l-cltask', t.lCltask); setPh('client-task', t.lCltaskPh);
-  setTxt('l-rpname', t.lRpname); setTxt('l-rppct', t.lRppct); setTxt('l-rpdone', t.lRpdone); setTxt('l-rpnext', t.lRpnext);
-  setOpts('letter-sit', isRu ? ['Напоминание об оплате','Задержка ответа','Сдача работы','Конфликт / недопонимание','Отказ от проекта','Запрос обратной связи'] : ['Payment reminder','Client ghosting','Work delivery','Conflict resolution','Project decline','Feedback request']);
-  setOpts('letter-tone', isRu ? ['Дружелюбный','Профессиональный','Настойчивый'] : ['Friendly','Professional','Firm']);
-  setOpts('scope-tone', isRu ? ['Мягкий','Прямой','Жёсткий'] : ['Soft','Direct','Firm']);
-  setOpts('debt-letter', isRu ? ['1 — Мягкое напоминание','2 — Настойчивое','3 — Финальное (с последствиями)'] : ['1 — Soft reminder','2 — Firm reminder','3 — Final notice']);
-  setOpts('report-pct', ['10%','25%','50%','75%','90%','100%']);
-  setOpts('contract-spec', isRu ? ['Веб-разработчик','Дизайнер','Мобильный разработчик','Копирайтер','SMM-специалист','Маркетолог','Аналитик','Fullstack','Другое'] : ['Web developer','Designer','Mobile developer','Copywriter','SMM','Marketer','Analyst','Fullstack','Other']);
-  // PRO paywall
-  setTxt('pro-title', t.proTitle); setTxt('pro-desc', t.proDesc);
-  $('pro-grid').innerHTML = t.proItems.map(p=>`<div class="pi"><div class="pi-ico">${p.i}</div><div class="pi-title">${p.t}</div><div class="pi-desc">${p.d}</div></div>`).join('');
-  $('testi-grid').innerHTML = t.testis.map(x=>`<div class="testi"><div class="stars">★★★★★</div><div class="testi-txt">${x.txt}</div><div class="testi-who"><div class="testi-av">${x.av}</div><div><div class="testi-name">${x.name}</div><div class="testi-role">${x.role}</div></div></div></div>`).join('');
-  // Comparison table
-  setTxt('cmp-title', t.cmpTitle);
-  const ct = $('compare-table');
-  if (ct) {
-    const hdr = isRu ? ['Возможность','Бесплатно','PRO'] : ['Feature','Free','PRO'];
-    ct.innerHTML = `<div class="ct-row header"><div class="ct-cell">${hdr[0]}</div><div class="ct-cell center">${hdr[1]}</div><div class="ct-cell center pro">${hdr[2]}</div></div>`
-      + t.cmpRows.map(r => {
-          const c2 = r[1]==='—' ? '<span class="ct-no">—</span>' : (r[1].includes('∞')||r[1].includes('unlimited') ? `<span class="ct-yes">∞</span>` : `<span class="ct-lim">${r[1]}</span>`);
-          const c3 = r[2].includes('✓') ? '<span class="ct-yes">✓</span>' : `<span style="color:var(--gold);font-size:11px;font-weight:700">${r[2]}</span>`;
-          return `<div class="ct-row"><div class="ct-cell">${r[0]}</div><div class="ct-cell center">${c2}</div><div class="ct-cell center">${c3}</div></div>`;
-        }).join('');
-  }
-  setTxt('pr-lbl', t.proPriceLbl);
-  $('pr-price').innerHTML = `${t.proPriceMain} <s>${t.proPriceOld}</s>`;
-  setTxt('pr-why', t.proWhy);
-  $('pr-perks').innerHTML = t.proPerks.map(p=>`<div class="perk">${p}</div>`).join('');
-  setTxt('pro-btn', t.proBtn); setHtml('pro-sub', t.proSub);
-  setTxt('pro-kd', t.proKeyDiv);
-  $('features-grid').innerHTML = t.features.map(f=>`<div class="fc"><div class="fc-ico">${f.i}</div><div class="fc-title">${f.t}</div><div class="fc-desc">${f.d}</div></div>`).join('');
-  setHtml('footer-txt', t.footer);
-  // Modal
-  setTxt('m-title', t.mTitle); setTxt('m-desc', t.mDesc);
-  $('m-list').innerHTML = t.mItems.map(s=>`<div class="modal-li">${s}</div>`).join('');
-  setTxt('m-pm', t.mPriceMain); setTxt('m-ps', t.mPriceSub);
-  setTxt('m-btn', t.mBtn); setTxt('m-guar', t.mGuar);
-  setTxt('m-kd', t.mKeyDiv); setTxt('m-kb', t.mKeyBtn); setTxt('m-cl', t.mClose);
-  updateModalScarcity();
-  setTxt('pro-banner-txt', t.proBanner);
-  // FAQ
-  setTxt('faq-title', t.faqTitle);
-  const fl = $('faq-list');
-  if (fl) fl.innerHTML = t.faqs.map(f=>`<div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">${esc(f.q)} <span class="faq-arrow">▼</span></div><div class="faq-a"><div class="faq-a-inner">${esc(f.a)}</div></div></div>`).join('');
-  // Urgency
-  setTxt('urg-txt', t.urgTxt); setTxt('urg-note', t.urgNote);
-  // Sticky
-  const sb = $('sticky-btn'); if(sb) sb.textContent = t.stickyBtn;
-  // Plan badge
-  $('planBadge').textContent = isPro ? t.badgePro : t.badgeFree;
-  $('planBadge').className   = 'badge ' + (isPro ? 'badge-pro' : 'badge-free');
-  // Login btn
-  const lb = $('hdr-login-btn'); if(lb) lb.textContent = t.loginBtn;
-  // Anon hint
-  const ah = $('anonHint');
-  if (ah) {
-    if (isPro || authToken) { ah.style.display = 'none'; }
-    else if (anonUsed >= CFG.ANON_LIMIT) { ah.textContent = t.anonHintUsed; ah.classList.add('used'); }
-    else { ah.textContent = t.anonHint; ah.classList.remove('used'); }
-  }
-  // value strip — hide for PRO
-  const vstrip = $('valueStrip');
-  if (vstrip) vstrip.style.display = isPro ? 'none' : '';
-  // Auth benefits
-  const ab = $('auth-benefits');
-  if (ab) ab.innerHTML = (t.authBenefits||[]).map(b=>`<div class="ab-row">${b}</div>`).join('');
-  updateProTabs(); updateCounters();
-}
-
-// ════════ scarcity в модале (динамическое число) ════════
-function updateModalScarcity() {
-  const t = L[lang];
-  const base = 5 + Math.floor(Math.random()*8);
-  const ms = $('m-scarcity-txt');
-  if (ms) ms.textContent = base + ' ' + t.mScarcity;
-}
-
-function updateProTabs() {
-  const proTabEls = document.querySelectorAll('.pro-tab');
-  const isRu = lang === 'ru';
-  const labels = isRu
-    ? ['✉️ Письмо клиенту','💰 Поднять цену','📝 Контракт','🛡 Scope creep','💸 Выбить долг','🔍 Анализ клиента','📊 Отчёт']
-    : ['✉️ Client Email','💰 Raise Rates','📝 Contract','🛡 Scope Creep','💸 Chase Invoice','🔍 Client Check','📊 Progress Report'];
-  proTabEls.forEach((btn, i) => {
-    btn.innerHTML = labels[i] + (isPro ? '' : ' 🔒');
-    btn.classList.toggle('locked', !isPro);
-  });
-}
-
-function updateCounters() {
-  const t = L[lang];
-  const used = getUsed();
-  const left = Math.max(0, CFG.FREE_LIMIT - used);
-  let cnt;
-  if (isPro) cnt = t.abCntPro;
-  else if (!authToken) cnt = t.abCntAnon;
-  else cnt = t.abCntFree(left);
-  ['ab1-cnt','ab2-cnt','ab3-cnt'].forEach(id => { const el=$(id); if(el) el.textContent = cnt; });
-  const pill = $('usagePill');
-  if (pill) {
-    if (isPro) pill.textContent = t.usagePro;
-    else if (!authToken) pill.textContent = t.usageAnon;
-    else pill.textContent = t.usageFree(left);
-  }
-  // Обновляем anonHint в зависимости от статуса
-  const ah = $('anonHint');
-  if (ah) {
-    if (isPro) {
-      ah.style.display = 'none';
-    } else if (authToken) {
-      ah.classList.remove('used');
-      ah.style.display = 'inline-flex';
-      ah.textContent = lang === 'ru'
-        ? `⚡ Осталось бесплатных генераций: ${left} из ${CFG.FREE_LIMIT}`
-        : `⚡ Free generations left: ${left} of ${CFG.FREE_LIMIT}`;
-      if (left === 0) { ah.classList.add('used'); ah.textContent = lang === 'ru' ? '⚠️ Бесплатные генерации закончились' : '⚠️ Free generations used up'; }
-    } else {
-      ah.style.display = 'inline-flex';
-      ah.classList.remove('used');
-      ah.textContent = lang === 'ru' ? '🎁 Попробуй без регистрации — 1 генерация бесплатно' : '🎁 Try without sign up — 1 free generation';
-    }
-  }
-  // Обновляем firstTip внутри карточки КП
-  const ft = $('firstTip');
-  if (ft) {
-    if (isPro) {
-      ft.style.display = 'none';
-    } else if (authToken) {
-      ft.textContent = lang === 'ru'
-        ? (left === 0 ? '⚠️ Бесплатные генерации закончились' : `⚡ Осталось генераций: ${left} из ${CFG.FREE_LIMIT}`)
-        : (left === 0 ? '⚠️ Free generations used up' : `⚡ Generations left: ${left} of ${CFG.FREE_LIMIT}`);
-      ft.style.background = left === 0 ? 'rgba(240,103,42,0.1)' : 'rgba(61,232,160,0.07)';
-      ft.style.borderColor = left === 0 ? 'rgba(240,103,42,0.3)' : 'rgba(61,232,160,0.2)';
-      ft.style.color = left === 0 ? 'var(--warn)' : 'var(--accent3)';
-    } else {
-      ft.textContent = lang === 'ru' ? '💡 Попробуй без регистрации — первая генерация бесплатно' : '💡 Try without signup — first generation is free';
-      ft.style.background = '';
-      ft.style.borderColor = '';
-      ft.style.color = '';
-    }
-  }
-  if (isPro) {
-    ['ab1','ab2','ab3'].forEach(id => { const el=$(id); if(el) el.style.display='none'; });
-    document.querySelectorAll('.result-cta').forEach(el => el.style.display='none');
-    document.querySelectorAll('.result-upgrade').forEach(el => el.style.display='none');
-  }
-}
-
-function setLang(l) {
-  lang = l; localStorage.setItem('fai_lang', l);
-  document.documentElement.lang = l;
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent === l.toUpperCase()));
-  applyLang(); applyReviewsLang();
-  loadUserReviews().then(() => renderReviews());
-}
-
-// ═══════════════════════════════════════════════════════════════
-// KEY SYSTEM
-// ═══════════════════════════════════════════════════════════════
-function fmtKey(inp) {
-  const v2 = inp.value.replace(/[^A-Za-z0-9]/g,'').toUpperCase();
-  const parts = v2.match(/.{1,4}/g);
-  inp.value = (parts ? parts.join('-') : v2).slice(0,19);
-}
-function toggleKey(n) {
-  kx[n] = !kx[n];
-  const exp=$('kx'+n), btn=$('ab'+n+'-t'), t=L[lang];
-  if (kx[n]) { exp.classList.add('open'); btn.textContent=t.close; $('ki'+n).focus(); }
-  else { exp.classList.remove('open'); btn.textContent=t.enterKey; const err=$('ke'+n); if(err) err.textContent=''; }
-}
-
-// ═══════════════════════════════════════════════════════════════
-// GENERATE
-// ═══════════════════════════════════════════════════════════════
-async function gen(tool) {
-  const used = getUsed();
-  if (!isPro) {
-    if (authToken) { if (used >= CFG.FREE_LIMIT) { showModal(); return; } }
-    else { if (anonUsed >= CFG.ANON_LIMIT) { openAuthModal(); return; } }
-  }
-
-  const btnEl   = $('btn-'+tool);
-  const resBox  = $('res-'+tool);
-  const rbEl    = $('rb-'+tool);
-  const btnWrap = btnEl.closest('button');
-  const prompt  = getPrompt(tool);
-  btnEl.innerHTML = '<span class="dots"><span></span><span></span><span></span></span>';
-  btnWrap.disabled = true;
-  resBox.classList.add('show');
-  rbEl.textContent = '';
-
-  try {
-    const headers = { 'Content-Type': 'application/json' };
-    if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
-    const res = await fetch(CFG.API_ENDPOINT, {
-      method: 'POST', headers,
-      body: JSON.stringify({ model:'arcee-ai/trinity-large-preview:free', max_tokens:1400, messages:[{role:'user',content:prompt}] })
-    });
-    if (res.status === 401) { clearSession(); updateAuthHeader(); openAuthModal(); return; }
-    if (res.status === 429) {
-      const retryData = await res.json().catch(()=>({}));
-      const retryAfter = retryData.retry_after || 60;
-      rbEl.textContent = lang==='ru' ? `⚠️ Слишком много запросов. Подожди ${retryAfter} секунд.` : `⚠️ Too many requests. Wait ${retryAfter} seconds.`;
-      btnEl.innerHTML = `✦ <span>${lang==='ru'?'Попробовать снова':'Try again'}</span>`; btnWrap.disabled=false; return;
-    }
-    if (res.status === 403) {
-      const errData = await res.json().catch(()=>({}));
-      if (errData.error === 'free_limit_reached') { showModal(); return; }
-      if (errData.error === 'anon_limit_reached') { openAuthModal(); return; }
-      throw new Error(errData.error || 'Forbidden');
-    }
-    if (!res.ok) {
-      const errData = await res.json().catch(()=>({}));
-      throw new Error(typeof errData.error === 'string' ? errData.error : (errData.error?.message || `HTTP ${res.status}`));
-    }
-    const json = await res.json();
-    const txt  = json.choices?.[0]?.message?.content;
-    if (txt) {
-      rbEl.textContent = txt;
-      if (!isPro) {
-        if (authToken) {
-          const newUsed = used + 1; setUsed(newUsed); updateCounters();
-          // Показываем upgrade nudge после каждой генерации
-          const rup = $('rup-'+tool); if(rup) rup.style.display='flex';
-          if (newUsed >= CFG.FREE_LIMIT) setTimeout(showModal, 2400);
-        } else {
-          anonUsed = CFG.ANON_LIMIT; localStorage.setItem('fai_anon_used', anonUsed);
-          updateAnonHint();
-          const rup = $('rup-'+tool); if(rup) rup.style.display='flex';
-          setTimeout(() => { if (!authToken && !isPro) openAuthModal(); }, 3500);
-        }
-      }
-    } else {
-      rbEl.textContent = '⚠️ ' + JSON.stringify(json).slice(0,300);
-    }
-  } catch(e) {
-    rbEl.textContent = (lang==='ru' ? '⚠️ Ошибка: ' : '⚠️ Error: ') + (e?.message || String(e));
-  }
-
-  const t = L[lang];
-  const againMap = {kp:t.kpBtnAgain, brief:t.briefBtnAgain, est:t.estBtnAgain};
-  const proAgain = lang==='ru' ? 'Сгенерировать снова' : 'Generate again';
-  const again = againMap[tool] || proAgain;
-  btnEl.innerHTML = `✦ <span>${again}</span>`;
-  btnWrap.disabled = false;
-  resBox.scrollIntoView({ behavior:'smooth', block:'nearest' });
-}
-
-function updateAnonHint() {
-  const ah = $('anonHint'); if (!ah || isPro || authToken) return;
-  const t = L[lang];
-  if (anonUsed >= CFG.ANON_LIMIT) { ah.textContent = t.anonHintUsed; ah.classList.add('used'); }
-}
-
-function likeResult(btn) {
-  btn.style.borderColor = btn.textContent === '👍' ? 'var(--accent3)' : 'var(--accent2)';
-  btn.style.transform = 'scale(1.3)';
-  setTimeout(() => btn.style.transform = '', 300);
-}
-
-// ═══════════════════════════════════════════════════════════════
-// PANELS / MODAL / COPY
-// ═══════════════════════════════════════════════════════════════
-function sw(panel, el) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
-  const p = $('panel-'+panel); if(p) p.classList.add('active'); if(el) el.classList.add('active');
-  p && p.scrollIntoView({ behavior:'smooth', block:'start' });
-}
-function swPro(panel, el) { if (!isPro) { sw('pro', el); return; } sw(panel, el); }
-function showModal()  { updateModalScarcity(); $('modal').classList.add('show'); }
-function closeModal() { $('modal').classList.remove('show'); }
-// Click outside modal to close
-document.addEventListener('click', e => {
-  if (e.target.id === 'modal') closeModal();
-  if (e.target.id === 'authModal') closeAuthModal();
+document.getElementById('secret-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
 });
-function goToPay()    { window.open(CFG.PAY_LINK, '_blank', 'noopener,noreferrer'); }
-function cp(id, btnId) {
-  const txt = $(id).querySelector('.result-body').textContent;
-  const btn = $(btnId), t = L[lang];
-  navigator.clipboard.writeText(txt).then(() => {
-    btn.textContent = t.copied;
-    btn.style.color = 'var(--accent3)';
-    btn.style.borderColor = 'var(--accent3)';
-    setTimeout(() => { btn.textContent = t.copy; btn.style.color = ''; btn.style.borderColor = ''; }, 2200);
-  }).catch(() => {
-    const ta = document.createElement('textarea'); ta.value = txt;
-    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-    btn.textContent = t.copied;
-    btn.style.color = 'var(--accent3)';
-    setTimeout(() => { btn.textContent = t.copy; btn.style.color = ''; }, 2200);
+
+function logout() {
+  SECRET = '';
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'block';
+  document.getElementById('secret-input').value = '';
+}
+
+async function apiGet(path) {
+  const r = await fetch(WORKER + path, {
+    headers: { 'X-Admin-Secret': SECRET }
   });
-}
-function toggleFaq(item) {
-  const isOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-  if (!isOpen) item.classList.add('open');
+  return r.json();
 }
 
-// ═══════════════════════════════════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════════════════════════════════
-const $ = id => document.getElementById(id);
-const setTxt  = (id, v2) => { const el=$(id); if(el) el.textContent = v2; };
-const setHtml = (id, v2) => { const el=$(id); if(el) el.innerHTML   = v2; };
-const setPh   = (id, v2) => { const el=$(id); if(el) el.placeholder = v2; };
-const setOpts = (id, arr) => { const el=$(id); if(el) el.innerHTML = arr.map(s=>`<option>${s}</option>`).join(''); };
-function esc(str) { return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-// ═══════════════════════════════════════════════════════════════
-// AUTH STATE
-// ═══════════════════════════════════════════════════════════════
-let authToken  = localStorage.getItem('fai_token')  || null;
-let authEmail  = localStorage.getItem('fai_email')  || null;
-let authIsPro  = localStorage.getItem('fai_is_pro') === '1';
-
-function openAuthModal(startStep) {
-  if (authToken && authEmail) { authStep(3); $('as3-email-show').textContent = authEmail; updateStep3Lang(); }
-  else { authStep(startStep || 1); }
-  $('authModal').classList.add('show');
+async function apiPost(path, body) {
+  const r = await fetch(WORKER + path, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Admin-Secret': SECRET },
+    body: JSON.stringify(body)
+  });
+  return r.json();
 }
-function closeAuthModal() { $('authModal').classList.remove('show'); }
-function authStep(n) { [1,2,3].forEach(i => { const el=$('auth-s'+i); if(el) el.classList.toggle('active', i===n); }); }
 
-async function sendMagicLink() {
-  const email = ($('auth-email').value||'').trim().toLowerCase();
-  const err   = $('as1-err'); const btn = $('as1-btn');
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = lang==='ru' ? 'Введи корректный email' : 'Enter a valid email'; return; }
-  err.textContent = ''; btn.disabled = true;
-  $('as1-btn-txt').textContent = lang==='ru' ? 'Отправляем...' : 'Sending...';
+async function loadDashboard() {
+  const err = document.getElementById('login-error');
+  err.style.display = 'none';
+
   try {
-    const res  = await fetch(WORKER_URL + '/api/auth/login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email}) });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Ошибка сервера');
-    $('as2-email-show').textContent = email;
-    authStep(2);
-  } catch(e) { err.textContent = e.message; }
-  btn.disabled = false; updateAuthLang();
-}
+    const stats = await apiGet('/api/admin/stats');
+    if (stats.error) {
+      err.textContent = 'Неверный секрет';
+      err.style.display = 'block';
+      return;
+    }
 
-let _activating = false;
-async function activateWithEmailKey() {
-  if (_activating) return; _activating = true;
-  const email  = ($('auth-email').value||'').trim().toLowerCase();
-  const key    = ($('auth-key-inp').value||'').trim().toLowerCase();
-  const err    = $('as1-key-err'); const btn = $('as1-key-btn');
-  const effectiveEmail = email || ('key.'+key.replace(/-/g,'')+'@freelanceai.app');
-  if (!key || key.length < 4) { err.textContent = lang==='ru' ? 'Введи ключ' : 'Enter key'; _activating=false; return; }
-  err.textContent = ''; btn.disabled = true;
-  btn.textContent = lang==='ru' ? 'Проверяем...' : 'Checking...';
-  try {
-    const res  = await fetch(WORKER_URL+'/api/auth/activate', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:effectiveEmail,key}) });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error||'Ошибка');
-    saveSession(data.token, data.email, data.is_pro);
-    applyProStatus(true); applyLang(); closeAuthModal(); closeModal(); showProToast();
-  } catch(e) { err.textContent = e.message; }
-  _activating = false; btn.disabled = false;
-  btn.textContent = L[lang].activate || 'Активировать';
-}
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
 
-async function checkMagicToken() {
-  const params  = new URLSearchParams(window.location.search);
-  const session = params.get('session');
-  const emailP  = params.get('email');
-  const isProP  = params.get('is_pro');
-  const tokenP  = params.get('token');
-  if (!session && !tokenP) return;
-  window.history.replaceState({}, '', window.location.pathname);
-  if (session && emailP) {
-    const p2 = isProP === '1';
-    if (p2) applyProStatus(true);
-    saveSession(session, decodeURIComponent(emailP), p2);
-    $('as3-email-show').textContent = decodeURIComponent(emailP);
-    authStep(3); updateStep3Lang(); applyLang(); openAuthModal(1); return;
-  }
-  openAuthModal(1);
-  $('as1-btn-txt').textContent = lang==='ru' ? 'Верифицируем...' : 'Verifying...';
-  try {
-    const res  = await fetch(WORKER_URL+'/api/auth/verify?token='+encodeURIComponent(tokenP));
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error||'Ошибка');
-    if (data.is_pro) applyProStatus(true);
-    saveSession(data.token, data.email, data.is_pro);
-    $('as3-email-show').textContent = data.email;
-    authStep(3); updateStep3Lang(); applyLang();
-  } catch(e) { $('as1-err').textContent = e.message; authStep(1); }
-}
+    document.getElementById('s-users').textContent = stats.users ?? '—';
+    document.getElementById('s-pro').textContent = stats.pro_users ?? '—';
+    document.getElementById('s-gen').textContent = stats.free_generations ?? '—';
+    document.getElementById('s-keys').textContent = stats.available_keys ?? '—';
 
-async function loadProfile() {
-  if (!authToken) { updateAuthHeader(); return; }
-  try {
-    const res  = await fetch(WORKER_URL+'/api/auth/me', { headers:{'Authorization':'Bearer '+authToken} });
-    if (res.status === 401) { clearSession(); updateAuthHeader(); return; }
-    const data = await res.json();
-    authEmail = data.email; authIsPro = data.is_pro;
-    localStorage.setItem('fai_email', authEmail);
-    localStorage.setItem('fai_is_pro', authIsPro ? '1' : '0');
-    if (!authIsPro) setUsed(data.free_used || 0);
-    applyProStatus(authIsPro); updateAuthHeader(); updateCounters();
-  } catch(e) { if (authIsPro) applyProStatus(true); updateAuthHeader(); }
-}
-
-function saveSession(token, email, pro) {
-  authToken = token; authEmail = email; authIsPro = pro; isPro = pro;
-  localStorage.setItem('fai_token', token); localStorage.setItem('fai_email', email);
-  localStorage.setItem('fai_is_pro', pro ? '1' : '0');
-  if (pro) localStorage.setItem('fai_pro','1'); else localStorage.removeItem('fai_pro');
-  updateAuthHeader();
-}
-function clearSession() {
-  authToken = null; authEmail = null; authIsPro = false;
-  ['fai_token','fai_email','fai_is_pro'].forEach(k => localStorage.removeItem(k));
-  isPro = false;
-}
-function applyProStatus(pro) {
-  isPro = pro; authIsPro = pro;
-  if (pro) {
-    localStorage.setItem('fai_pro','1');
-    const t = L[lang];
-    if ($('planBadge')) { $('planBadge').textContent = t.badgePro; $('planBadge').className = 'badge badge-pro'; }
-    if ($('proBanner')) $('proBanner').classList.add('show');
-    const ub = $('urgencyBar'); if(ub) ub.classList.add('pro-hidden');
-    const sc = $('stickyCta'); if(sc) sc.classList.remove('show');
-    const vs = $('valueStrip'); if(vs) vs.style.display='none';
-    const ft = $('firstTip'); if(ft) ft.style.display='none';
-    updateCounters(); updateProTabs();
-    ['ab1','ab2','ab3'].forEach(id => { const el=$(id); if(el) el.style.display='none'; });
-    document.querySelectorAll('.result-cta').forEach(el => el.style.display='none');
-    document.querySelectorAll('.result-upgrade').forEach(el => el.style.display='none');
+    loadUsers();
+    loadReviews();
+  } catch(e) {
+    err.textContent = 'Ошибка подключения к воркеру';
+    err.style.display = 'block';
   }
 }
-function updateAuthHeader() {
-  const loginBtn    = $('hdr-login-btn');
-  const accountPill = $('hdr-account-pill');
-  if (authEmail && authToken) {
-    if (loginBtn)    loginBtn.style.display    = 'none';
-    if (accountPill) { accountPill.style.display = 'flex'; $('hdr-av').textContent = (authEmail[0]||'?').toUpperCase(); $('hdr-email-pill').textContent = authEmail; }
+
+async function loadUsers() {
+  const tbody = document.getElementById('users-tbody');
+  try {
+    const data = await apiGet('/api/admin/stats');
+    const users = data.recent_users || [];
+    if (!users.length) {
+      tbody.innerHTML = '<tr><td colspan="4" class="loading">Пользователей пока нет</td></tr>';
+      return;
+    }
+    tbody.innerHTML = users.map(u => `
+      <tr>
+        <td>${u.email.replace(/'/g, '&#39;')}</td>
+        <td><span class="${u.is_pro ? 'badge-pro' : 'badge-free'}">${u.is_pro ? 'PRO' : 'FREE'}</span></td>
+        <td>${u.generations ?? 0}</td>
+        <td>${!u.is_pro ? `<button class="btn btn-success btn-sm" onclick="quickActivate('${u.email.replace(/'/g, '\\&#39;')}')">→ PRO</button>` : '✓'}</td>
+      </tr>
+    `).join('');
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="4" class="loading">Ошибка загрузки</td></tr>';
+  }
+}
+
+async function activatePro() {
+  const email = document.getElementById('activate-email').value.trim();
+  const msg = document.getElementById('activate-msg');
+  if (!email) { msg.innerHTML = '<span class="error">Введи email</span>'; return; }
+
+  msg.innerHTML = '<span style="color:#6a6a82">Активирую...</span>';
+  const res = await apiPost('/api/admin/add-key', { email, activate_directly: true });
+
+  if (res.error) {
+    msg.innerHTML = `<span class="error">Ошибка: ${res.error}</span>`;
   } else {
-    if (loginBtn)    { loginBtn.style.display = 'block'; loginBtn.textContent = lang==='ru' ? 'Войти' : 'Log in'; }
-    if (accountPill) accountPill.style.display = 'none';
+    msg.innerHTML = `<span class="success-msg">✓ PRO активирован для ${email}</span>`;
+    document.getElementById('activate-email').value = '';
+    loadUsers();
   }
 }
 
-async function doActivate(inpId, errId) {
-  if (_activating) return;
-  const inp = $(inpId); const errEl = errId ? $(errId) : null;
-  const key = (inp ? inp.value : '').trim().toLowerCase();
-  if (!key || key.length < 4) { if(errEl) errEl.textContent = lang==='ru' ? 'Введи ключ' : 'Enter key'; return; }
-  if (errEl) errEl.textContent = '';
-  _activating = true;
-  const emailToUse = authEmail || ('key.'+key.replace(/-/g,'')+'@freelanceai.app');
-  if (inp) inp.disabled = true;
-  if (errEl) errEl.textContent = lang==='ru' ? 'Проверяем...' : 'Checking...';
+async function quickActivate(email) {
+  document.getElementById('activate-email').value = email;
+  await activatePro();
+}
+
+async function loadReviews() {
+  const tbody = document.getElementById('reviews-tbody');
   try {
-    const res  = await fetch(WORKER_URL+'/api/auth/activate', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:emailToUse,key}) });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error||(lang==='ru'?'Неверный ключ':'Invalid key'));
-    saveSession(data.token, data.email, data.is_pro);
-    applyProStatus(true); applyLang(); closeModal(); closeAuthModal(); if(errEl) errEl.textContent=''; showProToast();
-  } catch(e) { if(errEl) errEl.textContent = e.message; }
-  _activating = false; if (inp) inp.disabled = false;
-}
-
-function updateStep3Lang() {
-  const isRu = lang==='ru';
-  setTxt('as3-ttl', isRu ? (authIsPro?'🎉 PRO активирован!':'👋 Добро пожаловать!') : (authIsPro?'🎉 PRO activated!':'👋 Welcome back!'));
-  setTxt('as3-sub', isRu ? (authIsPro?'Все инструменты разблокированы.':'Аккаунт активен. Твои генерации сохранены.') : (authIsPro?'All tools unlocked.':'Account active. Your generations are saved.'));
-  const btn3 = $('as3-btn'); if(btn3) btn3.textContent = isRu?'Начать работу →':'Start working →';
-  if (!$('as3-logout')) {
-    const b = document.createElement('button'); b.id='as3-logout'; b.className='btn-auth-ghost'; b.style.marginTop='10px';
-    b.onclick = () => {
-      fetch(WORKER_URL+'/api/auth/logout', { method:'POST', headers:{'Authorization':'Bearer '+(authToken||'')} }).catch(()=>{});
-      clearSession(); updateAuthHeader(); closeAuthModal(); applyLang();
-    };
-    $('auth-s3').appendChild(b);
-  }
-  const lb = $('as3-logout'); if(lb) lb.textContent = isRu?'← Выйти':'← Log out';
-}
-function updateAuthLang() {
-  const isRu = lang==='ru';
-  setTxt('as1-ttl', isRu?'Войти или создать аккаунт':'Sign in or create account');
-  setTxt('as1-sub', isRu?'Введи email — пришлём ссылку. Без пароля.':"Enter email — we'll send a login link.");
-  const ab = $('as1-btn-txt'); if(ab) ab.textContent = isRu?'✦ Получить ссылку':'✦ Get login link';
-  const ad = $('as1-div'); if(ad) ad.textContent = isRu?'или активировать ключ':'or activate key';
-  const lk = $('as1-l-key'); if(lk) lk.textContent = isRu?'Ключ активации (если есть)':'Activation key (if you have one)';
-  const kb = $('as1-key-btn'); if(kb) kb.textContent = isRu?'Активировать':'Activate';
-  setTxt('as2-ttl', isRu?'Проверь почту':'Check your email');
-  setTxt('as2-sub', isRu?'Ссылка отправлена. Действует 15 мин, работает один раз.':'Link sent. Valid 15 min, one use only.');
-  setTxt('as2-c1', isRu?'Письмо приходит за 10–30 секунд':'Email arrives in 10–30 seconds');
-  setTxt('as2-c2', isRu?'Проверь папку Спам':'Check Spam folder');
-  const bk = $('as2-back'); if(bk) bk.textContent = isRu?'← Изменить email':'← Change email';
-  updateStep3Lang(); updateAuthHeader();
-}
-
-// ═══════════════════════════════════════════════════════════════
-// REVIEWS
-
-// ═══════════════════════════════════════════════════════════════
-// REVIEWS SYSTEM
-// ═══════════════════════════════════════════════════════════════
-const REVIEWS_INITIAL = 6; // сколько показывать изначально
-let userReviews = [];       // отзывы пользователей из API
-let reviewStars = 5;
-let allReviewsVisible = false;
-
-function applyReviewsLang() {
-  const t = L[lang];
-  setTxt('rv-title', lang === 'ru' ? 'Отзывы' : 'Reviews');
-  setTxt('rvf-title', lang === 'ru' ? 'Оставить отзыв' : 'Leave a review');
-  setTxt('rvf-desc', lang === 'ru' ? 'Помоги другим фрилансерам — расскажи о своём опыте' : 'Help other freelancers — share your experience');
-  setTxt('rvf-l-name', lang === 'ru' ? 'Твоё имя' : 'Your name');
-  setTxt('rvf-l-role', lang === 'ru' ? 'Специализация' : 'Specialty');
-  setTxt('rvf-l-tool', lang === 'ru' ? 'Какой инструмент использовал?' : 'Which tool did you use?');
-  setTxt('rvf-l-stars', lang === 'ru' ? 'Оценка' : 'Rating');
-  setTxt('rvf-l-text', lang === 'ru' ? 'Твой отзыв' : 'Your review');
-  setTxt('rvf-submit-txt', lang === 'ru' ? '✦ Опубликовать отзыв' : '✦ Submit Review');
-  setTxt('rvf-ty-title', lang === 'ru' ? 'Спасибо за отзыв!' : 'Thanks for your review!');
-  setTxt('rvf-ty-sub', lang === 'ru' ? 'Твой отзыв виден всем фрилансерам' : 'Your review is visible to all freelancers');
-  setTxt('rv-avg-cnt', lang === 'ru' ? 'отзывов' : 'reviews');
-  const rlmBtn = $('rv-load-more');
-  if (rlmBtn) rlmBtn.textContent = lang === 'ru' ? 'Показать ещё отзывы' : 'Load more reviews';
-  const toolSelect = $('rvf-tool');
-  if (toolSelect) {
-    const tools = lang === 'ru'
-      ? ['📄 КП','🧮 Оценка проекта','🎨 Бриф','✉️ Письмо клиенту','💰 Поднять цену','📝 Контракт','🛡 Scope creep','💸 Выбить долг','🔍 Анализ клиента','📊 Отчёт']
-      : ['📄 Proposal','🧮 Estimate','🎨 Brief','✉️ Client Email','💰 Raise Rates','📝 Contract','🛡 Scope Creep','💸 Chase Invoice','🔍 Client Check','📊 Progress Report'];
-    setOpts('rvf-tool', tools);
-  }
-}
-
-function setStar(n) {
-  reviewStars = n;
-  const picker = document.getElementById('star-picker');
-  if (!picker) return;
-  picker.querySelectorAll('.star-btn').forEach(btn => {
-    const v = parseInt(btn.getAttribute('data-v'));
-    btn.classList.toggle('active', v <= n);
-    btn.style.color = v <= n ? '#f0a020' : '#555';
-    btn.style.textShadow = v <= n ? '0 0 8px rgba(240,160,32,0.7)' : 'none';
-  });
-}
-function previewStar(n) {
-  const picker = document.getElementById('star-picker');
-  if (!picker) return;
-  picker.querySelectorAll('.star-btn').forEach(btn => {
-    const v = parseInt(btn.getAttribute('data-v'));
-    btn.style.color = v <= n ? '#f0a020' : '#555';
-    btn.style.textShadow = v <= n ? '0 0 12px rgba(240,160,32,0.9)' : 'none';
-  });
-}
-function resetStarPreview() {
-  const picker = document.getElementById('star-picker');
-  if (!picker) return;
-  picker.querySelectorAll('.star-btn').forEach(btn => {
-    const v = parseInt(btn.getAttribute('data-v'));
-    btn.style.color = v <= reviewStars ? '#f0a020' : '#555';
-    btn.style.textShadow = v <= reviewStars ? '0 0 8px rgba(240,160,32,0.7)' : 'none';
-  });
-}
-
-function renderReviews() {
-  const seeds = SEED_REVIEWS[lang] || SEED_REVIEWS['ru'];
-  const all = [...userReviews, ...seeds];
-  const grid = $('reviews-grid');
-  const rvCount = $('rv-count');
-  const rvAvgNum = $('rv-avg-num');
-  const rvLoadMore = $('rv-load-more');
-  if (!grid) return;
-  const total = all.length;
-  const avgStars = (all.reduce((s, r) => s + (r.stars || 5), 0) / total).toFixed(1);
-  const totalLabel = lang === 'ru' ? ` (${total})` : ` (${total})`;
-  if (rvCount) rvCount.textContent = totalLabel;
-  if (rvAvgNum) rvAvgNum.textContent = avgStars;
-  const rvAvgCnt = $('rv-avg-cnt');
-  if (rvAvgCnt) rvAvgCnt.textContent = total + (lang === 'ru' ? ' отзывов' : ' reviews');
-  const shown = allReviewsVisible ? all : all.slice(0, REVIEWS_INITIAL);
-  grid.innerHTML = shown.map(r => `
-    <div class="review-card">
-      <div class="review-top">
-        <div class="review-who">
-          <div class="review-av">${r.av || '👤'}</div>
-          <div><div class="review-name">${esc(r.name || '')}</div><div class="review-role">${esc(r.role || '')}</div></div>
-        </div>
-        <div class="review-stars">${'★'.repeat(r.stars || 5)}</div>
-      </div>
-      <div class="review-text">${esc(r.text || '')}</div>
-      ${r.tool ? `<div class="review-tool-badge">${r.tool}</div>` : ''}
-      <div class="review-date">${r.date || ''}</div>
-    </div>
-  `).join('');
-  if (rvLoadMore) {
-    rvLoadMore.style.display = (!allReviewsVisible && all.length > REVIEWS_INITIAL) ? 'block' : 'none';
-  }
-}
-
-function loadMoreReviews() {
-  allReviewsVisible = true;
-  renderReviews();
-}
-
-async function loadUserReviews() {
-  try {
-    const res = await fetch(WORKER_URL + '/api/reviews?lang=' + lang + '&limit=30');
-    if (res.ok) {
-      const data = await res.json();
-      userReviews = Array.isArray(data.reviews) ? data.reviews : [];
+    const data = await apiGet('/api/admin/reviews');
+    const reviews = data.reviews || [];
+    if (!reviews.length) {
+      tbody.innerHTML = '<tr><td colspan="4" class="loading">Отзывов пока нет</td></tr>';
+      return;
     }
-  } catch(e) { userReviews = []; }
-}
-
-async function submitReview() {
-  const nameVal = ($('rvf-name') ? $('rvf-name').value : '').trim();
-  const roleVal = ($('rvf-role') ? $('rvf-role').value : '').trim();
-  const textVal = ($('rvf-text') ? $('rvf-text').value : '').trim();
-  const toolVal = ($('rvf-tool') ? $('rvf-tool').value : '');
-  const errEl   = $('rvf-err');
-  const submitBtn = $('rvf-submit');
-  if (!nameVal) { if(errEl) errEl.textContent = lang==='ru'?'Введи имя':'Enter your name'; return; }
-  if (textVal.length < 10) { if(errEl) errEl.textContent = lang==='ru'?'Напиши хотя бы пару слов':'Write at least a few words'; return; }
-  if(errEl) errEl.textContent = '';
-  if(submitBtn) submitBtn.disabled = true;
-  if($('rvf-submit-txt')) $('rvf-submit-txt').textContent = lang==='ru'?'Отправляем...':'Submitting...';
-  // Аватарка по специализации
-  const roleToAv = {
-    'веб':'👨‍💻','web':'👨‍💻','разработ':'👨‍💻','dev':'👨‍💻','програм':'👨‍💻',
-    'дизайн':'🎨','design':'🎨','ui':'🎨','ux':'🎨',
-    'копир':'✍️','copy':'✍️','текст':'✍️','writer':'✍️','контент':'✍️',
-    'smm':'📱','маркет':'📱','market':'📱','соцсет':'📱',
-    'фото':'📸','photo':'📸','видео':'🎬','video':'🎬','motion':'🎬',
-    'перевод':'🌐','translat':'🌐',
-    'seo':'🔍','аналит':'📊','analyt':'📊','data':'📊',
-    'менедж':'💼','manage':'💼','проект':'💼',
-    'иллюстр':'🖼','illustr':'🖼',
-  };
-  const roleLower = roleVal.toLowerCase();
-  let av = '🧑‍💻';
-  for (const [key, emoji] of Object.entries(roleToAv)) {
-    if (roleLower.includes(key)) { av = emoji; break; }
-  }
-  const months = lang === 'ru'
-    ? ['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек']
-    : ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const now = new Date();
-  const dateStr = months[now.getMonth()] + ' ' + now.getFullYear();
-
-  try {
-    const headers = {'Content-Type': 'application/json'};
-    if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
-    const res = await fetch(WORKER_URL + '/api/reviews', {
-      method: 'POST', headers,
-      body: JSON.stringify({ name: nameVal, role: roleVal, text: textVal, tool: toolVal, stars: reviewStars, lang, av, date: dateStr })
-    });
-    if (res.ok) {
-      const rvfForm = $('rvf-form'), rvfSuccess = $('rvf-success');
-      if (rvfForm) rvfForm.style.display = 'none';
-      if (rvfSuccess) rvfSuccess.classList.add('show');
-      await loadUserReviews();
-      renderReviews();
-    } else {
-      const data = await res.json().catch(()=>({}));
-      if(errEl) errEl.textContent = data.error || (lang==='ru'?'Ошибка отправки':'Submission error');
-    }
+    tbody.innerHTML = reviews.map(r => `
+      <tr>
+        <td>${r.name || '—'}</td>
+        <td>${'★'.repeat(r.stars || 5)}</td>
+        <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.text || ''}</td>
+        <td><button class="btn btn-sm" style="background:#f04f7a;color:#fff" onclick="deleteReview(${r.id})">Удалить</button></td>
+      </tr>
+    `).join('');
   } catch(e) {
-    if(errEl) errEl.textContent = lang==='ru'?'Ошибка сети':'Network error';
-  }
-  if(submitBtn) submitBtn.disabled = false;
-  if($('rvf-submit-txt')) $('rvf-submit-txt').textContent = lang==='ru'?'✦ Опубликовать отзыв':'✦ Submit Review';
-}
-
-// ═══════════════════════════════════════════════════════════════
-// ONLINE COUNTER + LIVE TOAST
-// ═══════════════════════════════════════════════════════════════
-const FAKE_NAMES_RU = ['Алексей','Марина','Дмитрий','Анна','Павел','Елена','Игорь','Света','Роман','Катя','Максим','Оксана','Артём','Надя'];
-const FAKE_NAMES_EN = ['Alex','Marina','Dmitry','Anna','Paul','Elena','Igor','Sveta','Roman','Kate','Max','Oksana','Artem','Nadia'];
-const FAKE_ACTIONS_RU = ['купил PRO доступ','сгенерировал КП','оценил проект','написал контракт','выбил долг 💰','поднял ставку','проверил клиента'];
-const FAKE_ACTIONS_EN = ['got PRO access','generated a proposal','estimated a project','created a contract','chased an invoice 💰','raised their rate','checked a client'];
-const AVATARS = ['👨‍💻','🎨','✍️','📱','📊','🎬','🖥','🎯','💼','🧑‍💻'];
-
-async function loadOnlineCount() {
-  try {
-    const res = await fetch(WORKER_URL + '/api/online', {method:'POST'});
-    if (res.ok) {
-      const data = await res.json();
-      // Берём значение от воркера, но ограничиваем ~5% от базы пользователей
-      const raw = data.count || data.online || 0;
-      const n = raw > 0 ? raw : (8 + Math.floor(Math.random()*12));
-      setTxt('pf1', n.toString());
-    }
-  } catch(e) {
-    setTxt('pf1', String(8 + Math.floor(Math.random()*12)));
+    tbody.innerHTML = '<tr><td colspan="4" class="loading">Ошибка загрузки</td></tr>';
   }
 }
 
-function initUserCount() {
-  // Счётчик: запуск окт 2025, ~2 новых в день
-  // Число фиксируется на день — не меняется при обновлении страницы
-  const LAUNCH = new Date('2025-10-01');
-  const now = new Date();
-  const BASE = 43;
-  const daysSinceLaunch = Math.max(0, Math.floor((now - LAUNCH) / 86400000));
-  const dailyGrowth = 2;
-  const total = BASE + daysSinceLaunch * dailyGrowth;
-  // Стабильный drift на основе дня года — не меняется при обновлении
-  const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
-  const drift = (dayOfYear % 8) - 4;
-  const display = total + drift;
-  const formatted = display + '+';
-  const hpEl = $('hp-count');
-  if (hpEl) hpEl.textContent = formatted;
-  const trustEl = $('trust-users-count');
-  if (trustEl) trustEl.textContent = formatted;
+async function deleteReview(id) {
+  if (!confirm('Удалить отзыв?')) return;
+  const res = await apiPost('/api/admin/delete-review', { id });
+  if (res.ok) loadReviews();
+  else alert('Ошибка: ' + res.error);
 }
 
-function showLiveToast() {
-  const names = lang === 'ru' ? FAKE_NAMES_RU : FAKE_NAMES_EN;
-  const actions = lang === 'ru' ? FAKE_ACTIONS_RU : FAKE_ACTIONS_EN;
-  const name = names[Math.floor(Math.random() * names.length)];
-  const action = actions[Math.floor(Math.random() * actions.length)];
-  const av = AVATARS[Math.floor(Math.random() * AVATARS.length)];
-  const toast = $('liveToast');
-  if (!toast) return;
-  $('lt-av').textContent = av;
-  $('lt-name').textContent = name;
-  $('lt-action').textContent = action;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 4000);
-}
+async function addKey() {
+  const key = document.getElementById('new-key').value.trim();
+  const msg = document.getElementById('key-msg');
+  msg.innerHTML = '<span style="color:#6a6a82">Добавляю...</span>';
 
-function showProToast() {
-  const toast = $('liveToast');
-  if (!toast) return;
-  $('lt-av').textContent = '🎉';
-  $('lt-name').textContent = lang==='ru' ? 'PRO активирован!' : 'PRO activated!';
-  $('lt-action').textContent = lang==='ru' ? 'Все инструменты разблокированы' : 'All tools unlocked';
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 5000);
-}
+  const body = key ? { key } : {};
+  const res = await apiPost('/api/admin/add-key', body);
 
-// ═══════════════════════════════════════════════════════════════
-// URGENCY TIMER
-// ═══════════════════════════════════════════════════════════════
-function startUrgencyTimer() {
-  // Таймер всегда до конца текущего месяца — реальная дата
-  function getMonthEnd() {
-    const now = new Date();
-    return new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0, 0).getTime();
+  if (res.error) {
+    msg.innerHTML = `<span class="error">Ошибка: ${res.error}</span>`;
+  } else {
+    msg.innerHTML = `<span class="success-msg">✓ Ключ добавлен: ${res.key || '—'}</span>`;
+    document.getElementById('new-key').value = '';
   }
-  function tick() {
-    const diff = Math.max(0, getMonthEnd() - Date.now());
-    const totalH = Math.floor(diff / 3600000);
-    const d = Math.floor(totalH / 24);
-    const h = totalH % 24;
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    const fmt = n => String(n).padStart(2,'0');
-    const el = $('urgencyTimer');
-    if (el) {
-      if (d > 0) {
-        el.textContent = `${d}д ${fmt(h)}:${fmt(m)}:${fmt(s)}`;
-      } else {
-        el.textContent = `${fmt(h)}:${fmt(m)}:${fmt(s)}`;
-      }
-    }
-    if (diff > 0) setTimeout(tick, 1000);
-  }
-  tick();
 }
-
-// ═══════════════════════════════════════════════════════════════
-// STICKY CTA — показывать после скролла
-// ═══════════════════════════════════════════════════════════════
-let stickyShown = false;
-function initSticky() {
-  const t = L[lang];
-  const counts = [7,9,11,13,15,18,21];
-  const cnt = counts[Math.floor(Math.random() * counts.length)];
-  const stickyTxt = $('sticky-txt');
-  if (stickyTxt) stickyTxt.innerHTML = t.stickyCnt(cnt);
-  window.addEventListener('scroll', () => {
-    if (isPro) return;
-    const scrolled = window.scrollY > 500;
-    const stickyCta = $('stickyCta');
-    if (!stickyCta) return;
-    if (scrolled && !stickyShown) {
-      stickyShown = true;
-      stickyCta.classList.add('show');
-    } else if (!scrolled && stickyShown) {
-      stickyShown = false;
-      stickyCta.classList.remove('show');
-    }
-  }, { passive: true });
-}
-
-// ═══════════════════════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', async () => {
-  // Устанавливаем lang атрибут
-  document.documentElement.lang = lang;
-
-  // Применяем язык и переводы
-  applyLang();
-  applyReviewsLang();
-
-  // Запускаем таймер срочности
-  startUrgencyTimer();
-
-  // Запускаем sticky CTA
-  initSticky();
-
-  // Keyboard ESC closes modals
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      closeModal();
-      closeAuthModal();
-    }
-  });
-
-  // Грузим онлайн счётчик
-  await loadOnlineCount();
-  initUserCount();
-
-  // Проверяем magic token из URL (вход по ссылке)
-  await checkMagicToken();
-
-  // Загружаем профиль если есть токен
-  await loadProfile();
-
-  // Грузим отзывы
-  await loadUserReviews();
-  renderReviews();
-
-  // Live toast — показываем через случайные интервалы
-  if (!isPro) {
-    setTimeout(showLiveToast, 8000 + Math.random() * 5000);
-    setInterval(() => {
-      if (Math.random() > 0.4) showLiveToast();
-    }, 25000 + Math.random() * 15000);
-  }
-
-  // Обновляем число в sticky каждые 3 минуты
-  setInterval(() => {
-    if (isPro) return;
-    const t = L[lang];
-    const counts = [7,9,11,13,15,18,21];
-    const cnt = counts[Math.floor(Math.random() * counts.length)];
-    const stickyTxt = $('sticky-txt');
-    if (stickyTxt) stickyTxt.innerHTML = t.stickyCnt(cnt);
-  }, 180000);
-});
 </script>
 </body>
 </html>
