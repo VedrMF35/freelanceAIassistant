@@ -230,10 +230,10 @@ async function loadUsers() {
     }
     tbody.innerHTML = users.map(u => `
       <tr>
-        <td>${u.email}</td>
+        <td>${u.email.replace(/'/g, '&#39;')}</td>
         <td><span class="${u.is_pro ? 'badge-pro' : 'badge-free'}">${u.is_pro ? 'PRO' : 'FREE'}</span></td>
         <td>${u.generations ?? 0}</td>
-        <td>${!u.is_pro ? `<button class="btn btn-success btn-sm" onclick="quickActivate('${u.email}')">→ PRO</button>` : '✓'}</td>
+        <td>${!u.is_pro ? `<button class="btn btn-success btn-sm" onclick="quickActivate('${u.email.replace(/'/g, '\\&#39;')}')">→ PRO</button>` : '✓'}</td>
       </tr>
     `).join('');
   } catch(e) {
