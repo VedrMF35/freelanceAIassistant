@@ -2,7 +2,6 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="google-site-verification" content="gpDUm_td_aa0GX2FQcPWXHehGRmuIs8x421b3o27FQg" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="dns-prefetch" href="https://wandering-king-6565.mihailtr35.workers.dev">
 <link rel="preconnect" href="https://wandering-king-6565.mihailtr35.workers.dev">
@@ -361,9 +360,9 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
 .review-form-body { padding: 18px; }
 .review-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
 .star-picker { display: flex; gap: 4px; margin-bottom: 14px; }
-.star-btn { font-size: 24px; background: none; border: none; cursor: pointer; color: #444; transition: color .15s, text-shadow .15s, transform .15s; padding: 2px; line-height: 1; }
-.star-btn.active { color: #f0a020; text-shadow: 0 0 8px rgba(240,160,32,0.75); transform: scale(1.12); }
-.star-btn:hover { color: #f0a020; text-shadow: 0 0 14px rgba(240,160,32,1); transform: scale(1.2); }
+.star-btn { font-size: 24px; background: none; border: none; cursor: pointer; color: #555; transition: all .15s; padding: 2px; line-height: 1; filter: none; }
+.star-btn.active { color: #f0a020; text-shadow: 0 0 8px rgba(240,160,32,0.7); transform: scale(1.15); }
+.star-btn:hover { color: #f0a020; text-shadow: 0 0 12px rgba(240,160,32,0.9); transform: scale(1.2); }
 .star-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); margin-bottom: 6px; display: block; }
 .review-tool-select { margin-bottom: 10px; }
 .btn-submit-review { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--accent3), var(--accent)); border: none; border-radius: 10px; color: var(--bg); font-family: 'Syne', sans-serif; font-weight: 800; font-size: 13px; cursor: pointer; transition: all .2s; margin-top: 4px; }
@@ -797,23 +796,6 @@ footer a { color: var(--accent); text-decoration: none; }
   </div>
 
   <div class="features" id="features-grid"></div>
-
-  <!-- SEO TEXT BLOCK -->
-  <div id="seo-block" style="margin:0 0 32px;padding:28px;background:var(--surface);border:1px solid var(--border);border-radius:16px;opacity:0;animation:fadeUp .6s .9s forwards">
-    <h2 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px">ИИ-помощник для фрилансеров — что это и зачем</h2>
-    <p style="font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:10px">
-      FreelanceAI — это онлайн-инструмент на базе искусственного интеллекта, который помогает фрилансерам быстро справляться с рутинными задачами. Написать коммерческое предложение, оценить стоимость проекта, составить договор, написать письмо клиенту или разобраться со сложными переговорами — всё это занимает часы. С FreelanceAI — секунды.
-    </p>
-    <h3 style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px">Что умеет FreelanceAI</h3>
-    <p style="font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:10px">
-      Генератор КП помогает составить профессиональное коммерческое предложение под конкретного клиента и задачу. Калькулятор оценки проекта рассчитывает стоимость работ с учётом рисков. Генератор контракта создаёт юридически грамотный договор с защитой от scope creep. Инструмент «Выбить долг» помогает вежливо, но настойчиво вернуть оплату от заказчика.
-    </p>
-    <h3 style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px">Для кого подходит</h3>
-    <p style="font-size:12px;color:var(--muted);line-height:1.8">
-      Инструмент подходит для фрилансеров любых специальностей: дизайнеров, копирайтеров, разработчиков, маркетологов, smm-специалистов, фотографов и других. Работает онлайн, без установки, без подписки — разовая оплата за доступ навсегда.
-    </p>
-  </div>
-
   <footer id="footer-txt"></footer>
 </div>
 
@@ -1387,16 +1369,11 @@ function updateCounters() {
       ft.style.display = 'none';
     } else if (authToken) {
       ft.textContent = lang === 'ru'
-        ? (left === 0 ? '⚠️ Бесплатные генерации закончились' : `⚡ Осталось генераций: ${left} из ${CFG.FREE_LIMIT}`)
-        : (left === 0 ? '⚠️ Free generations used up' : `⚡ Generations left: ${left} of ${CFG.FREE_LIMIT}`);
+        ? `⚡ Осталось бесплатных генераций: ${left} из ${CFG.FREE_LIMIT}`
+        : `⚡ Free generations left: ${left} of ${CFG.FREE_LIMIT}`;
       ft.style.background = left === 0 ? 'rgba(240,103,42,0.1)' : 'rgba(61,232,160,0.07)';
       ft.style.borderColor = left === 0 ? 'rgba(240,103,42,0.3)' : 'rgba(61,232,160,0.2)';
       ft.style.color = left === 0 ? 'var(--warn)' : 'var(--accent3)';
-    } else {
-      ft.textContent = lang === 'ru' ? '💡 Попробуй без регистрации — первая генерация бесплатно' : '💡 Try without signup — first generation is free';
-      ft.style.background = '';
-      ft.style.borderColor = '';
-      ft.style.color = '';
     }
   }
   if (isPro) {
@@ -1454,7 +1431,7 @@ async function gen(tool) {
     if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
     const res = await fetch(CFG.API_ENDPOINT, {
       method: 'POST', headers,
-      body: JSON.stringify({ model:'arcee-ai/trinity-large-preview:free', max_tokens:1400, messages:[{role:'user',content:prompt}] })
+      body: JSON.stringify({ model:'meta-llama/llama-3.3-70b-instruct:free', max_tokens:1400, messages:[{role:'user',content:prompt}] })
     });
     if (res.status === 401) { clearSession(); updateAuthHeader(); openAuthModal(); return; }
     if (res.status === 429) {
