@@ -812,7 +812,7 @@ const CFG = {
 };
 
 let lang   = localStorage.getItem('fai_lang') || 'ru';
-let isPro  = localStorage.getItem('fai_pro') === '1';
+let isPro  = localStorage.getItem('fai_pro') === '1' && !!localStorage.getItem('fai_token');
 let kx     = {1:false,2:false,3:false};
 let anonUsed = parseInt(localStorage.getItem('fai_anon_used') || '0');
 function getUsed()  { return parseInt(localStorage.getItem('fai_used') || '0'); }
@@ -1636,7 +1636,7 @@ async function loadProfile() {
     localStorage.setItem('fai_is_pro', authIsPro ? '1' : '0');
     if (!authIsPro) setUsed(data.free_used || 0);
     applyProStatus(authIsPro); updateAuthHeader(); updateCounters();
-  } catch(e) { if (authIsPro) applyProStatus(true); updateAuthHeader(); }
+  } catch(e) { updateAuthHeader(); }
 }
 
 function saveSession(token, email, pro) {
@@ -1648,7 +1648,7 @@ function saveSession(token, email, pro) {
 }
 function clearSession() {
   authToken = null; authEmail = null; authIsPro = false;
-  ['fai_token','fai_email','fai_is_pro'].forEach(k => localStorage.removeItem(k));
+  ['fai_token','fai_email','fai_is_pro','fai_pro'].forEach(k => localStorage.removeItem(k));
   isPro = false;
 }
 function applyProStatus(pro) {
