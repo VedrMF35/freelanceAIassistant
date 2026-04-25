@@ -1426,13 +1426,23 @@ async function gen(tool) {
   resBox.classList.add('show');
   rbEl.textContent = '';
 
-  // Рабочие модели OpenRouter (free tier) для прямого фолбэка
+  // Рабочие модели OpenRouter (free tier) для прямого фолбэка — актуально апрель 2026
   const FALLBACK_MODELS = [
     'meta-llama/llama-3.3-70b-instruct:free',
-    'deepseek/deepseek-chat-v3-0324:free',
-    'qwen/qwen3-235b-a22b:free',
-    'google/gemini-2.0-flash-exp:free',
-    'mistralai/mistral-7b-instruct:free',
+    'openai/gpt-oss-120b:free',
+    'openai/gpt-oss-20b:free',
+    'nvidia/nemotron-3-super-120b-a12b:free',
+    'nvidia/nemotron-3-nano-30b-a3b:free',
+    'google/gemma-3-27b-it:free',
+    'google/gemma-3-12b-it:free',
+    'google/gemma-4-31b-it:free',
+    'nousresearch/hermes-3-llama-3.1-405b:free',
+    'inclusionai/ling-2.6-flash:free',
+    'inclusionai/ling-2.6-1t:free',
+    'z-ai/glm-4.5-air:free',
+    'minimax/minimax-m2.5:free',
+    'cognitivecomputations/dolphin-mistral-24b-venice-edition:free',
+    'openrouter/free',
   ];
 
   async function callDirect(messages, model) {
