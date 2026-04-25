@@ -812,7 +812,7 @@ const CFG = {
 };
 
 let lang   = localStorage.getItem('fai_lang') || 'ru';
-let isPro  = localStorage.getItem('fai_pro') === '1' && !!localStorage.getItem('fai_token');
+let isPro  = localStorage.getItem('fai_pro') === '1';
 let kx     = {1:false,2:false,3:false};
 let anonUsed = parseInt(localStorage.getItem('fai_anon_used') || '0');
 function getUsed()  { return parseInt(localStorage.getItem('fai_used') || '0'); }
@@ -1426,38 +1426,85 @@ async function gen(tool) {
   resBox.classList.add('show');
   rbEl.textContent = '';
 
+  // Рабочие модели OpenRouter (free tier) для прямого фолбэка
+  const FALLBACK_MODELS = [
+    'meta-llama/llama-3.3-70b-instruct:free',
+    'deepseek/deepseek-chat-v3-0324:free',
+    'qwen/qwen3-235b-a22b:free',
+    'google/gemini-2.0-flash-exp:free',
+    'mistralai/mistral-7b-instruct:free',
+  ];
+
+  async function callDirect(messages, model) {
+    const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://vedrmf35.github.io/freelanceAIassistant/',
+        'X-Title': 'FreelanceAI',
+      },
+      body: JSON.stringify({ model, max_tokens: 1400, messages }),
+      signal: AbortSignal.timeout(20000),
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error?.message || d.error || 'error');
+    const t = d.choices?.[0]?.message?.content;
+    if (!t) throw new Error('empty');
+    return t;
+  }
+
   try {
     const headers = { 'Content-Type': 'application/json' };
     if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
-    const res = await fetch(CFG.API_ENDPOINT, {
-      method: 'POST', headers,
-      body: JSON.stringify({ model:'meta-llama/llama-3.3-70b-instruct:free', max_tokens:1400, messages:[{role:'user',content:prompt}] })
-    });
-    if (res.status === 401) { clearSession(); updateAuthHeader(); openAuthModal(); return; }
-    if (res.status === 429) {
-      const retryData = await res.json().catch(()=>({}));
-      const retryAfter = retryData.retry_after || 60;
-      rbEl.textContent = lang==='ru' ? `⚠️ Слишком много запросов. Подожди ${retryAfter} секунд.` : `⚠️ Too many requests. Wait ${retryAfter} seconds.`;
-      btnEl.innerHTML = `✦ <span>${lang==='ru'?'Попробовать снова':'Try again'}</span>`; btnWrap.disabled=false; return;
+    const messages = [{role:'user',content:prompt}];
+    let txt = null;
+
+    // Сначала пробуем через Cloudflare Worker
+    try {
+      const res = await fetch(CFG.API_ENDPOINT, {
+        method: 'POST', headers,
+        body: JSON.stringify({ model:'meta-llama/llama-3.3-70b-instruct:free', max_tokens:1400, messages }),
+        signal: AbortSignal.timeout(20000),
+      });
+      if (res.status === 401) { clearSession(); updateAuthHeader(); openAuthModal(); return; }
+      if (res.status === 429) {
+        const retryData = await res.json().catch(()=>({}));
+        const retryAfter = retryData.retry_after || 60;
+        rbEl.textContent = lang==='ru' ? `⚠️ Слишком много запросов. Подожди ${retryAfter} секунд.` : `⚠️ Too many requests. Wait ${retryAfter} seconds.`;
+        btnEl.innerHTML = `✦ <span>${lang==='ru'?'Попробовать снова':'Try again'}</span>`; btnWrap.disabled=false; return;
+      }
+      if (res.status === 403) {
+        const errData = await res.json().catch(()=>({}));
+        if (errData.error === 'free_limit_reached') { showModal(); return; }
+        if (errData.error === 'anon_limit_reached') { openAuthModal(); return; }
+        throw new Error(errData.error || 'Forbidden');
+      }
+      if (res.ok) {
+        const json = await res.json();
+        txt = json.choices?.[0]?.message?.content || null;
+      }
+    } catch(workerErr) {
+      // Worker недоступен или не настроен — используем прямой фолбэк
+      console.warn('Worker failed:', workerErr.message, '— trying OpenRouter directly');
     }
-    if (res.status === 403) {
-      const errData = await res.json().catch(()=>({}));
-      if (errData.error === 'free_limit_reached') { showModal(); return; }
-      if (errData.error === 'anon_limit_reached') { openAuthModal(); return; }
-      throw new Error(errData.error || 'Forbidden');
+
+    // Фолбэк: прямой вызов OpenRouter (не требует ключа для free моделей)
+    if (!txt) {
+      for (const model of FALLBACK_MODELS) {
+        try {
+          txt = await callDirect(messages, model);
+          if (txt) { console.log('Fallback succeeded with:', model); break; }
+        } catch(e) {
+          console.warn('Fallback model failed:', model, e.message);
+        }
+      }
     }
-    if (!res.ok) {
-      const errData = await res.json().catch(()=>({}));
-      throw new Error(typeof errData.error === 'string' ? errData.error : (errData.error?.message || `HTTP ${res.status}`));
-    }
-    const json = await res.json();
-    const txt  = json.choices?.[0]?.message?.content;
+
     if (txt) {
       rbEl.textContent = txt;
       if (!isPro) {
         if (authToken) {
           const newUsed = used + 1; setUsed(newUsed); updateCounters();
-          // Показываем upgrade nudge после каждой генерации
           const rup = $('rup-'+tool); if(rup) rup.style.display='flex';
           if (newUsed >= CFG.FREE_LIMIT) setTimeout(showModal, 2400);
         } else {
@@ -1468,7 +1515,9 @@ async function gen(tool) {
         }
       }
     } else {
-      rbEl.textContent = '⚠️ ' + JSON.stringify(json).slice(0,300);
+      rbEl.textContent = lang==='ru'
+        ? '⚠️ Все ИИ-провайдеры временно недоступны. Попробуй через минуту.'
+        : '⚠️ All AI providers are temporarily unavailable. Please try again in a minute.';
     }
   } catch(e) {
     rbEl.textContent = (lang==='ru' ? '⚠️ Ошибка: ' : '⚠️ Error: ') + (e?.message || String(e));
@@ -1636,7 +1685,7 @@ async function loadProfile() {
     localStorage.setItem('fai_is_pro', authIsPro ? '1' : '0');
     if (!authIsPro) setUsed(data.free_used || 0);
     applyProStatus(authIsPro); updateAuthHeader(); updateCounters();
-  } catch(e) { updateAuthHeader(); }
+  } catch(e) { if (authIsPro) applyProStatus(true); updateAuthHeader(); }
 }
 
 function saveSession(token, email, pro) {
@@ -1648,7 +1697,7 @@ function saveSession(token, email, pro) {
 }
 function clearSession() {
   authToken = null; authEmail = null; authIsPro = false;
-  ['fai_token','fai_email','fai_is_pro','fai_pro'].forEach(k => localStorage.removeItem(k));
+  ['fai_token','fai_email','fai_is_pro'].forEach(k => localStorage.removeItem(k));
   isPro = false;
 }
 function applyProStatus(pro) {
