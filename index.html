@@ -806,7 +806,7 @@ footer a { color: var(--accent); text-decoration: none; }
 const WORKER_URL = 'https://wandering-king-6565.mihailtr35.workers.dev'; // ← замени на свой
 
 const CFG = {
-  FREE_LIMIT: 7, ANON_LIMIT: 1,
+  FREE_LIMIT: 7, ANON_LIMIT: 3,
   get API_ENDPOINT() { return WORKER_URL + '/api/generate'; },
   PAY_LINK: 'https://app.lava.top/products/72a9a0e0-4be2-41d8-a156-8016c18048d4',
 };
@@ -1492,7 +1492,17 @@ async function gen(tool) {
       if (res.status === 403) {
         const errData = await res.json().catch(()=>({}));
         if (errData.error === 'free_limit_reached') { showModal(); return; }
-        if (errData.error === 'anon_limit_reached') { openAuthModal(); return; }
+        if (errData.error === 'anon_limit_reached') {
+          // Показываем мягкую подсказку вместо принудительного модала
+          rbEl.textContent = '';
+          resBox.classList.remove('show');
+          showAnonLimitHint();
+          const t2 = L[lang];
+          const againMap2 = {kp:t2.kpBtnAgain, brief:t2.briefBtnAgain, est:t2.estBtnAgain};
+          btnEl.innerHTML = `✦ <span>${againMap2[tool] || (lang==='ru'?'Попробовать снова':'Try again')}</span>`;
+          btnWrap.disabled = false;
+          return;
+        }
         throw new Error(errData.error || 'Forbidden');
       }
       if (res.ok) {
@@ -1575,8 +1585,8 @@ function showAnonLimitHint() {
   const ah = $('anonHint');
   if (ah) {
     ah.textContent = lang === 'ru'
-      ? '👆 Войди чтобы получить ещё 6 бесплатных генераций'
-      : '👆 Sign in to get 6 more free generations';
+      ? '👆 Лимит анонимных генераций исчерпан — войди чтобы получить ещё 7 бесплатных'
+      : '👆 Anonymous limit reached — sign in to get 7 more free generations';
     ah.classList.add('used');
     ah.style.cursor = 'pointer';
     ah.onclick = () => openAuthModal();
@@ -1585,10 +1595,15 @@ function showAnonLimitHint() {
   // Подсвечиваем кнопку "Войти" в хедере
   const lb = $('hdr-login-btn');
   if (lb) {
+    lb.style.display = 'block';
     lb.style.borderColor = 'var(--accent)';
     lb.style.color = 'var(--accent)';
-    lb.style.display = 'block';
-    setTimeout(() => { lb.style.borderColor = ''; lb.style.color = ''; }, 3000);
+    lb.style.animation = 'glowPulse 1s infinite';
+    setTimeout(() => {
+      lb.style.borderColor = '';
+      lb.style.color = '';
+      lb.style.animation = '';
+    }, 5000);
   }
 }
 
