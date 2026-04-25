@@ -1470,11 +1470,12 @@ async function gen(tool) {
     let txt = null;
 
     // Сначала пробуем через Cloudflare Worker
+    let workerFailed = false;
     try {
       const res = await fetch(CFG.API_ENDPOINT, {
         method: 'POST', headers,
         body: JSON.stringify({ model:'meta-llama/llama-3.3-70b-instruct:free', max_tokens:1400, messages }),
-        signal: AbortSignal.timeout(20000),
+        signal: AbortSignal.timeout(25000),
       });
       if (res.status === 401) { clearSession(); updateAuthHeader(); openAuthModal(); return; }
       if (res.status === 429) {
@@ -1492,14 +1493,17 @@ async function gen(tool) {
       if (res.ok) {
         const json = await res.json();
         txt = json.choices?.[0]?.message?.content || null;
+      } else {
+        workerFailed = true;
       }
     } catch(workerErr) {
       // Worker недоступен или не настроен — используем прямой фолбэк
       console.warn('Worker failed:', workerErr.message, '— trying OpenRouter directly');
+      workerFailed = true;
     }
 
-    // Фолбэк: прямой вызов OpenRouter (не требует ключа для free моделей)
-    if (!txt) {
+    // Фолбэк: прямой вызов OpenRouter (только если Worker недоступен)
+    if (!txt && workerFailed) {
       for (const model of FALLBACK_MODELS) {
         try {
           txt = await callDirect(messages, model);
@@ -1507,6 +1511,18 @@ async function gen(tool) {
         } catch(e) {
           console.warn('Fallback model failed:', model, e.message);
         }
+      }
+      // Если всё равно не получили текст — НЕ показываем модал регистрации,
+      // это техническая проблема, не лимит пользователя
+      if (!txt) {
+        rbEl.textContent = lang==='ru'
+          ? '⚠️ Сервер временно недоступен. Попробуй обновить страницу через минуту. Лимит генерации не был использован.'
+          : '⚠️ Server temporarily unavailable. Please refresh and try again in a minute. Your generation limit was not used.';
+        const t2 = L[lang];
+        const againMap2 = {kp:t2.kpBtnAgain, brief:t2.briefBtnAgain, est:t2.estBtnAgain};
+        btnEl.innerHTML = `✦ <span>${againMap2[tool] || (lang==='ru'?'Попробовать снова':'Try again')}</span>`;
+        btnWrap.disabled = false;
+        return;
       }
     }
 
@@ -1518,6 +1534,7 @@ async function gen(tool) {
           const rup = $('rup-'+tool); if(rup) rup.style.display='flex';
           if (newUsed >= CFG.FREE_LIMIT) setTimeout(showModal, 2400);
         } else {
+          // Инкрементируем ТОЛЬКО после успешной генерации
           anonUsed = CFG.ANON_LIMIT; localStorage.setItem('fai_anon_used', anonUsed);
           updateAnonHint();
           const rup = $('rup-'+tool); if(rup) rup.style.display='flex';
@@ -1669,7 +1686,10 @@ async function checkMagicToken() {
     if (p2) applyProStatus(true);
     saveSession(session, decodeURIComponent(emailP), p2);
     $('as3-email-show').textContent = decodeURIComponent(emailP);
-    authStep(3); updateStep3Lang(); applyLang(); openAuthModal(1); return;
+    authStep(3); updateStep3Lang(); applyLang();
+    // Показываем модал только если явно передан параметр show_welcome
+    if (params.get('show_welcome') === '1') openAuthModal(3);
+    return;
   }
   openAuthModal(1);
   $('as1-btn-txt').textContent = lang==='ru' ? 'Верифицируем...' : 'Verifying...';
@@ -1976,7 +1996,7 @@ const AVATARS = ['👨‍💻','🎨','✍️','📱','📊','🎬','🖥','🎯
 
 async function loadOnlineCount() {
   try {
-    const res = await fetch(WORKER_URL + '/api/online', {method:'POST'});
+    const res = await fetch(WORKER_URL + '/api/online', {method:'GET'});
     if (res.ok) {
       const data = await res.json();
       // Берём значение от воркера, но ограничиваем ~5% от базы пользователей
