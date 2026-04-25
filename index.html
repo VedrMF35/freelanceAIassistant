@@ -815,6 +815,11 @@ let lang   = localStorage.getItem('fai_lang') || 'ru';
 let isPro  = localStorage.getItem('fai_pro') === '1';
 let kx     = {1:false,2:false,3:false};
 let anonUsed = parseInt(localStorage.getItem('fai_anon_used') || '0');
+// Сбрасываем анонимный счётчик в localStorage при каждой загрузке.
+// Настоящий лимит контролируется на сервере по fingerprint —
+// localStorage используется только для UI, поэтому сброс безопасен.
+localStorage.removeItem('fai_anon_used');
+anonUsed = 0;
 function getUsed()  { return parseInt(localStorage.getItem('fai_used') || '0'); }
 function setUsed(n) { localStorage.setItem('fai_used', n); }
 
@@ -1413,7 +1418,7 @@ async function gen(tool) {
   const used = getUsed();
   if (!isPro) {
     if (authToken) { if (used >= CFG.FREE_LIMIT) { showModal(); return; } }
-    else { if (anonUsed >= CFG.ANON_LIMIT) { openAuthModal(); return; } }
+    else { if (anonUsed >= CFG.ANON_LIMIT) { showAnonLimitHint(); return; } }
   }
 
   const btnEl   = $('btn-'+tool);
@@ -1538,7 +1543,7 @@ async function gen(tool) {
           anonUsed = CFG.ANON_LIMIT; localStorage.setItem('fai_anon_used', anonUsed);
           updateAnonHint();
           const rup = $('rup-'+tool); if(rup) rup.style.display='flex';
-          setTimeout(() => { if (!authToken && !isPro) openAuthModal(); }, 3500);
+          // НЕ открываем модал автоматически — пусть пользователь сам решит
         }
       }
     } else {
@@ -1563,6 +1568,28 @@ function updateAnonHint() {
   const ah = $('anonHint'); if (!ah || isPro || authToken) return;
   const t = L[lang];
   if (anonUsed >= CFG.ANON_LIMIT) { ah.textContent = t.anonHintUsed; ah.classList.add('used'); }
+}
+
+// Показываем inline-подсказку под кнопкой вместо модала
+function showAnonLimitHint() {
+  const ah = $('anonHint');
+  if (ah) {
+    ah.textContent = lang === 'ru'
+      ? '👆 Войди чтобы получить ещё 6 бесплатных генераций'
+      : '👆 Sign in to get 6 more free generations';
+    ah.classList.add('used');
+    ah.style.cursor = 'pointer';
+    ah.onclick = () => openAuthModal();
+    ah.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  // Подсвечиваем кнопку "Войти" в хедере
+  const lb = $('hdr-login-btn');
+  if (lb) {
+    lb.style.borderColor = 'var(--accent)';
+    lb.style.color = 'var(--accent)';
+    lb.style.display = 'block';
+    setTimeout(() => { lb.style.borderColor = ''; lb.style.color = ''; }, 3000);
+  }
 }
 
 function likeResult(btn) {
